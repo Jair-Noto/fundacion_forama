@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@theme {
+  /* --- 1. Paleta FORAMA --- */
+  
+  /* Verdes (Amazonía) */
+  --color-amazon-50: #f2fcf5;
+  --color-amazon-100: #e1f8e8;
+  --color-amazon-200: #bbf7d0; /* Agregado para detalles suaves */
+  --color-amazon-400: #4ade80; /* Agregado para brillos */
+  --color-amazon-500: #22c55e;
+  --color-amazon-600: #16a34a;
+  --color-amazon-800: #166534; /* Verde Institucional */
+  --color-amazon-900: #14532d;
+  --color-amazon-950: #052e16; /* Vital para el Footer oscuro */
+
+  /* Tierras (Madera/Semillas) */
+  --color-earth-100: #ffedd5; /* Agregado para fondos claros */
+  --color-earth-400: #fb923c;
+  --color-earth-500: #d97706; /* Color Principal */
+  --color-earth-600: #b45309;
+  --color-earth-900: #78350f; /* Para degradados CTA */
+  --color-earth-950: #451a03; /* Para el fondo profundo del CTA */
+
+  /* --- 2. Tipografía --- */
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  /* --- 3. Animaciones Personalizadas --- */
+  
+  /* Nombre de la clase utilitaria: animate-slow-zoom */
+  --animate-slow-zoom: slow-zoom 20s infinite alternate ease-in-out;
+  
+  /* Nombre de la clase utilitaria: animate-fade-in-up (para el Hero) */
+  --animate-fade-in-up: fade-in-up 1s ease-out forwards;
+
+  /* Definición de los Keyframes */
+  @keyframes slow-zoom {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.15); }
+  }
+
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ========================================= */
+/* ESTILOS DE AURORA (Para HeroCarousel)     */
+/* ========================================= */
+
+@theme {
+  /* Animación fluida de colores */
+  @keyframes aurora-text-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+}
+
+.text-aurora-gradient {
+  /* 1. PALETA AMAZÓNICA */
+  /* El orden de los colores crea el flujo. El último debe ser igual al primero para el loop. */
+ background-image: linear-gradient(
+    120deg, 
+    #22c55e 0%,   /* Verde Selva Vibrante */
+    #0ea5e9 25%,  /* Azul Río/Cielo */
+    #facc15 50%,  /* Amarillo Sol/Frutos */
+    #d97706 75%,  /* Ocre Tierra/Madera */
+    #22c55e 100%  /* Vuelta al Verde Selva (Loop) */
+  );
+  
+  /* 2. TAMAÑO DEL GRADIENTE */
+  /* Mantener en 300% para que el movimiento se note */
+  background-size: 300% 300%;
+  
+  /* 3. RECORTAR AL TEXTO */
+  -webkit-background-clip: text;
+  background-clip: text;
+  
+  /* 4. TRANSPARENCIA */
+  color: transparent;
+  
+  /* 5. VELOCIDAD DE ANIMACIÓN */
+  /* Cambia '10s' por el número que quieras: */
+  /* 4s = Rápido / 10s = Elegante / 20s = Muy lento */
+  animation: aurora-text-flow 10s ease infinite;
+  
+  /* Sombra suave para que destaque sobre el video */
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}

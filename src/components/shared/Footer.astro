@@ -1,0 +1,73 @@
+---
+import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-slate-950 text-slate-200 py-16 border-t border-slate-900 font-sans">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+      
+      <div>
+        <a href="/" class="text-2xl font-extrabold tracking-tighter text-white mb-6 block">
+          FORAMA<span class="text-earth-500"></span>
+        </a>
+        <p class="text-amazon-100/80 leading-relaxed mb-6">
+          Impulsando el desarrollo sostenible en la Amazonía boliviana mediante la integración de ciencia, educación y saberes ancestrales.
+        </p>
+        <div class="flex gap-4">
+          <a href="#" class="bg-amazon-800 hover:bg-amazon-700 p-2 rounded-full transition-colors"><Facebook size={20} /></a>
+          <a href="#" class="bg-amazon-800 hover:bg-amazon-700 p-2 rounded-full transition-colors"><Twitter size={20} /></a>
+          <a href="#" class="bg-amazon-800 hover:bg-amazon-700 p-2 rounded-full transition-colors"><Instagram size={20} /></a>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-white font-bold text-lg mb-6">Explorar</h3>
+        <ul class="space-y-3">
+          <li><a href="/quienes-somos" class="hover:text-white hover:translate-x-1 transition-transform inline-block">Quiénes Somos</a></li>
+          <li><a href="/programas" class="hover:text-white hover:translate-x-1 transition-transform inline-block">Nuestros Proyectos</a></li>
+          <li><a href="/transparencia" class="hover:text-white hover:translate-x-1 transition-transform inline-block">Transparencia</a></li>
+          <li><a href="/noticias" class="hover:text-white hover:translate-x-1 transition-transform inline-block">Blog y Noticias</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-white font-bold text-lg mb-6">Contacto</h3>
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3">
+            <MapPin className="text-earth-500 shrink-0 mt-1" size={20} />
+            <span>Calle Graciela Pérez N° 055,<br>Barrio Nazaria, Cobija, Pando.</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <Phone className="text-earth-500 shrink-0" size={20} />
+            <span>+591 (Pando) 729-XXXXX</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <Mail className="text-earth-500 shrink-0" size={20} />
+            <a href="mailto:info@forama.org" class="hover:text-white transition">info@forama.org</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bg-amazon-800/50 p-6 rounded-2xl border border-amazon-700/50">
+        <h3 class="text-white font-bold text-lg mb-4">Tu apoyo hace la diferencia</h3>
+        <p class="text-sm mb-6 text-amazon-200">Cada donación protege hectáreas reales de bosque en Pando.</p>
+        <a href="/como-apoyar" class="block w-full bg-earth-500 hover:bg-earth-600 text-white font-bold py-3 px-4 rounded-xl text-center transition shadow-lg">
+          Hacer una Donación
+        </a>
+      </div>
+
+    </div>
+
+    <div class="border-t border-amazon-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-amazon-400">
+      <p>&copy; {currentYear} Fundación Flora Amazónica. Todos los derechos reservados.</p>
+      <div class="flex gap-6 mt-4 md:mt-0">
+        <a href="/privacidad" class="hover:text-white transition">Política de Privacidad</a>
+        <a href="/terminos" class="hover:text-white transition">Términos de Uso</a>
+      </div>
+    </div>
+
+  </div>
+</footer>

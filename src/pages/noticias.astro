@@ -1,0 +1,213 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/shared/Navbar.jsx';
+import { 
+    Calendar, 
+    Map, 
+    FileText, 
+    Download, 
+    ArrowRight, 
+    Search,
+    Newspaper,
+    ChevronDown
+} from 'lucide-react';
+
+// DATOS DE EJEMPLO: NOTICIAS
+const noticias = [
+    {
+        titulo: "Taller de Monitoreo Comunitario en Manuripi",
+        fecha: "15 Oct 2024",
+        categoria: "Taller",
+        img: "https://images.unsplash.com/photo-1544531586-fde5298cdd40?q=80&w=2070&auto=format&fit=crop",
+        resumen: "Capacitación a líderes locales en el uso de herramientas GPS para la vigilancia territorial."
+    },
+    {
+        titulo: "Nuevo registro de especie en Pando",
+        fecha: "02 Oct 2024",
+        categoria: "Ciencia",
+        img: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1948&auto=format&fit=crop",
+        resumen: "Investigadores de FORAMA confirman la presencia de una especie de anfibio no reportada antes."
+    },
+    {
+        titulo: "Feria de Productos No Maderables",
+        fecha: "28 Sep 2024",
+        categoria: "Evento",
+        img: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=2070&auto=format&fit=crop",
+        resumen: "Promoviendo la economía local sostenible con frutos y artesanías del bosque amazónico."
+    }
+];
+
+// DATOS DE EJEMPLO: PUBLICACIONES Y RECURSOS
+const publicaciones = [
+    {
+        titulo: "Estudio de Biodiversidad 2024",
+        tipo: "Científico",
+        icon: FileText,
+        color: "text-blue-600",
+        bg: "bg-blue-50"
+    },
+    {
+        titulo: "Mapa de Cobertura Boscosa",
+        tipo: "Mapa / Infografía",
+        icon: Map,
+        color: "text-green-600",
+        bg: "bg-green-50"
+    },
+    {
+        titulo: "Boletín Trimestral - Vol. 3",
+        tipo: "Boletín",
+        icon: Newspaper,
+        color: "text-orange-600",
+        bg: "bg-orange-50"
+    },
+    {
+        titulo: "Guía de Reforestación",
+        tipo: "Manual Técnico",
+        icon: FileText,
+        color: "text-purple-600",
+        bg: "bg-purple-50"
+    }
+];
+---
+
+<Layout title="Noticias y Publicaciones">
+    
+    <Navbar client:load transition:persist />
+
+    <main>
+        
+        <section class="relative h-screen flex items-center justify-center bg-amazon-900 text-white overflow-hidden">
+            
+           <img 
+                src="/imags/noticia.jpg" 
+                alt="Informacion y noticias sobre la Amazonía" 
+                class="absolute inset-0 w-full h-full object-cover transform scale-105"
+            />
+            
+            <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 z-0"></div>
+            
+            <div class="relative z-10 container mx-auto px-4 text-center animate-fade-in-up">
+                <span class="inline-block py-1.5 px-4 rounded-full bg-earth-500/20 backdrop-blur-md border border-earth-500/30 text-earth-400 font-bold tracking-widest uppercase text-xs mb-8 shadow-lg">
+                    Difusión del Conocimiento
+                </span>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 tracking-tight drop-shadow-xl">
+                    Noticias y <br/> Publicaciones
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-200 font-light max-w-3xl mx-auto leading-relaxed text-balance">
+                    Compartimos los avances, descubrimientos y lecciones aprendidas en nuestra labor por la Amazonía.
+                </p>
+            </div>
+
+            <div class="absolute bottom-10 z-20 animate-bounce">
+                <ChevronDown size={40} className="text-white/70" />
+            </div>
+        </section>
+
+        <section class="py-32 bg-white">
+            <div class="container mx-auto px-4 max-w-7xl">
+                
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                    <div>
+                        <h2 class="text-4xl font-extrabold text-amazon-900 mb-2">Actividades Recientes</h2>
+                        <p class="text-gray-500 text-lg">Noticias de campo, talleres y eventos.</p>
+                    </div>
+                    <div class="relative w-full md:w-auto">
+                        <input type="text" placeholder="Buscar noticias..." class="pl-10 pr-4 py-3 rounded-full border border-gray-200 w-full md:w-80 focus:outline-none focus:border-amazon-500 focus:ring-1 focus:ring-amazon-500 transition-all" />
+                        <Search size={18} className="absolute left-3.5 top-3.5 text-gray-400" />
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    {noticias.map((item) => (
+                        <article class="bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col h-full group">
+                            
+                            <div class="relative h-60 overflow-hidden">
+                                <img src={item.img} alt={item.titulo} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-amazon-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                                    {item.categoria}
+                                </div>
+                            </div>
+                            
+                            <div class="p-8 flex flex-col flex-grow">
+                                <div class="flex items-center gap-2 text-gray-400 text-sm mb-4">
+                                    <Calendar size={16} />
+                                    <span>{item.fecha}</span>
+                                </div>
+                                
+                                <h3 class="text-2xl font-bold text-gray-900 mb-4 leading-tight group-hover:text-amazon-600 transition-colors">
+                                    <a href="#">{item.titulo}</a>
+                                </h3>
+                                
+                                <p class="text-gray-600 mb-6 flex-grow leading-relaxed">
+                                    {item.resumen}
+                                </p>
+                                
+                                <a href="#" class="inline-flex items-center gap-2 text-earth-600 font-bold hover:gap-4 transition-all mt-auto">
+                                    Leer más <ArrowRight size={18} />
+                                </a>
+                            </div>
+                        </article>
+                    ))}
+                </div>
+
+            </div>
+        </section>
+
+        <section class="py-32 bg-stone-50 border-t border-gray-200">
+            <div class="container mx-auto px-4 max-w-6xl">
+                
+                <div class="text-center mb-20">
+                    <span class="text-amazon-600 font-bold uppercase tracking-widest text-sm">Recursos Descargables</span>
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-amazon-900 mt-2 mb-6">Biblioteca Técnica</h2>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                        Accede a nuestra producción científica, reportes técnicos, mapas y boletines trimestrales.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    {publicaciones.map((pub) => (
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:border-amazon-300 hover:shadow-lg transition-all flex items-center justify-between group">
+                            <div class="flex items-center gap-6">
+                                <div class={`w-16 h-16 ${pub.bg} rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
+                                    <pub.icon size={32} className={pub.color} />
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wide">{pub.tipo}</span>
+                                    <h3 class="text-xl font-bold text-gray-900 leading-tight mt-1 mb-1">{pub.titulo}</h3>
+                                    <span class="text-xs text-gray-400">PDF • 2.5 MB</span>
+                                </div>
+                            </div>
+                            
+                            <button class="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:bg-amazon-900 hover:text-white hover:border-amazon-900 transition-all flex-shrink-0">
+                                <Download size={20} />
+                            </button>
+                        </div>
+                    ))}
+                </div>
+
+                <div class="mt-16 bg-amazon-900 rounded-3xl p-10 md:p-14 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 -mr-10 -mt-10 w-64 h-64 bg-earth-500 rounded-full blur-3xl opacity-20"></div>
+
+                    <div class="relative z-10 max-w-xl">
+                        <h3 class="text-3xl font-bold text-white mb-4">Suscríbete a nuestro Boletín Trimestral</h3>
+                        <p class="text-amazon-200 text-lg">
+                            Recibe las actualizaciones más importantes, nuevas investigaciones y oportunidades de voluntariado directamente en tu correo.
+                        </p>
+                    </div>
+                    
+                    <div class="relative z-10 w-full md:w-auto">
+                        <form class="flex flex-col sm:flex-row gap-3">
+                            <input type="email" placeholder="Tu correo electrónico" class="px-6 py-4 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-earth-400 w-full md:w-80" />
+                            <button class="bg-earth-500 hover:bg-earth-600 text-white font-bold px-8 py-4 rounded-xl transition-colors shadow-lg shadow-earth-500/30">
+                                Suscribirme
+                            </button>
+                        </form>
+                        <p class="text-amazon-300 text-xs mt-3 text-center sm:text-left">No enviamos spam. Solo contenido de valor.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+</Layout>

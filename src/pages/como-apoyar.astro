@@ -1,0 +1,179 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/shared/Navbar.jsx';
+import { 
+    Heart, 
+    Handshake, 
+    Users, 
+    Briefcase, 
+    ChevronDown, 
+    ArrowRight,
+    CreditCard,
+    CalendarHeart
+} from 'lucide-react';
+---
+
+<Layout title="Cómo Apoyar">
+    
+    <Navbar client:load transition:persist />
+
+    <main>
+        
+        <section class="relative h-screen flex items-center justify-center bg-amazon-900 text-white overflow-hidden">
+            
+            <img 
+                src="/imags/donacion.jpg" 
+                alt="Apoyar la Amazonía" 
+                class="absolute inset-0 w-full h-full object-cover transform scale-105"
+            />
+            
+            <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 z-0"></div>
+            
+            <div class="relative z-10 container mx-auto px-4 text-center animate-fade-in-up">
+                <span class="inline-block py-1.5 px-4 rounded-full bg-earth-500/20 backdrop-blur-md border border-earth-500/30 text-earth-400 font-bold tracking-widest uppercase text-xs mb-8 shadow-lg">
+                    Súmate a la Causa
+                </span>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 tracking-tight drop-shadow-xl">
+                    Tu impacto en <br/> la Amazonía
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-gray-200 font-light max-w-4xl mx-auto leading-relaxed text-balance">
+                    FORAMA Amazónica gestiona fondos y alianzas con entidades públicas y privadas, nacionales e internacionales, para ejecutar programas y proyectos de conservación, investigación, educación y bienestar.
+                </p>
+                
+                <div class="mt-10">
+                    <a href="#opciones" class="inline-flex items-center gap-2 bg-earth-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-earth-600 transition-all shadow-lg hover:shadow-earth-500/30 transform hover:scale-105">
+                        Ver formas de apoyar <ChevronDown size={20} />
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="opciones" class="py-32 bg-stone-50">
+            <div class="container mx-auto px-4 max-w-7xl">
+                
+                <div class="text-center mb-20">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-amazon-900 mb-6">¿Cómo puedes ayudar?</h2>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">Elige la modalidad que mejor se adapte a ti o a tu organización.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+
+                    <div class="bg-white rounded-[2.5rem] p-10 border-2 border-earth-500/30 shadow-xl relative overflow-hidden group hover:border-earth-500 transition-colors">
+                        <div class="absolute top-0 right-0 bg-earth-500 text-white text-xs font-bold px-4 py-2 rounded-bl-xl">
+                            MÁS DIRECTO
+                        </div>
+                        
+                        <div class="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 text-red-500 group-hover:scale-110 transition-transform">
+                            <Heart size={32} fill="currentColor" />
+                        </div>
+                        
+                        <h3 class="text-3xl font-bold text-amazon-900 mb-4">Realizar una Donación</h3>
+                        <p class="text-gray-600 mb-8 text-lg">
+                            Tu aporte financiero impulsa directamente nuestros proyectos en campo. Puedes elegir apoyar una sola vez o apadrinar mensualmente.
+                        </p>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <button class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-gray-200 hover:border-amazon-500 hover:bg-amazon-50 transition-all group-btn">
+                                <CreditCard size={24} className="text-gray-400 group-btn-hover:text-amazon-600" />
+                                <span class="font-bold text-gray-700">Una vez</span>
+                            </button>
+                            <button class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-earth-200 bg-earth-50 hover:bg-earth-100 transition-all group-btn">
+                                <CalendarHeart size={24} className="text-earth-600" />
+                                <span class="font-bold text-earth-700">Mensual</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-[2.5rem] p-10 border border-gray-100 shadow-lg hover:shadow-2xl transition-all group">
+                        <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 text-blue-600 group-hover:scale-110 transition-transform">
+                            <Handshake size={32} />
+                        </div>
+                        
+                        <h3 class="text-3xl font-bold text-amazon-900 mb-4">Generar Alianzas</h3>
+                        <p class="text-gray-600 mb-6 text-lg">
+                            Trabajamos junto a ONGs, universidades, municipios y agencias de cooperación para escalar el impacto.
+                        </p>
+                        
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center gap-3 text-gray-700">
+                                <span class="w-2 h-2 rounded-full bg-blue-500"></span> Proyectos conjuntos
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-700">
+                                <span class="w-2 h-2 rounded-full bg-blue-500"></span> Intercambio de conocimientos
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-700">
+                                <span class="w-2 h-2 rounded-full bg-blue-500"></span> Convenios interinstitucionales
+                            </li>
+                        </ul>
+
+                        <a href="/contacto" class="inline-flex items-center gap-2 text-blue-700 font-bold hover:gap-4 transition-all">
+                            Proponer alianza <ArrowRight size={20} />
+                        </a>
+                    </div>
+
+                    <div class="bg-white rounded-[2.5rem] p-10 border border-gray-100 shadow-lg hover:shadow-2xl transition-all group">
+                        <div class="w-16 h-16 bg-green-50 rounded-2xl flex items-center justify-center mb-6 text-green-600 group-hover:scale-110 transition-transform">
+                            <Users size={32} />
+                        </div>
+                        
+                        <h3 class="text-3xl font-bold text-amazon-900 mb-4">Voluntariado Técnico</h3>
+                        <p class="text-gray-600 mb-6 text-lg">
+                            Dona tu tiempo y experiencia profesional en áreas clave para el desarrollo de las comunidades.
+                        </p>
+
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span class="px-3 py-1 bg-gray-100 rounded-lg text-sm font-medium text-gray-600">Educación</span>
+                            <span class="px-3 py-1 bg-gray-100 rounded-lg text-sm font-medium text-gray-600">Salud</span>
+                            <span class="px-3 py-1 bg-gray-100 rounded-lg text-sm font-medium text-gray-600">Trabajo de Campo</span>
+                            <span class="px-3 py-1 bg-gray-100 rounded-lg text-sm font-medium text-gray-600">Análisis de Datos</span>
+                        </div>
+
+                        <a href="/contacto" class="inline-flex items-center gap-2 text-green-700 font-bold hover:gap-4 transition-all">
+                            Postularme como voluntario <ArrowRight size={20} />
+                        </a>
+                    </div>
+
+                    <div class="bg-amazon-900 text-white rounded-[2.5rem] p-10 border border-amazon-700 shadow-lg hover:shadow-2xl transition-all group relative overflow-hidden">
+                        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-3xl"></div>
+
+                        <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform">
+                            <Briefcase size={32} />
+                        </div>
+                        
+                        <h3 class="text-3xl font-bold text-white mb-4">Servicios Técnicos</h3>
+                        <p class="text-amazon-200 mb-6 text-lg">
+                            Ofrecemos servicios especializados de consultoría, diseño y evaluación de proyectos ambientales y sociales.
+                        </p>
+
+                        <ul class="space-y-3 mb-8 border-t border-white/10 pt-6">
+                            <li class="flex items-center gap-3 text-amazon-100">
+                                <ArrowRight size={16} className="text-earth-400" /> Consultoría especializada
+                            </li>
+                            <li class="flex items-center gap-3 text-amazon-100">
+                                <ArrowRight size={16} className="text-earth-400" /> Diseño de proyectos
+                            </li>
+                            <li class="flex items-center gap-3 text-amazon-100">
+                                <ArrowRight size={16} className="text-earth-400" /> Evaluación de impacto
+                            </li>
+                        </ul>
+
+                        <a href="/contacto" class="inline-flex items-center gap-2 text-earth-400 font-bold hover:text-white transition-colors">
+                            Solicitar información <ArrowRight size={20} />
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="mt-20 text-center">
+                    <p class="text-gray-500 italic">
+                        FORAMA Amazónica garantiza la transparencia en la gestión de todos los fondos y colaboraciones recibidas.
+                        <a href="/transparencia" class="text-amazon-600 underline decoration-2 underline-offset-4 hover:text-amazon-800">Ver Transparencia</a>
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+</Layout>

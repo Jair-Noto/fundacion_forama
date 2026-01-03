@@ -1,0 +1,225 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/shared/Navbar.jsx';
+import { 
+    FileText, 
+    Download, 
+    ShieldCheck, 
+    Users, 
+    Building2, 
+    Gavel, 
+    ChevronDown,
+    Search, 
+    MapPin
+} from 'lucide-react';
+
+// DATOS DE DOCUMENTOS PARA DESCARGAR
+const documentos = [
+    {
+        titulo: "Estatuto Orgánico",
+        desc: "Marco legal y normativo de la Fundación.",
+        tipo: "PDF",
+        size: "2.4 MB"
+    },
+    {
+        titulo: "Memoria Anual 2024",
+        desc: "Resumen de actividades, logros e impacto.",
+        tipo: "PDF",
+        size: "5.1 MB"
+    },
+    {
+        titulo: "Presupuesto Aprobado",
+        desc: "Planificación financiera anual gestión vigente.",
+        tipo: "PDF",
+        size: "1.2 MB"
+    },
+    {
+        titulo: "Estados Financieros",
+        desc: "Reporte auditado de ejecución de recursos.",
+        tipo: "PDF",
+        size: "3.8 MB"
+    },
+    {
+        titulo: "Lista de Aliados",
+        desc: "Registro de cooperantes y socios estratégicos.",
+        tipo: "PDF",
+        size: "0.8 MB"
+    },
+    {
+        titulo: "Políticas Institucionales",
+        desc: "Ética, anticorrupción, salvaguardas y género.",
+        tipo: "PDF",
+        size: "1.5 MB"
+    }
+];
+---
+
+<Layout title="Transparencia">
+    
+    <Navbar client:load transition:persist />
+
+    <main>
+        
+        <section class="relative h-screen flex items-center justify-center bg-amazon-900 text-white overflow-hidden">
+            
+            <img 
+                src="/imags/transpariencia.jpg" 
+                alt="Transparencia y Gobernanza" 
+                class="absolute inset-0 w-full h-full object-cover transform scale-105"
+            />
+            
+            <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 z-0"></div>
+            
+            <div class="relative z-10 container mx-auto px-4 text-center animate-fade-in-up">
+                <span class="inline-block py-1.5 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-green-300 font-bold tracking-widest uppercase text-xs mb-8 shadow-lg">
+                    Rendición de Cuentas
+                </span>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 tracking-tight drop-shadow-xl">
+                    Transparencia y<br/> Gobernanza
+                </h1>
+                <p class="text-xl md:text-3xl text-gray-200 font-light max-w-3xl mx-auto leading-relaxed text-balance">
+                    Nuestra gestión se basa en la claridad, la ética y el compromiso con nuestros donantes y beneficiarios.
+                </p>
+            </div>
+
+            <div class="absolute bottom-10 z-20 animate-bounce">
+                <ChevronDown size={40} className="text-white/70" />
+            </div>
+        </section>
+
+        <section class="py-32 bg-stone-50">
+            <div class="container mx-auto px-4 max-w-5xl">
+                
+                <div class="text-center mb-20">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-amazon-900 mb-6">Estructura de Gobernanza</h2>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                        FORAMA Amazónica se organiza bajo una estructura sólida que garantiza la correcta toma de decisiones.
+                    </p>
+                </div>
+
+                <div class="relative flex flex-col items-center gap-10">
+                    
+                    <div class="w-full max-w-md bg-amazon-900 text-white p-8 rounded-2xl shadow-xl text-center relative z-10 border-b-8 border-earth-500">
+                        <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-earth-500 w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+                            <Users size={24} className="text-white" />
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 pt-4">Asamblea General</h3>
+                        <p class="text-amazon-200 text-sm uppercase tracking-widest font-bold">Máxima Autoridad</p>
+                    </div>
+
+                    <div class="w-1 h-10 bg-gray-300 -my-5"></div>
+
+                    <div class="w-full max-w-2xl bg-white p-10 rounded-3xl shadow-lg border border-gray-200 text-center relative z-10">
+                        <div class="flex items-center justify-center gap-3 mb-6">
+                            <Gavel size={28} className="text-amazon-600" />
+                            <h3 class="text-2xl font-bold text-amazon-900">Directorio</h3>
+                        </div>
+                        <p class="text-gray-500 mb-6 text-sm uppercase tracking-wide">Órgano Representativo y Fiscalizador</p>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {['Presidencia', 'Secretaría', 'Tesorería', 'Vocalía'].map((cargo) => (
+                                <div class="bg-gray-50 py-3 px-4 rounded-xl text-sm font-bold text-gray-700 border border-gray-100">
+                                    {cargo}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div class="w-1 h-10 bg-gray-300 -my-5"></div>
+
+                    <div class="grid md:grid-cols-2 gap-8 w-full">
+                        
+                        <div class="bg-white p-8 rounded-2xl shadow-md border-l-4 border-blue-500 flex items-center gap-4 hover:-translate-y-1 transition-transform">
+                            <div class="bg-blue-50 p-3 rounded-full text-blue-600">
+                                <Building2 size={24} />
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-900">Dirección Ejecutiva</h4>
+                                <p class="text-sm text-gray-500">Ejecución y gestión institucional.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-2xl shadow-md border-l-4 border-green-500 flex items-center gap-4 hover:-translate-y-1 transition-transform">
+                            <div class="bg-green-50 p-3 rounded-full text-green-600">
+                                <MapPin size={24} />
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-900">Representaciones</h4>
+                                <p class="text-sm text-gray-500">Operación territorial departamental.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 bg-white">
+            <div class="container mx-auto px-4 max-w-4xl">
+                <div class="bg-amazon-50 rounded-[2.5rem] p-12 md:p-16 border border-amazon-100 text-center relative overflow-hidden">
+                    <ShieldCheck className="absolute top-0 right-0 -mt-10 -mr-10 text-amazon-100 w-64 h-64 opacity-50" />
+                    
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm text-amazon-600">
+                            <ShieldCheck size={32} />
+                        </div>
+                        <h2 class="text-3xl font-bold text-amazon-900 mb-6">Régimen Económico</h2>
+                        <p class="text-xl text-gray-700 leading-relaxed text-balance">
+                            FORAMA Amazónica <strong class="text-red-600">no realiza intermediación financiera</strong> ni actividades comerciales.
+                        </p>
+                        <br>
+                        <p class="text-lg text-gray-600 leading-relaxed text-balance">
+                            Todos los ingresos y el patrimonio se destinan exclusivamente a su objeto y fines, <strong class="text-amazon-700">sin distribución entre sus miembros</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-32 bg-stone-50 border-t border-gray-200">
+            <div class="container mx-auto px-4 max-w-6xl">
+                
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                    <div>
+                        <span class="text-amazon-600 font-bold uppercase tracking-widest text-sm">Acceso a la Información</span>
+                        <h2 class="text-4xl font-extrabold text-amazon-900 mt-2">Documentos Públicos</h2>
+                    </div>
+                    <div class="bg-white px-4 py-2 rounded-full border border-gray-300 flex items-center gap-2 text-gray-400 w-full md:w-auto">
+                        <Search size={18} />
+                        <span class="text-sm">Buscar documento...</span>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {documentos.map((doc) => (
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:border-amazon-200 transition-all group">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="p-3 bg-gray-50 rounded-lg text-amazon-600 group-hover:bg-amazon-50 transition-colors">
+                                    <FileText size={24} />
+                                </div>
+                                <span class="text-xs font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded">{doc.tipo}</span>
+                            </div>
+                            
+                            <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-amazon-700 transition-colors">{doc.titulo}</h3>
+                            <p class="text-sm text-gray-500 mb-6 line-clamp-2">{doc.desc}</p>
+                            
+                            <button class="w-full py-2.5 rounded-xl border border-gray-200 text-gray-600 font-bold text-sm flex items-center justify-center gap-2 group-hover:bg-amazon-900 group-hover:text-white group-hover:border-amazon-900 transition-all">
+                                <Download size={16} /> Descargar
+                                <span class="text-xs font-normal opacity-70">({doc.size})</span>
+                            </button>
+                        </div>
+                    ))}
+                </div>
+
+                <div class="mt-12 p-6 bg-blue-50 rounded-xl border border-blue-100 text-center">
+                    <p class="text-blue-800 text-sm">
+                        <strong>Nota:</strong> Si requieres información adicional específica, puedes solicitarla formalmente a través de nuestro <a href="/contacto" class="underline hover:text-blue-600">canal de contacto</a>.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+</Layout>

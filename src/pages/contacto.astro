@@ -1,0 +1,217 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/shared/Navbar.jsx';
+
+import { 
+    MapPin, 
+    Mail, 
+    Phone, 
+    Send, 
+    Target, 
+    Eye,
+    Clock,
+    ChevronDown,
+    ExternalLink // Icono para "Ver en Google Maps"
+} from 'lucide-react';
+---
+
+<Layout title="Contacto">
+    
+    <Navbar client:load transition:persist />
+
+    <main>
+        
+        <section class="relative h-screen flex items-center justify-center bg-amazon-900 text-white overflow-hidden pt-20">
+            
+                <img 
+                src="/imags/contacto.jpg" 
+                alt="Contacto con Forama" 
+                class="absolute inset-0 w-full h-full object-cover transform scale-105"
+                />
+            
+            <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 z-0"></div>
+            
+            <div class="relative z-10 container mx-auto px-4 text-center animate-fade-in-up">
+                <span class="inline-block py-1.5 px-4 rounded-full bg-earth-500/20 backdrop-blur-md border border-earth-500/30 text-earth-400 font-bold tracking-widest uppercase text-xs mb-8 shadow-lg">
+                    Contactos
+                </span>
+                
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 tracking-tight drop-shadow-xl">
+                    Contáctanos
+                </h1>
+                
+                <div class="max-w-3xl mx-auto">
+                    <p class="text-xl md:text-3xl text-earth-300 font-serif italic font-light leading-relaxed">
+                        "Construyendo sostenibilidad desde el corazón del bosque."
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="absolute bottom-10 z-20 animate-bounce">
+                <ChevronDown size={40} className="text-white/70" />
+            </div>
+        </section>
+
+        <section class="pt-32 pb-16 bg-stone-50">
+            <div class="container mx-auto px-4 max-w-7xl">
+                
+                <div class="grid lg:grid-cols-2 gap-16 mb-24">
+                    
+                    <div class="space-y-12">
+                        
+                        <div>
+                            <h2 class="text-3xl font-bold text-amazon-900 mb-8">Información de Contacto</h2>
+                            <div class="space-y-6">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-12 h-12 bg-amazon-100 rounded-full flex items-center justify-center text-amazon-700 shrink-0">
+                                        <MapPin size={24} />
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Dirección Legal</h4>
+                                        <p class="text-gray-600">Calle Graciela Pérez N° 055, Barrio Nazaria.</p>
+                                        <p class="text-gray-600">Cobija, Pando, Bolivia.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="w-12 h-12 bg-amazon-100 rounded-full flex items-center justify-center text-amazon-700 shrink-0">
+                                        <Mail size={24} />
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Correo Electrónico</h4>
+                                        <p class="text-gray-600">contacto@forama.org</p>
+                                        <p class="text-sm text-gray-400">Respondemos en 24-48 horas.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="w-12 h-12 bg-amazon-100 rounded-full flex items-center justify-center text-amazon-700 shrink-0">
+                                        <Clock size={24} />
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Horario de Atención</h4>
+                                        <p class="text-gray-600">Lunes a Viernes: 08:30 - 16:30</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="border-gray-200" />
+
+                        <div class="grid gap-6">
+                            <div class="bg-white p-8 rounded-2xl shadow-sm border-l-4 border-earth-500 hover:shadow-md transition-shadow">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <Target size={24} className="text-earth-600" />
+                                    <h3 class="text-xl font-bold text-amazon-900">Nuestra Misión</h3>
+                                </div>
+                                <p class="text-gray-600 text-sm leading-relaxed text-pretty">
+                                    FORAMA Amazónica impulsa el desarrollo sostenible en la Amazonía boliviana integrando <strong>ciencia, educación, salud preventiva y gestión territorial</strong>.
+                                </p>
+                            </div>
+                            <div class="bg-white p-8 rounded-2xl shadow-sm border-l-4 border-amazon-500 hover:shadow-md transition-shadow">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <Eye size={24} className="text-amazon-600" />
+                                    <h3 class="text-xl font-bold text-amazon-900">Nuestra Visión</h3>
+                                </div>
+                                <p class="text-gray-600 text-sm leading-relaxed text-pretty">
+                                    Ser una fundación referente en la Amazonía por su impacto verificable en <strong>conservación, restauración y resiliencia climática</strong>.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="bg-white p-10 rounded-[2.5rem] shadow-xl border border-gray-100 relative overflow-hidden h-fit">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-amazon-50 rounded-bl-full -mr-8 -mt-8 z-0"></div>
+                        <div class="relative z-10">
+                            <h2 class="text-3xl font-bold text-amazon-900 mb-2">Envíanos un mensaje</h2>
+                            <p class="text-gray-500 mb-8">Completa el formulario y te contactaremos pronto.</p>
+                            <form class="space-y-6">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div class="space-y-2">
+                                        <label for="nombre" class="text-sm font-bold text-gray-700">Nombre Completo</label>
+                                        <input type="text" id="nombre" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-amazon-500 focus:bg-white focus:ring-2 focus:ring-amazon-200 outline-none transition-all" placeholder="Juan Pérez" />
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label for="institucion" class="text-sm font-bold text-gray-700">Institución</label>
+                                        <input type="text" id="institucion" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-amazon-500 focus:bg-white focus:ring-2 focus:ring-amazon-200 outline-none transition-all" placeholder="Empresa / ONG" />
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <label for="email" class="text-sm font-bold text-gray-700">Correo</label>
+                                    <input type="email" id="email" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-amazon-500 focus:bg-white focus:ring-2 focus:ring-amazon-200 outline-none transition-all" placeholder="tucorreo@ejemplo.com" />
+                                </div>
+                                <div class="space-y-2">
+                                    <label for="asunto" class="text-sm font-bold text-gray-700">Asunto</label>
+                                    <div class="relative">
+                                        <select id="asunto" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-amazon-500 focus:bg-white focus:ring-2 focus:ring-amazon-200 outline-none transition-all appearance-none cursor-pointer text-gray-600">
+                                            <option disabled selected>Selecciona un motivo</option>
+                                            <option value="alianzas">Alianzas Institucionales</option>
+                                            <option value="donacion">Donación</option>
+                                            <option value="voluntariado">Voluntariado</option>
+                                            <option value="otros">Otro</option>
+                                        </select>
+                                        <ChevronDown size={20} className="absolute right-4 top-3.5 text-gray-400 pointer-events-none" />
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <label for="mensaje" class="text-sm font-bold text-gray-700">Mensaje</label>
+                                    <textarea id="mensaje" rows="4" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-amazon-500 focus:bg-white focus:ring-2 focus:ring-amazon-200 outline-none transition-all resize-none" placeholder="¿Cómo podemos colaborar?"></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-amazon-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-amazon-700 transition-all flex items-center justify-center gap-2">
+                                    Enviar Mensaje <Send size={20} />
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section class="pb-32 bg-stone-50">
+            <div class="container mx-auto px-4 max-w-7xl">
+                
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-amazon-900">Nuestra Sede</h2>
+                </div>
+
+                <div class="relative h-[500px] w-full rounded-[2.5rem] shadow-2xl overflow-hidden border-4 border-white transform hover:scale-[1.01] transition-transform duration-500">
+                    
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31435.32832599727!2d-68.7844!3d-11.0267!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9161a0b6eb06316d%3A0x6a0f67954b3445e0!2sCobija%2C%20Bolivia!5e0!3m2!1ses!2sbo!4v1700000000000!5m2!1ses!2sbo" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        class="grayscale hover:grayscale-0 transition-all duration-700"
+                    ></iframe>
+                    
+                    <div class="absolute bottom-6 left-6 md:bottom-10 md:left-10 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl max-w-xs border border-white/50 animate-fade-in-up">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="relative flex h-3 w-3">
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                            </span>
+                            <span class="text-xs font-extrabold text-amazon-800 uppercase tracking-wider">Sede Central</span>
+                        </div>
+                        
+                        <h4 class="font-bold text-amazon-900 text-xl mb-1">Cobija, Pando</h4>
+                        <p class="text-sm text-gray-600 mb-4">Calle Graciela Pérez N° 055, Barrio Nazaria.</p>
+                        
+                        <a href="https://maps.google.com" target="_blank" class="inline-flex items-center gap-2 text-sm font-bold text-earth-600 hover:text-earth-700 transition-colors">
+                            Ver en Google Maps <ExternalLink size={16} />
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+</Layout>
