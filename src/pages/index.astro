@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/shared/Navbar.jsx';
 import HeroCarousel from '../components/HeroCarousel.jsx'; // Tu carrusel
-import Footer from '../components/shared/Footer.astro';     // Tu footer
+
 import { 
     ArrowRight, 
     Leaf, 
@@ -11,7 +11,9 @@ import {
     Globe2, 
     ChevronDown, 
     HeartHandshake,
-    MapPin 
+    MapPin, 
+    X, 
+    Map as MapIcon
 } from 'lucide-react';
 
 // Datos de impacto (Estadísticas)
@@ -165,56 +167,133 @@ const estadisticas = [
             </div>
         </section>
 
-        <section class="py-24 bg-amazon-900 text-white relative overflow-hidden border-t border-amazon-800 scroll-trigger opacity-0 translate-y-20 transition-all duration-1000">
-             
-             <div class="absolute inset-0 opacity-5 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Bolivia_location_map.svg/1200px-Bolivia_location_map.svg.png')] bg-no-repeat bg-right bg-contain pointer-events-none"></div>
+<section class="relative h-auto min-h-[950px] md:h-screen flex items-center justify-center overflow-hidden group">   
+    <img 
+        src="/imags/pando_cobija.jpg" 
+        alt="Fondo Pando" 
+        class="absolute inset-0 w-full h-full object-cover object-center z-0"
+
+    />
+    <div class="absolute inset-0 bg-[url('/imags/pattern.png')] opacity-10 mix-blend-overlay z-0"></div>
+
+
+    <div class="container mx-auto px-4 relative z-10 max-w-4xl text-center">
+        
+        <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md animate-fade-in-up mb-8">
+            <span class="relative flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+            </span>
+            <span class="text-green-300 font-bold uppercase tracking-[0.2em] text-xs">El Corazón del Bosque</span>
+        </div>
+
+        <h2 class="text-5xl md:text-7xl font-extrabold text-white leading-tight drop-shadow-2xl mb-8 tracking-tight">
+            Operamos desde<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-300 to-teal-500">
+                Lo Profundo de Pando
+            </span>
+        </h2>
+
+        <p class="text-xl md:text-2xl text-gray-100 leading-relaxed font-light max-w-2xl mx-auto mb-12 drop-shadow-md text-balance">
+            Nuestra base está en <strong class="text-white font-semibold">Cobija</strong>, inmersa en el ecosistema que protegemos. Conectamos la realidad local con el impacto global.
+        </p>
+
+        <button id="openMapBtn" class="group relative inline-flex items-center gap-3 bg-white/10 hover:bg-green-600 backdrop-blur-md border-2 border-white/30 hover:border-green-500 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg overflow-hidden">
+            <span class="absolute inset-0 bg-gradient-to-r from-green-600/0 via-green-600/50 to-green-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-shimmer"></span>
+            <MapIcon size={24} />
+            <span class="relative z-10 tracking-wider">Ver Ubicación en Mapa</span>
+        </button>
+
+    </div>
+
+    <div id="mapModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 md:p-8 animate-fade-in">
+        
+        <div id="modalOverlay" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+        <div class="relative w-full max-w-4xl bg-amazon-900 rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/20 transform scale-95 opacity-0 transition-all duration-300 modal-content">
             
-            <div class="container mx-auto px-4 relative z-10 flex flex-col md:flex-row items-center gap-12 max-w-6xl">
-                
-                <div class="md:w-1/2">
-                    <div class="inline-flex items-center gap-2 text-earth-500 font-bold mb-4 uppercase tracking-wider">
-                        <MapPin size={20} />
-                        <span>Cobertura Geográfica</span>
+            <button id="closeMapBtn" class="absolute top-4 right-4 z-20 w-10 h-10 bg-black/50 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors backdrop-blur-md">
+                <X size={24} />
+            </button>
+
+            <div class="relative w-full h-[60vh] md:h-[70vh]">
+                 <iframe 
+                    src="https://maps.google.com/maps?q=Calle+Graciela+P%C3%A9rez+055%2C+Barrio+Nazaria%2C+Cobija%2C+Bolivia&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Mapa de Cobija, Pando - FORAMA"
+                    class="w-full h-full grayscale-[20%] hover:grayscale-0 transition-all duration-700 invert-[0.05]"
+                ></iframe>
+                 
+                 <div class="absolute bottom-6 left-6 bg-amazon-950/90 backdrop-blur-xl border border-white/10 p-4 rounded-2xl flex items-center gap-4 shadow-lg pointer-events-none">
+                    <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 shrink-0">
+                        <MapPin size={24} />
                     </div>
-                    <h2 class="text-3xl md:text-5xl font-extrabold mb-6">Desde Pando para el Mundo</h2>
-                    <p class="text-lg md:text-xl text-amazon-100 leading-relaxed font-light">
-                        FORAMA Amazónica tiene su base de operaciones en <strong class="text-white">Cobija</strong>, el corazón de la Amazonía boliviana. Desde aquí coordinamos acciones de conservación que impactan a nivel nacional.
-                    </p>
-                </div>
-
-                <div class="md:w-1/2 flex justify-center w-full">
-    
-                    <div class="relative w-full h-[400px] bg-amazon-800 rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10 group hover:border-white/30 transition-all duration-500">
-                        
-                        <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d124888.99824660356!2d-68.83732688647647!3d-11.026773347590862!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9161a0d6d5830337%3A0x77d0a64e42104848!2sCobija%2C%20Bolivia!5e0!3m2!1ses!2sbo!4v1704221123456!5m2!1ses!2sbo" 
-                            width="100%" 
-                            height="100%" 
-                            style="border:0;" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade"
-                            title="Mapa de Cobija, Pando - FORAMA"
-                            class="grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
-                        ></iframe>
-
-                        <div class="absolute bottom-6 left-6 bg-amazon-900/90 backdrop-blur-md border border-white/20 px-5 py-3 rounded-xl shadow-lg pointer-events-none flex items-center gap-3">
-                            <span class="relative flex h-3 w-3">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                            </span>
-                            <div>
-                                <p class="text-xs text-gray-400 uppercase font-bold tracking-wider">Sede Central</p>
-                                <p class="text-white font-bold leading-none">Cobija, Pando</p>
-                            </div>
-                        </div>
-
+                    <div>
+                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider">Base Operativa</p>
+                        <p class="text-white font-bold text-lg">Cobija, Bolivia</p>
                     </div>
-
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
+<style>
+    @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+    .animate-shimmer {
+        animation: shimmer 2s infinite;
+    }
+    /* Clases para la animación de entrada del modal */
+    .modal-active .modal-content {
+        transform: scale(100%);
+        opacity: 1;
+    }
+</style>
+
+    <script>
+        document.addEventListener('astro:page-load', () => {
+            // El signo "!" al final le jura a VS Code que el elemento existe
+            const openBtn = document.getElementById('openMapBtn');
+            const closeBtn = document.getElementById('closeMapBtn');
+            const modal = document.getElementById('mapModal');
+            const overlay = document.getElementById('modalOverlay');
+
+            // Verificamos que todo exista antes de crear las funciones
+            if (openBtn && closeBtn && modal && overlay) {
+
+                // Definimos las funciones AQUÍ ADENTRO para que usen las variables seguras
+                const openModal = () => {
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                    setTimeout(() => {
+                        modal.classList.add('modal-active');
+                    }, 10);
+                };
+
+                const closeModal = () => {
+                    modal.classList.remove('modal-active');
+                    setTimeout(() => {
+                        modal.classList.remove('flex');
+                        modal.classList.add('hidden');
+                    }, 300);
+                };
+
+                // Asignamos los eventos
+                openBtn.addEventListener('click', openModal);
+                closeBtn.addEventListener('click', closeModal);
+                overlay.addEventListener('click', closeModal);
+            }
+        });
+</script>
+     
         <section class="relative py-32 overflow-hidden scroll-trigger">
             
             <img 
@@ -300,4 +379,3 @@ const estadisticas = [
         });
         
     });
-</script>
