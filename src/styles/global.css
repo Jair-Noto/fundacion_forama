@@ -100,3 +100,45 @@ html {
   /* Sombra suave */
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
 }
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* Se mueve la mitad (el set original) */
+}
+
+.animate-scroll-infinite {
+    display: flex;
+    width: fit-content;
+    animation: scroll 20s linear infinite; /* Ajusta 20s para más rápido/lento */
+}
+
+/* Efecto de desvanecimiento en los bordes para que se vea elegante */
+.gradient-mask {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+/* Pausar la animación cuando pasas el mouse por encima (Opcional, muy pro) */
+.animate-scroll-infinite:hover {
+    animation-play-state: paused;
+}
+/* --- ANIMACIÓN DE FONDO "ORGANIC BLOBS" --- */
+
+/* Define el movimiento errante de las manchas */
+@keyframes blob-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(40px, -50px) scale(1.1); }
+  50% { transform: translate(0, 20px) scale(0.95); }
+  75% { transform: translate(-60px, -30px) scale(1.05); }
+}
+
+/* Clase utilitaria para aplicar la animación */
+.animate-blob {
+  animation: blob-float 25s infinite ease-in-out; /* Movimiento muy lento (25s) */
+  filter: blur(100px); /* El desenfoque extremo es la clave del efecto bonito */
+  will-change: transform; /* Optimización de rendimiento */
+}
+
+/* Retrasos para que las manchas no se muevan al unísono */
+.delay-2000 { animation-delay: 2s; }
+.delay-5000 { animation-delay: 5s; }
