@@ -9,7 +9,11 @@ import {
     ArrowRight, 
     Search,
     Newspaper,
-    ChevronDown
+    ChevronDown,
+    Mail, 
+    Send, 
+    CheckCircle2, 
+    ShieldCheck
 } from 'lucide-react';
 
 // DATOS DE EJEMPLO: NOTICIAS
@@ -79,7 +83,7 @@ const publicaciones = [
         <section class="relative h-screen flex items-center justify-center bg-amazon-900 text-white overflow-hidden">
             
            <img 
-                src="/imags/noticia.jpg" 
+                src="/imags/material_noticias/noticia.jpg" 
                 alt="Informacion y noticias sobre la Amazonía" 
                 class="absolute inset-0 w-full h-full object-cover transform scale-105"
             />
@@ -103,7 +107,7 @@ const publicaciones = [
             </div>
         </section>
 
-        <section class="py-32 bg-white">
+        <section id="noticias" class="py-32 bg-white">
             <div class="container mx-auto px-4 max-w-7xl">
                 
                 <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
@@ -153,7 +157,7 @@ const publicaciones = [
             </div>
         </section>
 
-        <section class="py-32 bg-stone-50 border-t border-gray-200">
+        <section id="biblioteca" class="py-32 bg-stone-50 border-t border-gray-200">
             <div class="container mx-auto px-4 max-w-6xl">
                 
                 <div class="text-center mb-20">
@@ -183,31 +187,80 @@ const publicaciones = [
                             </button>
                         </div>
                     ))}
-                </div>
+                </div> 
+            </section> 
 
-                <div class="mt-16 bg-amazon-900 rounded-3xl p-10 md:p-14 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl relative overflow-hidden">
-                    <div class="absolute top-0 right-0 -mr-10 -mt-10 w-64 h-64 bg-earth-500 rounded-full blur-3xl opacity-20"></div>
+            <section id="boletines" class="py-12">
+            <div class="relative bg-amazon-900 rounded-[3rem] p-8 md:p-16 overflow-hidden shadow-2xl group">
+                
+                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+                
+                <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-green-500 rounded-full blur-[100px] opacity-20 group-hover:opacity-30 transition-opacity duration-1000"></div>
+                <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-earth-600 rounded-full blur-[100px] opacity-20"></div>
 
-                    <div class="relative z-10 max-w-xl">
-                        <h3 class="text-3xl font-bold text-white mb-4">Suscríbete a nuestro Boletín Trimestral</h3>
-                        <p class="text-amazon-200 text-lg">
-                            Recibe las actualizaciones más importantes, nuevas investigaciones y oportunidades de voluntariado directamente en tu correo.
-                        </p>
-                    </div>
+                <div class="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
                     
-                    <div class="relative z-10 w-full md:w-auto">
-                        <form class="flex flex-col sm:flex-row gap-3">
-                            <input type="email" placeholder="Tu correo electrónico" class="px-6 py-4 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-earth-400 w-full md:w-80" />
-                            <button class="bg-earth-500 hover:bg-earth-600 text-white font-bold px-8 py-4 rounded-xl transition-colors shadow-lg shadow-earth-500/30">
-                                Suscribirme
+                    <div class="text-center lg:text-left space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-green-300 text-xs font-bold uppercase tracking-widest mb-2 backdrop-blur-md">
+                            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                            Comunidad FORAMA
+                        </div>
+                        
+                        <h3 class="text-3xl md:text-5xl font-extrabold text-white leading-tight">
+                            El bosque en tu bandeja de entrada
+                        </h3>
+                        
+                        <p class="text-amazon-100 text-lg leading-relaxed max-w-md mx-auto lg:mx-0">
+                            Únete a más de 2,000 defensores de la Amazonía. Sin spam, solo historias de impacto y ciencia.
+                        </p>
+
+                        <div class="flex flex-wrap justify-center lg:justify-start gap-4 text-sm font-medium text-gray-300 mt-4">
+                            <div class="flex items-center gap-2 bg-black/20 px-3 py-1.5 rounded-lg">
+                                <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center text-green-400"><CheckCircle2 size={12} /></div>
+                                Reportes trimestrales
+                            </div>
+                            <div class="flex items-center gap-2 bg-black/20 px-3 py-1.5 rounded-lg">
+                                <div class="w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400"><CheckCircle2 size={12} /></div>
+                                Eventos exclusivos
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full bg-white/5 backdrop-blur-lg border border-white/10 p-2 md:p-3 rounded-[2rem] shadow-xl">
+                        <form class="flex flex-col md:flex-row gap-2">
+                            <div class="relative w-full group/input">
+                                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within/input:text-amazon-500 transition-colors">
+                                    <Mail size={20} />
+                                </div>
+                                <input 
+                                    type="email" 
+                                    placeholder="tu-correo@ejemplo.com" 
+                                    class="w-full pl-12 pr-4 py-4 md:py-5 rounded-[1.5rem] bg-amazon-950/50 border border-amazon-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-earth-500 focus:bg-amazon-900 transition-all"
+                                    required
+                                />
+                            </div>
+                            
+                            <button class="bg-gradient-to-r from-earth-500 to-orange-600 hover:from-earth-400 hover:to-orange-500 text-white font-bold px-8 py-4 md:py-5 rounded-[1.5rem] shadow-lg shadow-orange-900/20 hover:shadow-orange-500/40 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap">
+                                <span>Suscribirme</span>
+                                <Send size={18} />
                             </button>
                         </form>
-                        <p class="text-amazon-300 text-xs mt-3 text-center sm:text-left">No enviamos spam. Solo contenido de valor.</p>
+                        
+                        <div class="text-center mt-3">
+                            <p class="text-xs text-amazon-300 flex items-center justify-center gap-1 opacity-70">
+                                <ShieldCheck size={12} /> Tus datos están protegidos bajo nuestra política de privacidad.
+                            </p>
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </section>
+
+                
+
+           
+        
 
     </main>
 </Layout>
