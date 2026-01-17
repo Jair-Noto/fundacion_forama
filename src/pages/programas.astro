@@ -1,64 +1,47 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/shared/Navbar.jsx';
+import sql from '../lib/db.js'; // <--- IMPORTANTE: Conexión a Base de Datos
 import { 
-    Sprout, 
-    Microscope, 
-    HeartHandshake, 
-    Users, 
-    Globe2, 
+    TreePine,       // Prog 1: Bosque
+    ThermometerSun, // Prog 2: Clima
+    Microscope,     // Prog 3: Ciencia
+    Sprout,         // Prog 4: Producción
+    HeartHandshake, // Prog 5: Salud
+    Megaphone,      // Prog 6: Comunicación
+    Landmark,       // Prog 7: Gobernanza
+    Users,          // Prog 8: Género
+    Globe2,         // Prog 9: Alianzas
     MapPin, 
     Target, 
     CheckCircle2, 
     FileText,
     ChevronRight,
     ArrowRight,
-    ChevronDown // Importamos la flecha
+    ChevronDown 
 } from 'lucide-react';
 
-const programas = [
-    {
-        titulo: "Bosque Vivo",
-        desc: "Conservación, restauración y gestión de áreas protegidas.",
-        icon: Sprout,
-        color: "text-green-600",
-        bg: "bg-green-50",
-        border: "border-green-200"
-    },
-    {
-        titulo: "Ciencia Amazónica",
-        desc: "Monitoreo, biodiversidad, clima y uso de la tierra.",
-        icon: Microscope,
-        color: "text-blue-600",
-        bg: "bg-blue-50",
-        border: "border-blue-200"
-    },
-    {
-        titulo: "Bienestar y Territorio",
-        desc: "Salud preventiva + educación integral comunitaria.",
-        icon: HeartHandshake,
-        color: "text-red-600",
-        bg: "bg-red-50",
-        border: "border-red-200"
-    },
-    {
-        titulo: "Mujeres Líderes",
-        desc: "Liderazgo y participación efectiva de la mujer amazónica.",
-        icon: Users,
-        color: "text-purple-600",
-        bg: "bg-purple-50",
-        border: "border-purple-200"
-    },
-    {
-        titulo: "Alianzas y Desarrollo",
-        desc: "Cadena productiva, fortalecimiento y financiamiento.",
-        icon: Globe2,
-        color: "text-orange-600",
-        bg: "bg-orange-50",
-        border: "border-orange-200"
-    }
-];
+// 1. CONSULTA A BASE DE DATOS
+const programasDB = await sql`
+  SELECT id, slug, titulo, descripcion 
+  FROM programas 
+  ORDER BY id ASC
+`;
 
+// 2. CONFIGURACIÓN VISUAL (Mapeo ID -> Estilos e Iconos correctos)
+const configVisual: any = {
+  1: { color: "bg-green-600", border: "border-green-200", bg_icon: "bg-green-50", text_icon: "text-green-600", icon: TreePine, img: "/imags/material_programas/proyect_1.jpg" },
+  2: { color: "bg-blue-600", border: "border-blue-200", bg_icon: "bg-blue-50", text_icon: "text-blue-600", icon: ThermometerSun, img: "/imags/material_programas/proyect_2.jpg" },
+  3: { color: "bg-indigo-600", border: "border-indigo-200", bg_icon: "bg-indigo-50", text_icon: "text-indigo-600", icon: Microscope, img: "/imags/material_programas/proyect_3.jpg" },
+  4: { color: "bg-amber-600", border: "border-amber-200", bg_icon: "bg-amber-50", text_icon: "text-amber-600", icon: Sprout, img: "/imags/material_programas/proyect_4.jpg" },
+  5: { color: "bg-rose-600", border: "border-rose-200", bg_icon: "bg-rose-50", text_icon: "text-rose-600", icon: HeartHandshake, img: "/imags/material_programas/proyect_5.jpg" },
+  6: { color: "bg-cyan-600", border: "border-cyan-200", bg_icon: "bg-cyan-50", text_icon: "text-cyan-600", icon: Megaphone, img: "/imags/material_programas/proyect_6.jpg" },
+  7: { color: "bg-slate-600", border: "border-slate-200", bg_icon: "bg-slate-50", text_icon: "text-slate-600", icon: Landmark, img: "/imags/material_programas/proyect_7.jpg" },
+  8: { color: "bg-purple-600", border: "border-purple-200", bg_icon: "bg-purple-50", text_icon: "text-purple-600", icon: Users, img: "/imags/material_programas/proyect_8.jpg" },
+  9: { color: "bg-emerald-600", border: "border-emerald-200", bg_icon: "bg-emerald-50", text_icon: "text-emerald-600", icon: Globe2, img: "/imags/material_programas/proyect_9.jpg" }
+};
+
+// 3. PROYECTO EJEMPLO (Estático para la sección inferior)
 const proyectoEjemplo = {
     nombre: "Restauración de Cuencas Manuripi",
     estado: "En ejecución",
@@ -84,13 +67,11 @@ const proyectoEjemplo = {
     <main>
         
         <section class="relative h-screen flex items-center justify-center bg-amazon-900 text-white overflow-hidden">
-            
             <img 
                 src="/imags/material_programas/p.jpg" 
                 alt="Proyectos en la Amazonía" 
                 class="absolute inset-0 w-full h-full object-cover transform scale-105"
             />
-            
             <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 z-0"></div>
             
             <div class="relative z-10 container mx-auto px-4 text-center animate-fade-in-up">
@@ -101,7 +82,7 @@ const proyectoEjemplo = {
                     Programas y Proyectos
                 </h1>
                 <p class="text-xl md:text-3xl text-gray-200 font-light max-w-3xl mx-auto leading-relaxed text-balance">
-                    Estructuramos nuestras acciones bajo 5 programas estratégicos para generar cambios reales en la Amazonía.
+                    Estructuramos nuestras acciones bajo 9 programas estratégicos para generar cambios reales en la Amazonía.
                 </p>
             </div>
 
@@ -110,35 +91,76 @@ const proyectoEjemplo = {
             </div>
         </section>
 
-        <section id="programas" class="py-32 bg-stone-50"> <div class="container mx-auto px-4 max-w-7xl">
-                <div class="text-center mb-24"> <h2 class="text-4xl md:text-5xl font-extrabold text-amazon-900 mb-6">Programas Estratégicos</h2>
+        <section id="programas" class="py-24 bg-stone-50 scroll-mt-20"> 
+            <div class="container mx-auto px-4 max-w-7xl">
+                
+                <div class="text-center mb-20"> 
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-amazon-900 mb-6">Programas Estratégicos</h2>
                     <div class="w-24 h-1.5 bg-earth-500 mx-auto rounded-full mb-6"></div>
-                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">Nuestros pilares fundamentales de operación.</p>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">La estructura operativa que guía cada uno de nuestros pasos en el territorio.</p>
                 </div>
 
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {programas.map((prog) => (
-                        <div class={`bg-white p-10 rounded-3xl border ${prog.border} shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group`}>
-                            <div class={`w-16 h-16 ${prog.bg} rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300`}>
-                                <prog.icon size={32} className={prog.color} />
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {programasDB.map((prog: any) => {
+                        // Combinamos datos de BD con estilos visuales
+                        const estilo = configVisual[prog.id] || { 
+                            color: "bg-gray-600", img: "", icon: TreePine, desc: "" 
+                        };
+                        const Icono = estilo.icon; // Componente Icono
+
+                        return (
+                            <div class="group relative h-[400px] rounded-[2rem] overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500">
+                                
+                                <img 
+                                    src={estilo.img} 
+                                    alt={prog.titulo} 
+                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                />
+                                
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
+
+                                <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                                    
+                                    <div class={`w-12 h-1.5 ${estilo.color} rounded-full mb-4 transform -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500`}></div>
+
+                                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight drop-shadow-md">
+                                        {prog.titulo}
+                                    </h3>
+                                    
+                                    <p class="text-gray-300 text-lg font-light leading-snug mb-6 opacity-90 line-clamp-3">
+                                        {prog.descripcion}
+                                    </p>
+                                    
+                                    <div class="transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
+                                        <a href={`/programas/${prog.slug}`} class="inline-flex items-center gap-2 text-white font-bold tracking-wide text-sm uppercase border-b-2 border-white/30 pb-1 hover:border-white transition-colors cursor-pointer">
+                                            Proyectos <ArrowRight size={16} />
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-3">{prog.titulo}</h3>
-                            <p class="text-gray-600 leading-relaxed text-lg">{prog.desc}</p>
-                        </div>
-                    ))}
+                        );
+                    })}
+                </div>
+
+                <div class="mt-16 bg-amazon-900 rounded-[2.5rem] p-12 text-center text-white relative overflow-hidden shadow-2xl">
+                    <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
                     
-                    <div class="bg-amazon-900 p-10 rounded-3xl shadow-xl flex flex-col justify-center items-center text-center text-white border border-amazon-700 hover:-translate-y-2 transition-transform duration-300">
-                        <h3 class="text-2xl font-bold mb-3">¿Tienes una idea?</h3>
-                        <p class="text-amazon-200 text-lg mb-6">Buscamos constantemente nuevas alianzas para expandir estos programas.</p>
-                        <a href="/contacto" class="text-earth-400 font-bold hover:text-white transition-colors flex items-center gap-2 text-lg">
-                            Contáctanos <ArrowRight size={20} />
+                    <div class="relative z-10 max-w-2xl mx-auto">
+                        <h3 class="text-3xl font-bold mb-4">¿Tienes una propuesta innovadora?</h3>
+                        <p class="text-amazon-200 text-lg mb-8">
+                            Buscamos constantemente nuevas alianzas para expandir el impacto de estos programas en la región.
+                        </p>
+                        <a href="/contacto" class="inline-flex items-center gap-2 bg-earth-500 hover:bg-earth-600 text-white font-bold px-8 py-4 rounded-xl transition-all shadow-lg hover:shadow-earth-500/20 hover:-translate-y-1">
+                            Contactar al Equipo <ArrowRight size={20} />
                         </a>
                     </div>
                 </div>
+
             </div>
         </section>
 
-        <section id="proyectos" class="py-32 bg-white"> <div class="container mx-auto px-4 max-w-6xl">
+        <section id="proyectos" class="py-32 bg-white scroll-mt-20"> 
+            <div class="container mx-auto px-4 max-w-6xl">
                 <div class="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div>
                         <span class="text-amazon-600 font-bold uppercase tracking-widest text-sm">Transparencia y Gestión</span>
