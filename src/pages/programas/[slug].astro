@@ -2,20 +2,28 @@
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/shared/Navbar.jsx';
 import sql from '../../lib/db.js';
-import { ArrowLeft, Calendar, MapPin, Activity } from 'lucide-react';
+import { 
+  ArrowLeft, 
+  Calendar, 
+  MapPin, 
+  Activity, 
+  Tag, 
+  Clock, 
+  CheckCircle2, 
+  Info 
+} from 'lucide-react';
 
 // --- 1. CONFIGURACIÓN VISUAL ---
-// FIX 1: Agregamos ': any' para que TypeScript no se queje por los índices numéricos
 const estilosProgramas: any = {
-  1: { color: "bg-green-600", image: "/imags/material_programas/proyect_1.jpg" },
-  2: { color: "bg-blue-600", image: "/imags/material_programas/proyect_2.jpg" },
-  3: { color: "bg-indigo-600", image: "/imags/material_programas/proyect_3.jpg" },
-  4: { color: "bg-amber-600", image: "/imags/material_programas/proyect_4.jpg" },
-  5: { color: "bg-rose-600", image: "/imags/material_programas/proyect_5.jpg" },
-  6: { color: "bg-cyan-600", image: "/imags/material_programas/proyect_6.jpg" },
-  7: { color: "bg-slate-600", image: "/imags/material_programas/proyect_7.jpg" },
-  8: { color: "bg-purple-600", image: "/imags/material_programas/proyect_8.jpg" },
-  9: { color: "bg-emerald-600", image: "/imags/material_programas/proyect_9.jpg" }
+  1: { color: "bg-green-600", text: "text-green-600", border: "border-green-200", hover: "hover:border-green-500", image: "/imags/material_programas/proyect_1.jpg" },
+  2: { color: "bg-blue-600", text: "text-blue-600", border: "border-blue-200", hover: "hover:border-blue-500", image: "/imags/material_programas/proyect_2.jpg" },
+  3: { color: "bg-indigo-600", text: "text-indigo-600", border: "border-indigo-200", hover: "hover:border-indigo-500", image: "/imags/material_programas/proyect_3.jpg" },
+  4: { color: "bg-amber-600", text: "text-amber-600", border: "border-amber-200", hover: "hover:border-amber-500", image: "/imags/material_programas/proyect_4.jpg" },
+  5: { color: "bg-rose-600", text: "text-rose-600", border: "border-rose-200", hover: "hover:border-rose-500", image: "/imags/material_programas/proyect_5.jpg" },
+  6: { color: "bg-cyan-600", text: "text-cyan-600", border: "border-cyan-200", hover: "hover:border-cyan-500", image: "/imags/material_programas/proyect_6.jpg" },
+  7: { color: "bg-slate-600", text: "text-slate-600", border: "border-slate-200", hover: "hover:border-slate-500", image: "/imags/material_programas/proyect_7.jpg" },
+  8: { color: "bg-purple-600", text: "text-purple-600", border: "border-purple-200", hover: "hover:border-purple-500", image: "/imags/material_programas/proyect_8.jpg" },
+  9: { color: "bg-emerald-600", text: "text-emerald-600", border: "border-emerald-200", hover: "hover:border-emerald-500", image: "/imags/material_programas/proyect_9.jpg" }
 };
 
 // --- 2. GENERAR RUTAS ESTÁTICAS ---
@@ -30,13 +38,9 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 
 // Traemos el programa
-console.log("🔍 Intentando buscar programa con slug:", slug);
 const result = await sql`SELECT * FROM programas WHERE slug = ${slug}`;
 const programa = result[0];
 
-console.log("✅ RESULTADO DE LA BASE DE DATOS:", programa);
-
-// 🛑 GUARDIA DE SEGURIDAD: (Importante para evitar errores de "undefined")
 if (!programa) {
   return Astro.redirect('/404');
 }
@@ -48,95 +52,161 @@ const proyectos = await sql`
   ORDER BY fecha_publicacion DESC
 `;
 
-// Combinar estilos
-// Al haber puesto ': any' arriba, esta línea ya no dará error rojo
-const estilo = estilosProgramas[programa.id] || { color: "bg-gray-800", image: "" };
+// Estilo fallback
+const estilo = estilosProgramas[programa.id] || { 
+  color: "bg-gray-800", text: "text-gray-600", border: "border-gray-200", hover: "hover:border-gray-400", image: "" 
+};
 
-// FIX 2: Agregamos ': any' al parámetro fecha
+// Helpers
 const formatearFecha = (fecha: any) => {
-  if (!fecha) return '';
-  // Convertimos explícitamente a string o fecha para evitar errores
+  if (!fecha) return 'Fecha pendiente';
   return new Date(fecha).toLocaleDateString('es-BO', { year: 'numeric', month: 'long', day: 'numeric' });
 };
+
+// Calcular estadísticas simples para el dashboard
+const proyectosEjecucion = proyectos.filter((p: any) => p.estado === 'En Ejecución').length;
+const proyectosPlanificacion = proyectos.filter((p: any) => p.estado === 'En Planificación').length;
 ---
 
 <Layout title={programa.titulo}>
   <Navbar client:load />
 
-  <main class="bg-stone-50 min-h-screen pb-20">
+  <main class="bg-slate-50 min-h-screen pb-24">
     
-    <div class="relative bg-gray-900 pt-32 pb-24 overflow-hidden">
-      <div class="absolute inset-0 opacity-40">
-        <img src={estilo.image} class="w-full h-full object-cover" alt="" />
+    <div class="relative h-[60vh] min-h-[500px] flex items-end pb-16 overflow-hidden">
+      <div class="absolute inset-0">
+         <img src={estilo.image} class="w-full h-full object-cover" alt="" />
+         <div class={`absolute inset-0 ${estilo.color} mix-blend-multiply opacity-90`}></div>
+         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
       </div>
-      <div class={`absolute inset-0 ${estilo.color} mix-blend-multiply opacity-80`}></div>
       
-      <div class="container relative z-10 mx-auto px-6 max-w-6xl">
-        <a href="/programas" class="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors mb-6 font-medium backdrop-blur-sm bg-white/10 px-4 py-2 rounded-full w-fit">
-          <ArrowLeft size={18} /> Volver a Programas
+      <div class="container relative z-10 mx-auto px-6 max-w-7xl">
+        <a href="/programas" class="group inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors mb-8 font-medium backdrop-blur-md bg-white/5 px-5 py-2.5 rounded-full border border-white/10 hover:bg-white/10 w-fit">
+          <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" /> 
+          Volver al Portafolio
         </a>
-        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight drop-shadow-lg">
-          {programa.titulo}
-        </h1>
-        <p class="text-xl text-gray-100 max-w-2xl font-light leading-relaxed">
-          {programa.descripcion}
-        </p>
+        
+        <div class="max-w-4xl">
+           <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight drop-shadow-2xl">
+            {programa.titulo}
+           </h1>
+           <p class="text-xl md:text-2xl text-slate-200 font-light leading-relaxed max-w-3xl border-l-4 border-white/30 pl-6">
+            {programa.descripcion}
+           </p>
+        </div>
       </div>
     </div>
 
-    <div class="container mx-auto px-6 max-w-5xl -mt-12 relative z-20">
-      
-      <div class="flex items-center gap-3 mb-8">
-        <h2 class="text-2xl font-bold text-gray-800">Proyectos en curso</h2>
-        <span class="bg-gray-200 text-gray-700 text-xs font-bold px-2 py-1 rounded-md">{proyectos.length}</span>
-      </div>
+    <div class="border-b border-slate-200 bg-white sticky top-0 z-30 shadow-sm backdrop-blur-xl bg-white/90">
+        <div class="container mx-auto px-6 max-w-7xl h-20 flex items-center justify-between overflow-x-auto gap-8">
+            <div class="flex items-center gap-8 text-sm font-medium text-slate-600 whitespace-nowrap">
+                <div class="flex items-center gap-2">
+                    <Activity size={18} className={estilo.text} />
+                    <span class="font-bold text-slate-900 text-lg">{proyectos.length}</span> Proyectos Totales
+                </div>
+                <div class="h-4 w-px bg-slate-300"></div>
+                <div class="flex items-center gap-2">
+                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <span class="font-bold text-slate-900 text-lg">{proyectosEjecucion}</span> En Ejecución
+                </div>
+                {proyectosPlanificacion > 0 && (
+                    <>
+                    <div class="h-4 w-px bg-slate-300"></div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+                        <span class="font-bold text-slate-900 text-lg">{proyectosPlanificacion}</span> Planificados
+                    </div>
+                    </>
+                )}
+            </div>
+           
+        </div>
+    </div>
 
+    <div class="container mx-auto px-6 max-w-7xl mt-16">
+      
       {proyectos.length === 0 ? (
-        <div class="bg-white p-12 rounded-3xl shadow-sm text-center border border-gray-100">
-          <div class="inline-flex p-4 rounded-full bg-gray-50 mb-4 text-gray-400">
-            <Activity size={32} />
+        <div class="bg-white p-16 rounded-[2rem] shadow-sm text-center border-2 border-dashed border-slate-200">
+          <div class={`inline-flex p-6 rounded-full bg-slate-50 mb-6 text-slate-400`}>
+            <Info size={40} />
           </div>
-          <h3 class="text-lg font-medium text-gray-900">Sin proyectos activos</h3>
-          <p class="text-gray-500">Actualmente no hay proyectos públicos en esta categoría.</p>
+          <h3 class="text-2xl font-bold text-slate-900 mb-2">Sin proyectos activos</h3>
+          <p class="text-slate-500 text-lg">Actualmente estamos formulando nuevas iniciativas para esta área.</p>
         </div>
       ) : (
-        <div class="grid gap-6">
-          {proyectos.map((proyecto: any) => (
-            <article class="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 group">
-              <div class="flex flex-col md:flex-row gap-6 justify-between items-start">
-                
-                <div class="space-y-4 flex-1">
-                  <div class="flex flex-wrap items-center gap-3">
-                    <span class={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border 
-                      ${proyecto.estado === 'En Ejecución' ? 'bg-green-50 text-green-700 border-green-100' : 'bg-gray-50 text-gray-600 border-gray-100'}`}>
-                      {proyecto.estado}
-                    </span>
-                    {proyecto.rubro && (
-                       <span class="text-gray-500 text-xs font-medium bg-gray-50 px-2 py-1 rounded border border-gray-100">
-                         {proyecto.rubro}
-                       </span>
-                    )}
-                  </div>
+        <div class="grid gap-10">
+          {proyectos.map((proyecto: any, index: number) => (
+            <article class={`group relative bg-white rounded-[2rem] p-8 md:p-10 border border-slate-200 shadow-sm hover:shadow-2xl transition-all duration-300 ${estilo.hover}`}>
+              
+              <div class={`absolute left-0 top-10 bottom-10 w-1.5 ${estilo.color} rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity`}></div>
 
-                  <div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-amazon-800 transition-colors">
+              <div class="grid lg:grid-cols-12 gap-8 lg:gap-12">
+                
+                <div class="lg:col-span-8 space-y-6">
+                    
+                    <div class="flex flex-wrap items-center gap-4">
+                        <span class={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border 
+                          ${proyecto.estado === 'En Ejecución' 
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-100' 
+                            : 'bg-amber-50 text-amber-700 border-amber-100'}`}>
+                          {proyecto.estado === 'En Ejecución' && <CheckCircle2 size={14} />}
+                          {proyecto.estado}
+                        </span>
+                        
+                        {proyecto.rubro && (
+                           <span class="inline-flex items-center gap-1.5 text-slate-500 text-xs font-bold uppercase tracking-wider px-3 py-1.5 bg-slate-100 rounded-lg">
+                             <Tag size={12} />
+                             {proyecto.rubro}
+                           </span>
+                        )}
+                    </div>
+
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight group-hover:text-slate-700 transition-colors">
                       {proyecto.nombre}
-                    </h3>
-                    {proyecto.descripcion && (
-                      <p class="text-gray-600 leading-relaxed">{proyecto.descripcion}</p>
+                    </h2>
+                    
+                    {proyecto.descripcion ? (
+                      <p class="text-lg text-slate-600 leading-relaxed">
+                        {proyecto.descripcion}
+                      </p>
+                    ) : (
+                        <p class="text-lg text-slate-400 italic">No hay descripción disponible para este proyecto.</p>
                     )}
-                  </div>
-                  
-                  <div class="flex items-center gap-6 pt-2 text-sm text-gray-400 font-medium">
-                    {proyecto.ubicacion && (
-                      <span class="flex items-center gap-1.5">
-                        <MapPin size={16} className="text-gray-400" /> {proyecto.ubicacion}
-                      </span>
-                    )}
-                    <span class="flex items-center gap-1.5">
-                      <Calendar size={16} /> {formatearFecha(proyecto.fecha_publicacion)}
-                    </span>
-                  </div>
+
+                </div>
+
+                <div class="lg:col-span-4 flex flex-col justify-center">
+                    <div class="bg-slate-50 rounded-3xl p-6 border border-slate-100 space-y-5">
+                        
+                        {/* Ubicación destacada */}
+                        <div class="flex items-start gap-4">
+                            <div class={`p-3 rounded-2xl bg-white shadow-sm text-slate-400 ${estilo.text}`}>
+                                <MapPin size={24} />
+                            </div>
+                            <div>
+                                <span class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Ubicación</span>
+                                <span class="text-lg font-bold text-slate-800 leading-tight">
+                                    {proyecto.ubicacion || "Ubicación no especificada"}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-px bg-slate-200"></div>
+
+                        {/* Fecha */}
+                        <div class="flex items-start gap-4">
+                            <div class="p-3 rounded-2xl bg-white shadow-sm text-slate-400">
+                                <Clock size={24} />
+                            </div>
+                            <div>
+                                <span class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Fecha de Inicio</span>
+                                <span class="text-base font-medium text-slate-700">
+                                    {formatearFecha(proyecto.fecha_publicacion)}
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
               </div>

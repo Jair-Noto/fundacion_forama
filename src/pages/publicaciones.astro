@@ -1,0 +1,225 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/shared/Navbar.jsx';
+import { 
+  Search, 
+  FileText, 
+  Download, 
+  BookOpen, 
+  Calendar, 
+  ArrowRight, 
+  Filter,
+  ChevronDown
+} from 'lucide-react';
+
+// --- DATOS DE EJEMPLO (MOCK DATA) ---
+// Pronto conectaremos esto a una tabla 'publicaciones' en tu BD
+
+const articulos = [
+  {
+    id: 1,
+    titulo: "El rol de las comunidades en la conservación del Jaguar",
+    fecha: "12 de Enero, 2026",
+    categoria: "Biodiversidad",
+    imagen: "https://images.unsplash.com/photo-1575550959106-5a7defe28b56?q=80&w=2070&auto=format&fit=crop",
+    resumen: "Un análisis sobre cómo el monitoreo comunitario ha logrado reducir el conflicto humano-felino en Pando."
+  },
+  {
+    id: 2,
+    titulo: "Nuevas tecnologías para el monitoreo de castaña",
+    fecha: "05 de Enero, 2026",
+    categoria: "Innovación",
+    imagen: "https://www.opinion.com.bo/asset/thumbnail,992,558,center,center/media/opinion/images/2016/10/09/2016S10132.jpg",
+    resumen: "Implementación de sensores remotos para predecir la productividad de los bosques de castaña."
+  },
+  {
+    id: 3,
+    titulo: "Mujeres líderes en la gestión forestal",
+    fecha: "28 de Diciembre, 2025",
+    categoria: "Género",
+    imagen: "https://images.unsplash.com/photo-1628126235206-5260b9ea6441?q=80&w=2070&auto=format&fit=crop",
+    resumen: "Historias de éxito de mujeres que encabezan las iniciativas de producción sostenible en la Amazonía."
+  }
+];
+
+const libros = [
+  {
+    id: 1,
+    titulo: "Informe de Gestión Ambiental 2025",
+    tipo: "Reporte Técnico",
+    year: "2025",
+    portada: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=800&auto=format&fit=crop", // Portada vertical
+    peso: "4.5 MB"
+  },
+  {
+    id: 2,
+    titulo: "Guía de Especies Amenazadas de Pando",
+    tipo: "Libro / Guía",
+    year: "2024",
+    portada: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=800&auto=format&fit=crop",
+    peso: "12.8 MB"
+  },
+  {
+    id: 3,
+    titulo: "Manual de Sistemas Agroforestales",
+    tipo: "Manual Técnico",
+    year: "2024",
+    portada: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=800&auto=format&fit=crop",
+    peso: "8.2 MB"
+  },
+  {
+    id: 4,
+    titulo: "Memorias del Congreso Amazónico",
+    tipo: "Compendio",
+    year: "2023",
+    portada: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=800&auto=format&fit=crop",
+    peso: "15.1 MB"
+  }
+];
+---
+
+<Layout title="Noticias y Publicaciones | FORAMA">
+  <Navbar client:load />
+
+  <main class="bg-stone-50 min-h-screen pb-20">
+
+    <section class="relative h-screen flex items-center justify-center bg-gray-900 text-white overflow-hidden">
+        
+        <img 
+            src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=2070&auto=format&fit=crop" 
+            alt="Biblioteca y Documentos" 
+            class="absolute inset-0 w-full h-full object-cover transform scale-105"
+        />
+        
+        <div class="absolute inset-0 bg-black/40"></div>
+
+        <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/80"></div>
+        
+        <div class="relative z-10 container mx-auto px-4 text-center animate-fade-in-up">
+            
+            <span class="inline-block py-1.5 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold tracking-widest uppercase text-xs mb-8 shadow-lg">
+                Centro de Conocimiento
+            </span>
+            
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 tracking-tight drop-shadow-2xl">
+                Articulos cientificos y <br class="hidden md:block" /> libros
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-gray-200 font-light max-w-3xl mx-auto leading-relaxed text-balance mb-12 drop-shadow-md">
+                Accede a nuestra biblioteca técnica, informes de gestión y artículos sobre los últimos avances en la Amazonía boliviana.
+            </p>
+
+            <div class="max-w-xl mx-auto bg-white/10 backdrop-blur-xl border border-white/30 p-2 rounded-full flex items-center shadow-2xl transition-transform hover:scale-105 duration-300">
+                <Search className="text-white ml-4 shrink-0" size={24} />
+                <input 
+                    type="text" 
+                    placeholder="Buscar artículos, informes o libros..." 
+                    class="bg-transparent border-none text-white placeholder-gray-300 w-full px-4 py-3 text-lg focus:ring-0 outline-none"
+                />
+                <button class="bg-earth-500 hover:bg-earth-600 text-white px-8 py-3 rounded-full font-bold transition-colors shadow-lg">
+                    Buscar
+                </button>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 z-20 animate-bounce cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
+            <ChevronDown size={48} className="text-white" />
+        </div>
+    </section>
+
+    <div class="container mx-auto px-6 max-w-7xl py-24 relative z-20">
+        
+        <section class="mb-24">
+            <div class="flex items-center justify-between mb-12"> <h2 class="text-3xl md:text-4xl font-bold text-amazon-900 flex items-center gap-3">
+                    <FileText className="text-earth-500" /> Artículos Recientes
+                </h2>
+                <a href="#" class="group text-amazon-600 font-bold hover:text-earth-500 transition-colors flex items-center gap-2 text-sm uppercase tracking-wider">
+                    Ver todos <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </a>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                {articulos.map(art => (
+                    <article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-full border border-gray-100">
+                        <div class="relative h-64 overflow-hidden"> <img 
+                                src={art.imagen} 
+                                alt={art.titulo} 
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                            <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-bold text-amazon-700 uppercase tracking-wide shadow-sm">
+                                {art.categoria}
+                            </div>
+                        </div>
+                        <div class="p-8 flex-1 flex flex-col">
+                            <div class="flex items-center gap-2 text-gray-400 text-xs font-medium mb-3 uppercase tracking-wider">
+                                <Calendar size={14} /> {art.fecha}
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-earth-600 transition-colors">
+                                {art.titulo}
+                            </h3>
+                            <p class="text-gray-500 text-sm leading-relaxed mb-6 flex-1 line-clamp-3">
+                                {art.resumen}
+                            </p>
+                            <a href="#" class="inline-flex items-center gap-2 text-amazon-700 font-bold text-sm hover:translate-x-1 transition-transform mt-auto">
+                                Leer artículo <ArrowRight size={16} />
+                            </a>
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </section>
+
+        <section class="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-lg border border-gray-100">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+                <div>
+                    <h2 class="text-3xl font-bold text-amazon-900 flex items-center gap-3 mb-2">
+                        <BookOpen className="text-earth-500" /> Biblioteca Técnica
+                    </h2>
+                    <p class="text-gray-500">Documentos oficiales, guías y material científico descargable.</p>
+                </div>
+                <button class="flex items-center gap-2 px-5 py-2.5 border border-gray-300 rounded-full text-gray-600 font-bold hover:bg-gray-50 transition-colors">
+                    <Filter size={18} /> Filtrar por tema
+                </button>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {libros.map(libro => (
+                    <div class="group relative">
+                        <div class="relative aspect-[3/4] rounded-tr-2xl rounded-br-2xl shadow-[5px_5px_15px_rgba(0,0,0,0.15)] group-hover:shadow-[10px_10px_30px_rgba(0,0,0,0.2)] transition-all duration-300 bg-gray-200 overflow-hidden">
+                            <img 
+                                src={libro.portada} 
+                                alt={libro.titulo} 
+                                class="w-full h-full object-cover"
+                            />
+                            <div class="absolute inset-0 bg-amazon-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4 text-center">
+                                <span class="text-white font-bold text-lg mb-4">Descargar PDF</span>
+                                <button class="bg-earth-500 text-white p-3 rounded-full hover:bg-earth-600 hover:scale-110 transition-all">
+                                    <Download size={24} />
+                                </button>
+                                <span class="text-white/70 text-xs mt-4">{libro.peso}</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-earth-600 uppercase tracking-wider">{libro.tipo}</span>
+                                <span class="text-xs text-gray-400 font-mono">{libro.year}</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 leading-tight group-hover:text-amazon-700 transition-colors cursor-pointer">
+                                {libro.titulo}
+                            </h3>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <div class="mt-12 text-center">
+                <button class="inline-flex items-center gap-2 px-8 py-3 bg-gray-100 hover:bg-gray-200 text-amazon-900 font-bold rounded-full transition-colors">
+                    Ver todos los documentos
+                </button>
+            </div>
+        </section>
+
+    </div>
+  </main>
+</Layout>
