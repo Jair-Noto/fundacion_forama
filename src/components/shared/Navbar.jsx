@@ -22,37 +22,9 @@ export default function Navbar() {
       name: 'Quiénes Somos', 
       href: '/quienes-somos',
       submenu: [
-        { name: 'Identidad Institucional y Enfoque', href: '/quienes-somos#identidad' },
-        { name: 'Marco Legal y Sede', href: '/quienes-somos#legal' },    
-        { name: 'Principios y Valores', href: '/quienes-somos#principios' } 
-      ]
-    },
-    
-    { 
-      name: 'Qué Hacemos', 
-      href: '/que-hacemos',
-      submenu: [
-        { name: 'Objeto de la Fundación', href: '/que-hacemos#objeto' },
-        { name: 'Líneas de Acción', href: '/que-hacemos#lineas-accion' }, 
-      ]
-    },
-    
-    { 
-      name: 'Programas', 
-      href: '/programas',
-      submenu: [
-        { name: 'Programas Estratégicos', href: '/programas#programas' },
-        { name: 'Proyectos Destacados', href: '/programas#proyectos' },
-      ]
-    },
-
-    {
-      name: 'Transparencia',
-      href: '/transparencia',
-      submenu: [
-        { name: 'Gobernanza', href: '/transparencia#gobernanza' },
-        { name: 'Régimen Económico', href: '/transparencia#economia' },
-        { name: 'Documentos Públicos', href: '/transparencia#documentos' }
+        { name: 'Qué hacemos', href: '/que-hacemos' },
+        { name: 'Programas y proyectos', href: '/programas' },
+        { name: 'Equipo', href: '/transparencia' },
       ]
     },
 
@@ -61,13 +33,21 @@ export default function Navbar() {
         href: '/noticias',
         submenu: [
             { name: 'Noticias', href: '/noticias#noticias' }, 
+            { name: 'Publicaciones', href: '/publicaciones' },
             { name: 'Biblioteca Técnica', href: '/noticias#biblioteca' },
-            { name: 'Boletines Informativos', href: '/noticias#boletines' } 
+            { name: 'Boletines Informativos', href: '/noticias#boletines' },
+            
         ]
     },
 
+    {
+        name: 'Revista Cientifica Forama', 
+        href: '/forama',
+    
+    },
+
      {
-        name: 'Como apoyar', 
+        name: 'Colabora', 
         href: '/como-apoyar',
         submenu: [
             { name: 'Donaciones', href: '/como-apoyar#donaciones' }, 
@@ -75,6 +55,8 @@ export default function Navbar() {
             { name: 'Voluntariado', href: '/como-apoyar#voluntariado' }
         ]
     },
+
+  
 
 
 
