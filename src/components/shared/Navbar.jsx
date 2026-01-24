@@ -34,7 +34,6 @@ export default function Navbar() {
         submenu: [
             { name: 'Noticias', href: '/noticias#noticias' }, 
             { name: 'Publicaciones', href: '/publicaciones' },
-            { name: 'Biblioteca Técnica', href: '/noticias#biblioteca' },
             { name: 'Boletines Informativos', href: '/noticias#boletines' },
             
         ]

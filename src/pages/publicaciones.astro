@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/shared/Navbar.jsx';
+import sql from '../lib/db.js'; // <--- CONEXIÓN A TU BASE DE DATOS
 import { 
   Search, 
   FileText, 
@@ -12,70 +13,24 @@ import {
   ChevronDown
 } from 'lucide-react';
 
-// --- DATOS DE EJEMPLO (MOCK DATA) ---
-// Pronto conectaremos esto a una tabla 'publicaciones' en tu BD
+// --- 1. CONSULTA A LA BASE DE DATOS (Artículos y Noticias) ---
+const articulos = await sql`
+    SELECT p.*, c.nombre as categoria_nombre 
+    FROM publicaciones p
+    LEFT JOIN categorias c ON p.categoria_id = c.id
+    WHERE p.tipo IN ('articulo')
+    ORDER BY p.fecha_publicacion DESC 
+    LIMIT 6
+`;
 
-const articulos = [
-  {
-    id: 1,
-    titulo: "El rol de las comunidades en la conservación del Jaguar",
-    fecha: "12 de Enero, 2026",
-    categoria: "Biodiversidad",
-    imagen: "https://images.unsplash.com/photo-1575550959106-5a7defe28b56?q=80&w=2070&auto=format&fit=crop",
-    resumen: "Un análisis sobre cómo el monitoreo comunitario ha logrado reducir el conflicto humano-felino en Pando."
-  },
-  {
-    id: 2,
-    titulo: "Nuevas tecnologías para el monitoreo de castaña",
-    fecha: "05 de Enero, 2026",
-    categoria: "Innovación",
-    imagen: "https://www.opinion.com.bo/asset/thumbnail,992,558,center,center/media/opinion/images/2016/10/09/2016S10132.jpg",
-    resumen: "Implementación de sensores remotos para predecir la productividad de los bosques de castaña."
-  },
-  {
-    id: 3,
-    titulo: "Mujeres líderes en la gestión forestal",
-    fecha: "28 de Diciembre, 2025",
-    categoria: "Género",
-    imagen: "https://images.unsplash.com/photo-1628126235206-5260b9ea6441?q=80&w=2070&auto=format&fit=crop",
-    resumen: "Historias de éxito de mujeres que encabezan las iniciativas de producción sostenible en la Amazonía."
-  }
-];
-
-const libros = [
-  {
-    id: 1,
-    titulo: "Informe de Gestión Ambiental 2025",
-    tipo: "Reporte Técnico",
-    year: "2025",
-    portada: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=800&auto=format&fit=crop", // Portada vertical
-    peso: "4.5 MB"
-  },
-  {
-    id: 2,
-    titulo: "Guía de Especies Amenazadas de Pando",
-    tipo: "Libro / Guía",
-    year: "2024",
-    portada: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=800&auto=format&fit=crop",
-    peso: "12.8 MB"
-  },
-  {
-    id: 3,
-    titulo: "Manual de Sistemas Agroforestales",
-    tipo: "Manual Técnico",
-    year: "2024",
-    portada: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=800&auto=format&fit=crop",
-    peso: "8.2 MB"
-  },
-  {
-    id: 4,
-    titulo: "Memorias del Congreso Amazónico",
-    tipo: "Compendio",
-    year: "2023",
-    portada: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=800&auto=format&fit=crop",
-    peso: "15.1 MB"
-  }
-];
+// --- 2. CONSULTA A LA BASE DE DATOS (Libros) ---
+const libros = await sql`
+    SELECT p.*, c.nombre as categoria_nombre 
+    FROM publicaciones p
+    LEFT JOIN categorias c ON p.categoria_id = c.id
+    WHERE p.tipo = 'libro'
+    ORDER BY p.fecha_publicacion DESC
+`;
 ---
 
 <Layout title="Noticias y Publicaciones | FORAMA">
@@ -102,7 +57,7 @@ const libros = [
             </span>
             
             <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 tracking-tight drop-shadow-2xl">
-                Articulos cientificos y <br class="hidden md:block" /> libros
+                Artículos científicos y <br class="hidden md:block" /> libros
             </h1>
             
             <p class="text-xl md:text-2xl text-gray-200 font-light max-w-3xl mx-auto leading-relaxed text-balance mb-12 drop-shadow-md">
@@ -130,7 +85,8 @@ const libros = [
     <div class="container mx-auto px-6 max-w-7xl py-24 relative z-20">
         
         <section class="mb-24">
-            <div class="flex items-center justify-between mb-12"> <h2 class="text-3xl md:text-4xl font-bold text-amazon-900 flex items-center gap-3">
+            <div class="flex items-center justify-between mb-12"> 
+                <h2 class="text-3xl md:text-4xl font-bold text-amazon-900 flex items-center gap-3">
                     <FileText className="text-earth-500" /> Artículos Recientes
                 </h2>
                 <a href="#" class="group text-amazon-600 font-bold hover:text-earth-500 transition-colors flex items-center gap-2 text-sm uppercase tracking-wider">
@@ -141,18 +97,20 @@ const libros = [
             <div class="grid md:grid-cols-3 gap-8">
                 {articulos.map(art => (
                     <article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-full border border-gray-100">
-                        <div class="relative h-64 overflow-hidden"> <img 
-                                src={art.imagen} 
+                        <div class="relative h-64 overflow-hidden"> 
+                            <img 
+                                src={art.imagen_portada} 
                                 alt={art.titulo} 
                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                             />
                             <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-bold text-amazon-700 uppercase tracking-wide shadow-sm">
-                                {art.categoria}
+                                {art.categoria_nombre}
                             </div>
                         </div>
                         <div class="p-8 flex-1 flex flex-col">
                             <div class="flex items-center gap-2 text-gray-400 text-xs font-medium mb-3 uppercase tracking-wider">
-                                <Calendar size={14} /> {art.fecha}
+                                <Calendar size={14} /> 
+                                {new Date(art.fecha_publicacion).toLocaleDateString('es-BO', { day: 'numeric', month: 'long', year: 'numeric' })}
                             </div>
                             <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-earth-600 transition-colors">
                                 {art.titulo}
@@ -160,7 +118,9 @@ const libros = [
                             <p class="text-gray-500 text-sm leading-relaxed mb-6 flex-1 line-clamp-3">
                                 {art.resumen}
                             </p>
-                            <a href="#" class="inline-flex items-center gap-2 text-amazon-700 font-bold text-sm hover:translate-x-1 transition-transform mt-auto">
+                            
+                            {/* ENLACE DINÁMICO AL SLUG */}
+                            <a href={`/publicaciones/${art.slug}`} class="inline-flex items-center gap-2 text-amazon-700 font-bold text-sm hover:translate-x-1 transition-transform mt-auto">
                                 Leer artículo <ArrowRight size={16} />
                             </a>
                         </div>
@@ -187,25 +147,35 @@ const libros = [
                     <div class="group relative">
                         <div class="relative aspect-[3/4] rounded-tr-2xl rounded-br-2xl shadow-[5px_5px_15px_rgba(0,0,0,0.15)] group-hover:shadow-[10px_10px_30px_rgba(0,0,0,0.2)] transition-all duration-300 bg-gray-200 overflow-hidden">
                             <img 
-                                src={libro.portada} 
+                                src={libro.imagen_portada} 
                                 alt={libro.titulo} 
                                 class="w-full h-full object-cover"
                             />
                             <div class="absolute inset-0 bg-amazon-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4 text-center">
                                 <span class="text-white font-bold text-lg mb-4">Descargar PDF</span>
-                                <button class="bg-earth-500 text-white p-3 rounded-full hover:bg-earth-600 hover:scale-110 transition-all">
+                                
+                                {/* ENLACE DINÁMICO DE DESCARGA */}
+                                <a 
+                                    href={libro.archivo_pdf} 
+                                    download 
+                                    class="bg-earth-500 text-white p-3 rounded-full hover:bg-earth-600 hover:scale-110 transition-all cursor-pointer"
+                                >
                                     <Download size={24} />
-                                </button>
-                                <span class="text-white/70 text-xs mt-4">{libro.peso}</span>
+                                </a>
+                                
+                                <span class="text-white/70 text-xs mt-4">{libro.peso_archivo}</span>
                             </div>
                         </div>
 
                         <div class="mt-5 space-y-1">
                             <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold text-earth-600 uppercase tracking-wider">{libro.tipo}</span>
-                                <span class="text-xs text-gray-400 font-mono">{libro.year}</span>
+                                {/* Usamos el nombre de la categoría como "Tipo" */}
+                                <span class="text-xs font-bold text-earth-600 uppercase tracking-wider truncate max-w-[70%]">
+                                    {libro.categoria_nombre}
+                                </span>
+                                <span class="text-xs text-gray-400 font-mono">{libro.anio_edicion}</span>
                             </div>
-                            <h3 class="text-lg font-bold text-gray-900 leading-tight group-hover:text-amazon-700 transition-colors cursor-pointer">
+                            <h3 class="text-lg font-bold text-gray-900 leading-tight group-hover:text-amazon-700 transition-colors cursor-pointer line-clamp-2">
                                 {libro.titulo}
                             </h3>
                         </div>
