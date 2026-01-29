@@ -17,22 +17,26 @@ const equipoEjecutivo = [
     {
         nombre: "Ing. Richard Andres Benitez Romero",
         cargo: "Director General",
-        foto: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop" 
+        foto: "/imags/material_organigrama/richard.png" 
     },
     {
         nombre: "Ph.D. Flora Magdaline Benitez Romero",
         cargo: "Coordinadora de Proyectos",
+        institucion: "INPA - Brasil",
+        cv: "http://lattes.cnpq.br/7246800278204204",
         foto: "/imags/material_organigrama/Flora.jpeg" 
     },
     {
         nombre: "Lic. Licet Rosario Benitez Romero",
         cargo: "Responsable de Finanzas",
-        foto: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=600&auto=format&fit=crop" 
+        foto: "/imags/material_organigrama/liset.png" 
     },
     {
         nombre: "Ph.D. Songila Maria da Silva Rocha Doi",
         cargo: "Relaciones Institucionales",
-        foto: "https://images.unsplash.com/photo-1598550874175-4d7112ee750c?q=80&w=600&auto=format&fit=crop" 
+        institucion: "FPP - Brasil   ",
+        cv: "http://lattes.cnpq.br/6268600027860423",
+        foto: "/imags/material_organigrama/Songila.jpg" 
     },
     {
         nombre: "Gabriela Benitez Lima",
@@ -40,56 +44,55 @@ const equipoEjecutivo = [
         foto: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop" 
     },
     {
-        nombre: "Jair",
-        cargo: "Diseño y Plataformas",
-        // HE CAMBIADO TU FOTO POR UN AVATAR GENÉRICO (J)
-        foto: "https://ui-avatars.com/api/?name=Jair&background=0D9488&color=fff&size=512" 
+        nombre: "Jair Noto Enriquez",
+        cargo: "Desarrollador Web Full Stack",
+        foto: "/imags/material_organigrama/jair.jpg" 
     }
 ];
+// --- DATOS DEL COMITÉ CIENTÍFICO ---
 
-// --- DATOS DEL COMITÉ CIENTÍFICO (Ahora con FOTOS) ---
 const comiteCientifico = [
     {
-        nombre: "Philip Martin Fearnside",
+        nombre: "Ph.D. Philip Martin Fearnside",
         titulo: "Doutor em Ciências Biológicas",
         institucion: "INPA - Brasil",
         cv: "http://lattes.cnpq.br/3176139653120353",
-        foto: "/imags/material_organigrama/Philip.png" // Foto temporal
+        foto: "/imags/material_organigrama/Philip.png" 
     },
     {
-        nombre: "Laércio Antônio Gonçalves Jacovine",
+        nombre: "Ph.D. Laércio Antônio Gonçalves Jacovine",
         titulo: "Doutor em Ciência Florestal",
         institucion: "UFV - Brasil",
         cv: "http://lattes.cnpq.br/1174194948048451",
-        foto: "/imags/material_organigrama/Laercio.jpeg" // Foto temporal
+        foto: "/imags/material_organigrama/Laercio.jpeg" 
     },
     {
-        nombre: "Edson José Vidal da Silva",
+        nombre: "Ph.D. Edson José Vidal da Silva",
         titulo: "Doutor em Ciências da Engenharia Ambiental",
         institucion: "ESALQ / USP",
         cv: "http://lattes.cnpq.br/3346897244302980",
-        foto: "/imags/material_organigrama/Edson_vidal.png" // Foto temporal
+        foto: "/imags/material_organigrama/Edson_vidal.png" 
     },
     {
-        nombre: "Rosana Barbosa de Castro Lopes",
+        nombre: "Ph.D. Rosana Barbosa de Castro Lopes",
         titulo: "Doutora em Ciências de Florestas Tropicais",
         institucion: "UFAM - Brasil",
         cv: "http://lattes.cnpq.br/7133099115834903",
-        foto: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600&auto=format&fit=crop" // Foto temporal
+        foto: "/imags/material_organigrama/rosana.png" 
     },
     {
-        nombre: "Vicente Toledo Machado de Morais Jr.",
+        nombre: "Ph.D. Vicente Toledo Machado de Morais Jr.",
         titulo: "Doutor em Ciência Florestal",
         institucion: "UFU - Brasil",
         cv: "http://lattes.cnpq.br/8998189475989255",
-        foto: "/imags/material_organigrama/Vicente.png" // Foto temporal
+        foto: "/imags/material_organigrama/Vicente.png" 
     },
     {
-        nombre: "Rosimeire Araújo Silva",
+        nombre: "Ph.D. Rosimeire Araújo Silva",
         titulo: "Doutora em Clima e Ambiente",
         institucion: "INPA - Brasil",
         cv: "http://lattes.cnpq.br/3176139653120353",
-        foto: "/imags/material_organigrama/Rosmeri.png" // Foto temporal
+        foto: "/imags/material_organigrama/Rosmeri.png" 
     }
 ];
 ---
@@ -111,15 +114,15 @@ const comiteCientifico = [
             
             <div class="relative z-10 container mx-auto px-4 text-center animate-fade-in-up pt-10">
                 <span class="inline-block py-1.5 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-green-300 font-bold tracking-widest uppercase text-xs mb-8 shadow-lg">
-                    Rendición de Cuentas
+                    Organigrama Institucional
                 </span>
                 
                 <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 tracking-tight drop-shadow-xl">
-                    Transparencia y<br/> Gobernanza
+                    Estructura y <br/> liderazgo 
                 </h1>
                 
                 <p class="text-xl md:text-3xl text-gray-200 font-light max-w-3xl mx-auto leading-relaxed text-balance drop-shadow-md">
-                    Gestión basada en la claridad, la ética y el compromiso con nuestros donantes y beneficiarios.
+                    Conoce al equipo multidisciplinario que impulsa nuestra misión, combinando <strong class="text-white font-medium">visión estratégica</strong> y <strong class="text-white font-medium">rigor científico</strong> para la conservación de la Amazonía.
                 </p>
             </div>
 
@@ -176,32 +179,58 @@ const comiteCientifico = [
                         <div class="grid xl:grid-cols-2 gap-20 w-full max-w-[95rem]">
                             
                             <div class="flex flex-col items-center relative">
+    
                                 <div class="h-8 w-1 bg-gray-300 xl:block hidden"></div>
                                 
-                                <div class="bg-blue-600 text-white px-6 py-2 rounded-full font-bold text-sm shadow-lg mb-8 border-4 border-blue-50 flex items-center gap-2 z-10">
-                                    <Network size={16} /> Nivel Ejecutivo
+                                <div class="relative z-10 inline-flex items-center gap-3 bg-amazon-950 px-8 py-3 rounded-full border border-amazon-700/50 shadow-[0_10px_20px_rgba(6,78,59,0.2)] mb-10 hover:scale-105 transition-transform duration-300 cursor-default">
+    
+                                    <span class="relative flex h-2.5 w-2.5">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500 border border-white/20"></span>
+                                    </span>
+
+                                    <span class="text-white font-bold uppercase text-[11px] tracking-[0.25em]">
+                                        Nivel Ejecutivo
+                                    </span>
                                 </div>
                                 
                                 <div class="grid sm:grid-cols-2 gap-6 w-full">
                                     {equipoEjecutivo.map(miembro => (
-                                        <div class="group relative h-[420px] rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
+                                        <div class="group relative h-[480px] rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
                                             
                                             <img 
                                                 src={miembro.foto} 
                                                 alt={miembro.nombre} 
-                                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale-[10%] group-hover:grayscale-0" 
                                             />
                                             
-                                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
                                             
-                                            <div class="absolute bottom-0 left-0 w-full p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                                                <div class="w-10 h-1 bg-blue-500 mb-3 rounded-full"></div>
-                                                <h4 class="text-white text-2xl font-extrabold leading-tight mb-2">
-                                                    {miembro.nombre}
-                                                </h4>
-                                                <p class="text-blue-200 font-bold uppercase tracking-widest text-xs">
-                                                    {miembro.cargo}
-                                                </p>
+                                            <div class="absolute bottom-0 left-0 w-full p-8 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                                
+                                                <div class="border-l-4 border-white pl-4">
+                                                    
+                                                    <p class="text-gray-300 font-bold uppercase tracking-[0.2em] text-[10px] mb-1">
+                                                        {miembro.cargo}
+                                                    </p>
+                                                    
+                                                    <h4 class="text-white text-2xl font-extrabold leading-tight">
+                                                        {miembro.nombre}
+                                                    </h4>
+                                                </div>
+
+                                                 <div class="flex items-center justify-between border-t border-white/20 pt-4 mt-4 pl-1">
+                                                    <span class="text-gray-400 text-[10px] uppercase font-bold tracking-wider truncate max-w-[150px]">
+                                                        {miembro.institucion}
+                                                    </span>
+                                                    
+                                                    {miembro.cv && (
+                                                        <a href={miembro.cv} target="_blank" class="bg-white/10 hover:bg-white text-white hover:text-black p-2 rounded-full transition-colors backdrop-blur-sm">
+                                                            <LinkIcon size={16} />
+                                                        </a>
+                                                    )}
+                                                </div>
+
                                             </div>
                                         </div>
                                     ))}
@@ -211,45 +240,58 @@ const comiteCientifico = [
                             <div class="flex flex-col items-center relative mt-16 xl:mt-0">
                                 <div class="h-8 w-1 bg-gray-300 xl:block hidden"></div>
                                 
-                                <div class="bg-purple-600 text-white px-6 py-2 rounded-full font-bold text-sm shadow-lg mb-8 border-4 border-purple-50 flex items-center gap-2 z-10">
-                                    <Award size={16} /> Nivel Científico
+                               <div class="relative z-10 inline-flex items-center gap-3 bg-gray-950 px-8 py-3 rounded-full border border-gray-800 shadow-[0_10px_20px_rgba(0,0,0,0.4)] mb-10 hover:scale-105 transition-transform duration-300 cursor-default">
+    
+                                    <span class="relative flex h-2.5 w-2.5">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-40"></span>
+                                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)]"></span>
+                                    </span>
+
+                                    <span class="text-white font-bold uppercase text-[11px] tracking-[0.25em]">
+                                        Nivel Científico
+                                    </span>
                                 </div>
 
                                 <div class="grid sm:grid-cols-2 gap-6 w-full">
                                     {comiteCientifico.map(doc => (
-                                        <div class="group relative h-[420px] rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
+                                        <div class="group relative h-[480px] rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
                                             
                                             <img 
                                                 src={doc.foto} 
                                                 alt={doc.nombre} 
-                                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale-[10%] group-hover:grayscale-0" 
                                             />
                                             
-                                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
                                             
-                                            <div class="absolute bottom-0 left-0 w-full p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                                                <h4 class="text-white text-xl font-bold leading-tight mb-1 drop-shadow-md">
-                                                    {doc.nombre}
-                                                </h4>
-                                                <p class="text-purple-300 text-sm font-medium mb-3">
-                                                    {doc.titulo}
-                                                </p>
+                                            <div class="absolute bottom-0 left-0 w-full p-8 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                                                 
-                                                <div class="flex justify-between items-end border-t border-white/20 pt-3">
-                                                    <span class="text-white/80 text-[10px] uppercase font-bold tracking-wider">
+                                                <div class="border-l-4 border-white pl-4">
+                                                    <p class="text-gray-300 font-bold uppercase tracking-[0.2em] text-[10px] mb-1">
+                                                        {doc.titulo}
+                                                    </p>
+                                                    <h4 class="text-white text-2xl font-extrabold leading-tight mb-2">
+                                                        {doc.nombre}
+                                                    </h4>
+                                                </div>
+
+                                                <div class="flex items-center justify-between border-t border-white/20 pt-4 mt-4 pl-1">
+                                                    <span class="text-gray-400 text-[10px] uppercase font-bold tracking-wider truncate max-w-[150px]">
                                                         {doc.institucion}
                                                     </span>
                                                     
-                                                    <a href={doc.cv} target="_blank" class="bg-white/10 hover:bg-white text-white hover:text-purple-900 p-2 rounded-full transition-colors backdrop-blur-sm">
-                                                        <LinkIcon size={18} />
-                                                    </a>
+                                                    {doc.cv && (
+                                                        <a href={doc.cv} target="_blank" class="bg-white/10 hover:bg-white text-white hover:text-black p-2 rounded-full transition-colors backdrop-blur-sm">
+                                                            <LinkIcon size={16} />
+                                                        </a>
+                                                    )}
                                                 </div>
+
                                             </div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -280,4 +322,4 @@ const comiteCientifico = [
         </section>
 
     </main>
-</Layout>
+</Layout>   
