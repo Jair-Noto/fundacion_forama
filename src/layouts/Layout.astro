@@ -21,6 +21,18 @@ const { title } = Astro.props;
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
         
         <ClientRouter />
+
+        <script is:inline>
+            (function() {
+                try {
+                    var lang = localStorage.getItem('forama_lang');
+                    // Si hay idioma guardado y NO es español, activamos el modo fantasma
+                    if (lang && lang !== 'es') {
+                        document.documentElement.classList.add('translating-cloak');
+                    }
+                } catch (e) {}
+            })();
+        </script>
     </head>
     <body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
         
@@ -29,5 +41,112 @@ const { title } = Astro.props;
             <Footer /> 
         </div>
 
+        <div transition:persist>
+            <div id="google_translate_element" style="display:none;"></div>
+
+            <script is:inline>
+                window.googleTranslateElementInit = function() {
+                    new google.translate.TranslateElement({
+                        pageLanguage: 'es', 
+                        includedLanguages: 'es,en,pt', 
+                        autoDisplay: false
+                    }, 'google_translate_element');
+                };
+            </script>
+            <script is:inline src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+            <script is:inline>
+                // Función de Cookies y Traducción
+                function setGoogleCookie(langValue) {
+                    var d = new Date();
+                    d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000));
+                    var expires = "expires=" + d.toUTCString();
+                    if (langValue === 'es') {
+                        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + window.location.hostname;
+                    } else {
+                        var cookieValue = "/es/" + langValue;
+                        document.cookie = "googtrans=" + cookieValue + ";" + expires + ";path=/";
+                        document.cookie = "googtrans=" + cookieValue + ";" + expires + ";path=/;domain=" + window.location.hostname;
+                    }
+                }
+
+                window.doGTranslate = function(lang_pair) {
+                    try {
+                        if (!lang_pair) return;
+                        var lang = lang_pair.split('|')[1];
+                        setGoogleCookie(lang);
+                        localStorage.setItem('forama_lang', lang);
+                        
+                        var teCombo = document.querySelector('.goog-te-combo');
+                        if (teCombo) {
+                            teCombo.value = lang;
+                            teCombo.dispatchEvent(new Event('change'));
+                        }
+                        
+                        // Si cambiamos manualmente, quitamos la capa inmediatamente
+                        document.documentElement.classList.remove('translating-cloak');
+                    } catch(err) {}
+                }
+            </script>
+        </div>
+
+        <script is:inline>
+            document.addEventListener('astro:page-load', () => {
+                const savedLang = localStorage.getItem('forama_lang');
+                
+                // Si estamos en español, mostramos inmediatamente
+                if (!savedLang || savedLang === 'es') {
+                    document.documentElement.classList.remove('translating-cloak');
+                    return;
+                }
+
+                // Si es otro idioma, forzamos traducción y esperamos un poco
+                if (savedLang && savedLang !== 'es') {
+                    const teCombo = document.querySelector('.goog-te-combo');
+                    if (teCombo) {
+                        teCombo.value = savedLang;
+                        teCombo.dispatchEvent(new Event('change'));
+                    }
+
+                    // Esperamos 250ms a que Google traduzca (ajustable)
+                    setTimeout(() => {
+                        document.documentElement.classList.remove('translating-cloak');
+                    }, 250); 
+                    
+                    // SEGURIDAD: Por si Google falla, mostrar la página sí o sí al segundo
+                    setTimeout(() => {
+                        document.documentElement.classList.remove('translating-cloak');
+                    }, 1000);
+                }
+            });
+        </script>
+
+        <style is:global>
+            /* Clase que oculta la web mientras se traduce */
+            html.translating-cloak body {
+                opacity: 0 !important;
+                visibility: hidden !important;
+                transition: none !important; /* Ocultar instantáneo */
+            }
+
+            /* Cuando quitamos la clase, aparece suavemente */
+            body {
+                opacity: 1;
+                visibility: visible;
+                transition: opacity 0.4s ease-in-out; /* Aparición suave y elegante */
+            }
+
+            /* CSS NUCLEAR (Ocultar barras de Google) */
+            .goog-te-banner-frame { display: none !important; visibility: hidden !important; height: 0 !important; width: 0 !important; }
+            iframe.goog-te-banner-frame { display: none !important; visibility: hidden !important; height: 0 !important; }
+            .skiptranslate { display: none !important; }
+            body > .skiptranslate { display: none !important; }
+            body { top: 0px !important; position: static !important; }
+            .goog-tooltip { display: none !important; }
+            .goog-te-gadget-icon { display: none !important; }
+            #goog-gt-tt { display: none !important; visibility: hidden !important; }
+            font { background-color: transparent !important; box-shadow: none !important; }
+        </style>
     </body>
 </html>
