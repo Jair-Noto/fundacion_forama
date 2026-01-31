@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/shared/Navbar.jsx';
-import sql from '../lib/db.js'; // <--- CONEXIÓN A TU BASE DE DATOS
+import sql from '../lib/db.js'; 
 import { 
   Search, 
   FileText, 
@@ -34,7 +34,8 @@ const libros = await sql`
 ---
 
 <Layout title="Noticias y Publicaciones | FORAMA">
-  <Navbar client:load />
+  
+  <Navbar client:load transition:persist />
 
   <main class="bg-stone-50 min-h-screen pb-20">
 
@@ -119,7 +120,6 @@ const libros = await sql`
                                 {art.resumen}
                             </p>
                             
-                            {/* ENLACE DINÁMICO AL SLUG */}
                             <a href={`/publicaciones/${art.slug}`} class="inline-flex items-center gap-2 text-amazon-700 font-bold text-sm hover:translate-x-1 transition-transform mt-auto">
                                 Leer artículo <ArrowRight size={16} />
                             </a>
@@ -154,7 +154,6 @@ const libros = await sql`
                             <div class="absolute inset-0 bg-amazon-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4 text-center">
                                 <span class="text-white font-bold text-lg mb-4">Descargar PDF</span>
                                 
-                                {/* ENLACE DINÁMICO DE DESCARGA */}
                                 <a 
                                     href={libro.archivo_pdf} 
                                     download 
@@ -169,7 +168,6 @@ const libros = await sql`
 
                         <div class="mt-5 space-y-1">
                             <div class="flex items-center justify-between">
-                                {/* Usamos el nombre de la categoría como "Tipo" */}
                                 <span class="text-xs font-bold text-earth-600 uppercase tracking-wider truncate max-w-[70%]">
                                     {libro.categoria_nombre}
                                 </span>
