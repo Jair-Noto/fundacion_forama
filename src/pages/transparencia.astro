@@ -2,66 +2,108 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/shared/Navbar.jsx';
 import { 
-    FileText, 
-    Download, 
     ShieldCheck, 
     Users, 
-    Building2, 
     Gavel, 
-    ChevronDown,
-    Search, 
-    MapPin
+    ChevronDown, 
+    Link as LinkIcon,
+    Network,
+    Award
 } from 'lucide-react';
+import { imageConfig } from 'astro:assets';
 
-// DATOS DE DOCUMENTOS PARA DESCARGAR
-const documentos = [
+// --- DATOS DEL NIVEL EJECUTIVO ---
+const equipoEjecutivo = [
     {
-        titulo: "Estatuto Orgánico",
-        desc: "Marco legal y normativo de la Fundación.",
-        tipo: "PDF",
-        size: "2.4 MB"
+        nombre: "Ing. Richard Andres Benitez Romero",
+        cargo: "Director General",
+        foto: "/imags/material_organigrama/richard.jpg" 
     },
     {
-        titulo: "Memoria Anual 2024",
-        desc: "Resumen de actividades, logros e impacto.",
-        tipo: "PDF",
-        size: "5.1 MB"
+        nombre: "Ph.D. Flora Magdaline Benitez Romero",
+        cargo: "Coordinadora de Proyectos",
+        institucion: "INPA - Brasil",
+        cv: "http://lattes.cnpq.br/7246800278204204",
+        foto: "/imags/material_organigrama/Flora.jpeg" 
     },
     {
-        titulo: "Presupuesto Aprobado",
-        desc: "Planificación financiera anual gestión vigente.",
-        tipo: "PDF",
-        size: "1.2 MB"
+        nombre: "Lic. Licet Rosario Benitez Romero",
+        cargo: "Responsable de Finanzas",
+        foto: "/imags/material_organigrama/liset.png" 
     },
     {
-        titulo: "Estados Financieros",
-        desc: "Reporte auditado de ejecución de recursos.",
-        tipo: "PDF",
-        size: "3.8 MB"
+        nombre: "Ph.D. Songila Maria da Silva Rocha Doi",
+        cargo: "Relaciones Institucionales",
+        institucion: "FPP - Brasil   ",
+        cv: "http://lattes.cnpq.br/6268600027860423",
+        foto: "/imags/material_organigrama/Songila.jpg" 
     },
     {
-        titulo: "Lista de Aliados",
-        desc: "Registro de cooperantes y socios estratégicos.",
-        tipo: "PDF",
-        size: "0.8 MB"
+        nombre: "Gabriela Benitez Lima",
+        cargo: "Responsable de Comunicación",
+        foto: "/imags/material_organigrama/gabriela.jpg" 
     },
     {
-        titulo: "Políticas Institucionales",
-        desc: "Ética, anticorrupción, salvaguardas y género.",
-        tipo: "PDF",
-        size: "1.5 MB"
+        nombre: "Jair Noto Enriquez",
+        cargo: "Desarrollador Web Full Stack",
+        foto: "/imags/material_organigrama/jair.jpg" 
+    }
+];
+// --- DATOS DEL COMITÉ CIENTÍFICO ---
+
+const comiteCientifico = [
+    {
+        nombre: "Ph.D. Philip Martin Fearnside",
+        titulo: "Doutor em Ciências Biológicas",
+        institucion: "INPA - Brasil",
+        cv: "http://lattes.cnpq.br/3176139653120353",
+        foto: "/imags/material_organigrama/Philip.png" 
+    },
+    {
+        nombre: "Ph.D. Laércio Antônio Gonçalves Jacovine",
+        titulo: "Doutor em Ciência Florestal",
+        institucion: "UFV - Brasil",
+        cv: "http://lattes.cnpq.br/1174194948048451",
+        foto: "/imags/material_organigrama/Laercio.jpeg" 
+    },
+    {
+        nombre: "Ph.D. Edson José Vidal da Silva",
+        titulo: "Doutor em Ciências da Engenharia Ambiental",
+        institucion: "ESALQ / USP",
+        cv: "http://lattes.cnpq.br/3346897244302980",
+        foto: "/imags/material_organigrama/Edson_vidal.png" 
+    },
+    {
+        nombre: "Ph.D. Rosana Barbosa de Castro Lopes",
+        titulo: "Doutora em Ciências de Florestas Tropicais",
+        institucion: "UFAM - Brasil",
+        cv: "http://lattes.cnpq.br/7133099115834903",
+        foto: "/imags/material_organigrama/rosana.png" 
+    },
+    {
+        nombre: "Ph.D. Vicente Toledo Machado de Morais Jr.",
+        titulo: "Doutor em Ciência Florestal",
+        institucion: "UFU - Brasil",
+        cv: "http://lattes.cnpq.br/8998189475989255",
+        foto: "/imags/material_organigrama/Vicente.png" 
+    },
+    {
+        nombre: "Ph.D. Rosimeire Araújo Silva",
+        titulo: "Doutora em Clima e Ambiente",
+        institucion: "INPA - Brasil",
+        cv: "http://lattes.cnpq.br/3176139653120353",
+        foto: "/imags/material_organigrama/Rosmeri.png" 
     }
 ];
 ---
 
-<Layout title="Transparencia">
+<Layout title="Transparencia y Gobernanza | FORAMA">
     
     <Navbar client:load transition:persist />
 
-    <main>
+    <main class="bg-stone-50">
         
         <section class="relative h-screen flex items-center justify-center bg-amazon-900 text-white overflow-hidden">
-            
             <img 
                 src="/imags/material_transpariencia/transpariencia.jpg" 
                 alt="Transparencia y Gobernanza" 
@@ -70,15 +112,17 @@ const documentos = [
             
             <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 z-0"></div>
             
-            <div class="relative z-10 container mx-auto px-4 text-center animate-fade-in-up">
+            <div class="relative z-10 container mx-auto px-4 text-center animate-fade-in-up pt-10">
                 <span class="inline-block py-1.5 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-green-300 font-bold tracking-widest uppercase text-xs mb-8 shadow-lg">
-                    Rendición de Cuentas
+                    Organigrama Institucional
                 </span>
+                
                 <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 tracking-tight drop-shadow-xl">
-                    Transparencia y<br/> Gobernanza
+                    Estructura y <br/> liderazgo 
                 </h1>
-                <p class="text-xl md:text-3xl text-gray-200 font-light max-w-3xl mx-auto leading-relaxed text-balance">
-                    Nuestra gestión se basa en la claridad, la ética y el compromiso con nuestros donantes y beneficiarios.
+                
+                <p class="text-xl md:text-3xl text-gray-200 font-light max-w-3xl mx-auto leading-relaxed text-balance drop-shadow-md">
+                    Conoce al equipo multidisciplinario que impulsa nuestra misión, combinando <strong class="text-white font-medium">visión estratégica</strong> y <strong class="text-white font-medium">rigor científico</strong> para la conservación de la Amazonía.
                 </p>
             </div>
 
@@ -87,78 +131,178 @@ const documentos = [
             </div>
         </section>
 
-        <section id="gobernanza" class="py-32 bg-stone-50">
-            <div class="container mx-auto px-4 max-w-5xl">
+        <section id="gobernanza" class="py-24 relative overflow-hidden">
+            <div class="container mx-auto px-4 max-w-[95rem] relative z-10">
                 
-                <div class="text-center mb-20">
-                    <h2 class="text-4xl md:text-5xl font-extrabold text-amazon-900 mb-6">Estructura de Gobernanza</h2>
-                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                        FORAMA Amazónica se organiza bajo una estructura sólida que garantiza la correcta toma de decisiones.
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-amazon-900 mb-4">Estructura Orgánica</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Organización sólida para la toma de decisiones.
                     </p>
                 </div>
 
-                <div class="relative flex flex-col items-center gap-10">
+                <div class="flex flex-col items-center w-full">
                     
-                    <div class="w-full max-w-md bg-amazon-900 text-white p-8 rounded-2xl shadow-xl text-center relative z-10 border-b-8 border-earth-500">
-                        <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-earth-500 w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+                    <div class="relative z-10 bg-amazon-900 text-white p-6 rounded-2xl shadow-xl text-center border-b-4 border-earth-500 w-full max-w-md hover:scale-105 transition-transform duration-300">
+                        <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-earth-500 p-3 rounded-full shadow-lg border-4 border-stone-50">
                             <Users size={24} className="text-white" />
                         </div>
-                        <h3 class="text-2xl font-bold mb-2 pt-4">Asamblea General</h3>
-                        <p class="text-amazon-200 text-sm uppercase tracking-widest font-bold">Máxima Autoridad</p>
+                        <h3 class="text-2xl font-bold mt-4">Asamblea General</h3>
+                        <p class="text-amazon-200 text-xs uppercase tracking-widest mt-1 font-bold">Nivel Normativo y Deliberante</p>
                     </div>
 
-                    <div class="w-1 h-10 bg-gray-300 -my-5"></div>
+                    <div class="h-12 w-1 bg-gray-300"></div>
 
-                    <div class="w-full max-w-2xl bg-white p-10 rounded-3xl shadow-lg border border-gray-200 text-center relative z-10">
-                        <div class="flex items-center justify-center gap-3 mb-6">
-                            <Gavel size={28} className="text-amazon-600" />
+                    <div class="relative z-10 bg-white p-8 rounded-3xl shadow-lg border border-gray-200 text-center w-full max-w-4xl">
+                        <div class="flex flex-col items-center mb-6">
+                            <div class="bg-amazon-50 p-3 rounded-full text-amazon-700 mb-2">
+                                <Gavel size={28} />
+                            </div>
                             <h3 class="text-2xl font-bold text-amazon-900">Directorio</h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-bold">Nivel Directivo</p>
                         </div>
-                        <p class="text-gray-500 mb-6 text-sm uppercase tracking-wide">Órgano Representativo y Fiscalizador</p>
                         
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            {['Presidencia', 'Secretaría', 'Tesorería', 'Vocalía'].map((cargo) => (
-                                <div class="bg-gray-50 py-3 px-4 rounded-xl text-sm font-bold text-gray-700 border border-gray-100">
+                            {['Presidencia', 'Secretaría General', 'Secretaría de Finanzas', 'Vocalía'].map((cargo) => (
+                                <div class="bg-gray-50 py-3 px-2 rounded-xl text-sm font-bold text-gray-700 border border-gray-100 shadow-sm">
                                     {cargo}
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    <div class="w-1 h-10 bg-gray-300 -my-5"></div>
-
-                    <div class="grid md:grid-cols-2 gap-8 w-full">
+                    <div class="h-16 w-1 bg-gray-300"></div>
+                    
+                    <div class="flex w-full justify-center relative">
+                        <div class="absolute top-0 left-[20%] right-[20%] h-1 bg-gray-300 hidden xl:block"></div>
                         
-                        <div class="bg-white p-8 rounded-2xl shadow-md border-l-4 border-blue-500 flex items-center gap-4 hover:-translate-y-1 transition-transform">
-                            <div class="bg-blue-50 p-3 rounded-full text-blue-600">
-                                <Building2 size={24} />
+                        <div class="grid xl:grid-cols-2 gap-20 w-full max-w-[95rem]">
+                            
+                            <div class="flex flex-col items-center relative">
+    
+                                <div class="h-8 w-1 bg-gray-300 xl:block hidden"></div>
+                                
+                                <div class="relative z-10 inline-flex items-center gap-3 bg-amazon-950 px-8 py-3 rounded-full border border-amazon-700/50 shadow-[0_10px_20px_rgba(6,78,59,0.2)] mb-10 hover:scale-105 transition-transform duration-300 cursor-default">
+    
+                                    <span class="relative flex h-2.5 w-2.5">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500 border border-white/20"></span>
+                                    </span>
+
+                                    <span class="text-white font-bold uppercase text-[11px] tracking-[0.25em]">
+                                        Nivel Ejecutivo
+                                    </span>
+                                </div>
+                                
+                                <div class="grid sm:grid-cols-2 gap-6 w-full">
+                                    {equipoEjecutivo.map(miembro => (
+                                        <div class="group relative h-[480px] rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
+                                            
+                                            <img 
+                                                src={miembro.foto} 
+                                                alt={miembro.nombre} 
+                                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale-[10%] group-hover:grayscale-0" 
+                                            />
+                                            
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                                            
+                                            <div class="absolute bottom-0 left-0 w-full p-8 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                                
+                                                <div class="border-l-4 border-white pl-4">
+                                                    
+                                                    <p class="text-gray-300 font-bold uppercase tracking-[0.2em] text-[10px] mb-1">
+                                                        {miembro.cargo}
+                                                    </p>
+                                                    
+                                                    <h4 class="text-white text-2xl font-extrabold leading-tight">
+                                                        {miembro.nombre}
+                                                    </h4>
+                                                </div>
+
+                                                 <div class="flex items-center justify-between border-t border-white/20 pt-4 mt-4 pl-1">
+                                                    <span class="text-gray-400 text-[10px] uppercase font-bold tracking-wider truncate max-w-[150px]">
+                                                        {miembro.institucion}
+                                                    </span>
+                                                    
+                                                    {miembro.cv && (
+                                                        <a href={miembro.cv} target="_blank" class="bg-white/10 hover:bg-white text-white hover:text-black p-2 rounded-full transition-colors backdrop-blur-sm">
+                                                            <LinkIcon size={16} />
+                                                        </a>
+                                                    )}
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="font-bold text-lg text-gray-900">Dirección Ejecutiva</h4>
-                                <p class="text-sm text-gray-500">Ejecución y gestión institucional.</p>
+
+                            <div class="flex flex-col items-center relative mt-16 xl:mt-0">
+                                <div class="h-8 w-1 bg-gray-300 xl:block hidden"></div>
+                                
+                               <div class="relative z-10 inline-flex items-center gap-3 bg-gray-950 px-8 py-3 rounded-full border border-gray-800 shadow-[0_10px_20px_rgba(0,0,0,0.4)] mb-10 hover:scale-105 transition-transform duration-300 cursor-default">
+    
+                                    <span class="relative flex h-2.5 w-2.5">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-40"></span>
+                                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)]"></span>
+                                    </span>
+
+                                    <span class="text-white font-bold uppercase text-[11px] tracking-[0.25em]">
+                                        Nivel Científico
+                                    </span>
+                                </div>
+
+                                <div class="grid sm:grid-cols-2 gap-6 w-full">
+                                    {comiteCientifico.map(doc => (
+                                        <div class="group relative h-[480px] rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
+                                            
+                                            <img 
+                                                src={doc.foto} 
+                                                alt={doc.nombre} 
+                                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale-[10%] group-hover:grayscale-0" 
+                                            />
+                                            
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                                            
+                                            <div class="absolute bottom-0 left-0 w-full p-8 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                                
+                                                <div class="border-l-4 border-white pl-4">
+                                                    <p class="text-gray-300 font-bold uppercase tracking-[0.2em] text-[10px] mb-1">
+                                                        {doc.titulo}
+                                                    </p>
+                                                    <h4 class="text-white text-2xl font-extrabold leading-tight mb-2">
+                                                        {doc.nombre}
+                                                    </h4>
+                                                </div>
+
+                                                <div class="flex items-center justify-between border-t border-white/20 pt-4 mt-4 pl-1">
+                                                    <span class="text-gray-400 text-[10px] uppercase font-bold tracking-wider truncate max-w-[150px]">
+                                                        {doc.institucion}
+                                                    </span>
+                                                    
+                                                    {doc.cv && (
+                                                        <a href={doc.cv} target="_blank" class="bg-white/10 hover:bg-white text-white hover:text-black p-2 rounded-full transition-colors backdrop-blur-sm">
+                                                            <LinkIcon size={16} />
+                                                        </a>
+                                                    )}
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
-
-                        <div class="bg-white p-8 rounded-2xl shadow-md border-l-4 border-green-500 flex items-center gap-4 hover:-translate-y-1 transition-transform">
-                            <div class="bg-green-50 p-3 rounded-full text-green-600">
-                                <MapPin size={24} />
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-lg text-gray-900">Representaciones</h4>
-                                <p class="text-sm text-gray-500">Operación territorial departamental.</p>
-                            </div>
-                        </div>
-
                     </div>
-
                 </div>
+
             </div>
         </section>
 
-        <section id="economia" class="py-24 bg-white">
+        <section id="economia" class="py-24 bg-white relative">
             <div class="container mx-auto px-4 max-w-4xl">
-                <div class="bg-amazon-50 rounded-[2.5rem] p-12 md:p-16 border border-amazon-100 text-center relative overflow-hidden">
-                    <ShieldCheck className="absolute top-0 right-0 -mt-10 -mr-10 text-amazon-100 w-64 h-64 opacity-50" />
+                <div class="bg-stone-100 rounded-[2.5rem] p-12 md:p-16 border border-stone-200 text-center relative overflow-hidden shadow-inner">
+                    <ShieldCheck className="absolute top-0 right-0 -mt-10 -mr-10 text-stone-200 w-64 h-64 opacity-50" />
                     
                     <div class="relative z-10">
                         <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm text-amazon-600">
@@ -177,49 +321,5 @@ const documentos = [
             </div>
         </section>
 
-        <section id="documentos" class="py-32 bg-stone-50 border-t border-gray-200">
-            <div class="container mx-auto px-4 max-w-6xl">
-                
-                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                    <div>
-                        <span class="text-amazon-600 font-bold uppercase tracking-widest text-sm">Acceso a la Información</span>
-                        <h2 class="text-4xl font-extrabold text-amazon-900 mt-2">Documentos Públicos</h2>
-                    </div>
-                    <div class="bg-white px-4 py-2 rounded-full border border-gray-300 flex items-center gap-2 text-gray-400 w-full md:w-auto">
-                        <Search size={18} />
-                        <span class="text-sm">Buscar documento...</span>
-                    </div>
-                </div>
-
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {documentos.map((doc) => (
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:border-amazon-200 transition-all group">
-                            <div class="flex justify-between items-start mb-4">
-                                <div class="p-3 bg-gray-50 rounded-lg text-amazon-600 group-hover:bg-amazon-50 transition-colors">
-                                    <FileText size={24} />
-                                </div>
-                                <span class="text-xs font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded">{doc.tipo}</span>
-                            </div>
-                            
-                            <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-amazon-700 transition-colors">{doc.titulo}</h3>
-                            <p class="text-sm text-gray-500 mb-6 line-clamp-2">{doc.desc}</p>
-                            
-                            <button class="w-full py-2.5 rounded-xl border border-gray-200 text-gray-600 font-bold text-sm flex items-center justify-center gap-2 group-hover:bg-amazon-900 group-hover:text-white group-hover:border-amazon-900 transition-all">
-                                <Download size={16} /> Descargar
-                                <span class="text-xs font-normal opacity-70">({doc.size})</span>
-                            </button>
-                        </div>
-                    ))}
-                </div>
-
-                <div class="mt-12 p-6 bg-blue-50 rounded-xl border border-blue-100 text-center">
-                    <p class="text-blue-800 text-sm">
-                        <strong>Nota:</strong> Si requieres información adicional específica, puedes solicitarla formalmente a través de nuestro <a href="/contacto" class="underline hover:text-blue-600">canal de contacto</a>.
-                    </p>
-                </div>
-
-            </div>
-        </section>
-
     </main>
-</Layout>
+</Layout>   
