@@ -1,17 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Heart, ChevronDown } from 'lucide-react';
+import { Menu, X, Heart, ChevronDown, Globe } from 'lucide-react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false); // Menú móvil
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileSubmenu, setMobileSubmenu] = useState(null); // Estado para acordeón móvil
-
+  
   // Detectar scroll para cambiar el diseño (Transparente -> Blanco)
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // --- FUNCIÓN DE TRADUCCIÓN SEGURA ---
+  const changeLang = (langCode) => {
+    if (typeof window.doGTranslate === 'function') {
+      window.doGTranslate(`es|${langCode}`);
+      setIsOpen(false); 
+    } else {
+      console.warn("Google Translate script not loaded yet");
+    }
+  };
 
   // --- MAPA DEL SITIO ---
   const menuItems = [
@@ -36,7 +46,7 @@ export default function Navbar() {
     },
     {
         name: 'Revista Cientifica Forama', 
-        href: '/forama',
+        href: '/revista',
     },
     {
         name: 'Colabora', 
@@ -51,13 +61,13 @@ export default function Navbar() {
   ];
 
   // Clases dinámicas de estilo
-const navBg = isScrolled 
-    ? 'bg-white/95 backdrop-blur-md shadow-md py-2' // py-2 es un relleno pequeño y elegante
+  const navBg = isScrolled 
+    ? 'bg-white/95 backdrop-blur-md shadow-md py-2' 
     : 'bg-transparent py-1';
 
   const textColor = isScrolled ? 'text-amazon-900' : 'text-white';
   
-  // Ajustes para móviles (siempre oscuro si está abierto)
+  // Ajustes para móviles
   const finalTextColor = isOpen ? 'text-amazon-900' : textColor;
   const burgerColor = isOpen ? 'text-amazon-800' : textColor;
 
@@ -71,7 +81,7 @@ const navBg = isScrolled
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-between">
           
-         {/* 1. LOGOTIPO CON IMAGEN (Dinámico: Grande arriba, Compacto al bajar) */}
+          {/* 1. LOGOTIPO */}
           <a href="/" className="flex items-center gap-2 group z-50 relative">
             <img 
               src="/imags/material_navbar/logo_FORAMA.png" 
@@ -79,19 +89,54 @@ const navBg = isScrolled
               className={`
                 w-auto object-contain transition-all duration-500
                 ${isScrolled 
-                  ? 'h-16 md:h-20'  // AL BAJAR: Se hace más pequeño (barra delgada)
-                  : 'h-20 md:h-28'  // ARRIBA: Se mantiene GIGANTE e impactante
+                  ? 'h-16 md:h-20' 
+                  : 'h-20 md:h-28' 
                 }
                 ${isScrolled || isOpen 
-                  ? '' // Fondo blanco: Logo verde normal
-                  : 'brightness-0 invert drop-shadow-[0_0_8px_rgba(74,222,128,1)]' // Fondo oscuro: Logo blanco brillante
+                  ? '' 
+                  : 'brightness-0 invert drop-shadow-[0_0_8px_rgba(74,222,128,1)]' 
                 }
               `}
             />
           </a>
           
-          {/* 2. BOTONES DERECHA (Donar + Hamburguesa) */}
-          <div className="flex lg:order-2 gap-2 z-50 relative">
+          {/* 2. BOTONES DERECHA */}
+          <div className="flex lg:order-2 gap-2 z-50 relative items-center">
+            
+            {/* --- BOTÓN DE IDIOMA --- */}
+            <div className="relative group h-full flex items-center">
+                
+                <button className={`flex items-center gap-1 p-2 rounded-full transition-colors hover:bg-black/5 outline-none ${burgerColor}`}>
+                    <Globe size={20} />
+                    <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-300" />
+                </button>
+
+                {/* MENÚ DESPLEGABLE */}
+                <div className="absolute top-full right-0 pt-2 w-40 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 ease-out">
+                    <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden p-1.5">
+                        
+                        {/* AQUI ESTÁ EL CAMBIO: Agregué la clase 'notranslate' a los SPAN de códigos */}
+                        
+                        <button onClick={() => changeLang('es')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm text-gray-700 hover:bg-amazon-50 hover:text-amazon-700 rounded-xl transition-colors font-bold group/item">
+                            <span className="notranslate text-[10px] uppercase text-gray-400 font-extrabold w-5 group-hover/item:text-amazon-600">ES</span> 
+                            Español
+                        </button>
+                        
+                        <button onClick={() => changeLang('en')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm text-gray-700 hover:bg-amazon-50 hover:text-amazon-700 rounded-xl transition-colors font-bold group/item">
+                            <span className="notranslate text-[10px] uppercase text-gray-400 font-extrabold w-5 group-hover/item:text-amazon-600">US</span> 
+                            English
+                        </button>
+                        
+                        <button onClick={() => changeLang('pt')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm text-gray-700 hover:bg-amazon-50 hover:text-amazon-700 rounded-xl transition-colors font-bold group/item">
+                            <span className="notranslate text-[10px] uppercase text-gray-400 font-extrabold w-5 group-hover/item:text-amazon-600">BR</span> 
+                            Português
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            {/* --- FIN BOTÓN IDIOMA --- */}
+
             <a href="/como-apoyar" className={`
                 hidden sm:flex items-center gap-2 font-bold rounded-full text-xs px-5 py-2 transition-all transform hover:scale-105 shadow-lg
                 ${isScrolled 
@@ -123,7 +168,6 @@ const navBg = isScrolled
               {menuItems.map((item, index) => (
                 <li key={item.name} className="relative group">
                   
-                  {/* --- SI TIENE SUBMENÚ --- */}
                   {item.submenu ? (
                     <>
                       <div className="flex items-center justify-between w-full lg:w-auto">
