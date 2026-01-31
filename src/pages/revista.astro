@@ -271,111 +271,33 @@ const journalData = {
     </main>
 
 </Layout>
-
 <script is:inline>
     document.addEventListener('astro:page-load', () => {
         const nav = document.querySelector('nav');
         
         const updateNavStyle = () => {
+            if (!nav) return;
             if (window.scrollY < 50) {
-                // ESTAMOS ARRIBA: Ponemos modo oscuro
-                nav.classList.add('nav-dark-mode');
+                // Arriba: Modo oscuro
+                if (!nav.classList.contains('nav-dark-mode')) nav.classList.add('nav-dark-mode');
             } else {
-                // BAJAMOS: Quitamos modo oscuro (vuelve al blanco original)
-                nav.classList.remove('nav-dark-mode');
+                // Abajo: Modo normal
+                if (nav.classList.contains('nav-dark-mode')) nav.classList.remove('nav-dark-mode');
             }
         };
 
-        // Escuchar el evento scroll
-        window.addEventListener('scroll', updateNavStyle);
-        // Ejecutar al inicio por si recargan a mitad de página
-        updateNavStyle();
-    });
-</script>
-
-<script is:inline>
-    document.addEventListener('astro:page-load', () => {
-        const nav = document.querySelector('nav');
-        
-        const updateNavStyle = () => {
-            // Si estamos en el TOPE (scroll < 50px), activamos modo oscuro
-            if (window.scrollY < 50) {
-                nav.classList.add('nav-dark-mode');
-            } else {
-                // Si bajamos, volvemos al modo normal (blanco)
-                nav.classList.remove('nav-dark-mode');
-            }
-        };
-
-        window.addEventListener('scroll', updateNavStyle);
-        updateNavStyle(); // Ejecutar al cargar
-    });
-</script>
-
-<script is:inline>
-    document.addEventListener('astro:page-load', () => {
-        const nav = document.querySelector('nav');
-        
-        const updateNavStyle = () => {
-            if (window.scrollY < 50) {
-                nav.classList.add('nav-dark-mode');
-            } else {
-                nav.classList.remove('nav-dark-mode');
-            }
-        };
-
-        window.addEventListener('scroll', updateNavStyle);
+        window.addEventListener('scroll', updateNavStyle, { passive: true });
         updateNavStyle(); 
     });
 </script>
 
 <style is:global>
-    nav {
-        transition: all 0.3s ease-in-out !important;
-    }
-
-    /* --- MODO OSCURO (Barra Superior) --- */
-    nav.nav-dark-mode {
-        /* Tu verde oscuro elegante */
-        background-color: #063c2e !important; 
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-        box-shadow: 0 4px 30px rgba(0,0,0,0.3) !important;
-    }
-
-    /* TEXTO BLANCO en los botones principales (Inicio, Quiénes Somos...) */
-    nav.nav-dark-mode > div > div > a,
-    nav.nav-dark-mode > div > div > button,
-    nav.nav-dark-mode > div > div > div > button {
-        color: white !important;
-    }
-    
-    /* ICONOS BLANCOS (Flechas hacia abajo) */
-    nav.nav-dark-mode > div svg {
-        stroke: white !important;
-    }
-
-    /* --- AQUÍ ESTÁ EL CAMBIO PARA LOS DESPLEGABLES --- */
-    
-    /* 1. Títulos o texto normal dentro de la caja blanca: GRIS SUAVE (No negro) */
-    nav.nav-dark-mode div[class*="bg-white"] a,
-    nav.nav-dark-mode div[class*="bg-white"] span,
-    nav.nav-dark-mode div[class*="bg-white"] p {
-        color: #4b5563 !important; /* <--- GRIS 600 (Más clarito, estándar web) */
-    }
-
-    /* 2. Efecto Hover (Al pasar el mouse): Se pone VERDE */
-    nav.nav-dark-mode div[class*="bg-white"] a:hover {
-        color: #059669 !important; /* Verde esmeralda */
-        background-color: #f3f4f6 !important; /* Fondo gris muy tenue */
-    }
-
-    /* 3. Títulos de secciones si los hubiera (negrita) */
-    nav.nav-dark-mode div[class*="bg-white"] h3 {
-        color: #1f2937 !important; /* Gris un poco más oscuro para títulos */
-    }
-
-    /* Botón Donar dentro del menú */
-    nav.nav-dark-mode button[class*="bg-white"] {
-        color: #dc2626 !important;
-    }
+    nav { transition: all 0.3s ease-in-out !important; }
+    /* ... tus estilos de nav-dark-mode ... */
+    nav.nav-dark-mode { background-color: #063c2e !important; border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important; box-shadow: 0 4px 30px rgba(0,0,0,0.3) !important; }
+    nav.nav-dark-mode a, nav.nav-dark-mode button, nav.nav-dark-mode span, nav.nav-dark-mode svg { color: white !important; stroke: white !important; }
+    nav.nav-dark-mode div[class*="bg-white"] a, nav.nav-dark-mode div[class*="bg-white"] span, nav.nav-dark-mode div[class*="bg-white"] p { color: #4b5563 !important; }
+    nav.nav-dark-mode div[class*="bg-white"] h3 { color: #1f2937 !important; }
+    nav.nav-dark-mode button[class*="bg-white"] { color: #dc2626 !important; }
 </style>
+

@@ -84,7 +84,7 @@ export default function Navbar() {
           {/* 1. LOGOTIPO */}
           <a href="/" className="flex items-center gap-2 group z-50 relative">
             <img 
-              src="/imags/material_navbar/logo_FORAMA.png" 
+              src="/imags/material_navbar/logo_FORAMA.svg" 
               alt="FORAMA Logo" 
               className={`
                 w-auto object-contain transition-all duration-500

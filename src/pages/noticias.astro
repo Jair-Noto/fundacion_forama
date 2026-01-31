@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/shared/Navbar.jsx';
-import sql from '../lib/db.js'; // <--- 1. CONEXIÓN A DB
+import sql from '../lib/db.js'; 
 import { 
     Calendar, 
     ArrowRight, 
@@ -14,7 +14,6 @@ import {
 } from 'lucide-react';
 
 // 2. CONSULTA A LA BASE DE DATOS
-// Traemos solo las que son tipo='noticia'
 const noticias = await sql`
     SELECT p.*, c.nombre as categoria_nombre 
     FROM publicaciones p
@@ -89,6 +88,7 @@ const noticias = await sql`
                             <div class="p-8 flex flex-col flex-grow">
                                 <div class="flex items-center gap-2 text-gray-400 text-sm mb-4">
                                     <Calendar size={16} />
+                                    {/* NOTA: Las fechas son texto, Google las traducirá tal cual (ej: '12 de marzo' -> 'March 12') */}
                                     <span>
                                         {new Date(item.fecha_publicacion).toLocaleDateString('es-BO', { year: 'numeric', month: 'short', day: 'numeric' })}
                                     </span>
