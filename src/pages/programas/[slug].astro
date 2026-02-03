@@ -3,35 +3,35 @@ import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/shared/Navbar.jsx';
 import sql from '../../lib/db.js';
 import { 
-  ArrowLeft, 
-  Calendar, 
-  MapPin, 
-  Activity, 
-  Tag, 
-  Clock, 
-  CheckCircle2, 
-  Info 
+    ArrowLeft, 
+    Calendar, 
+    MapPin, 
+    Activity, 
+    Tag, 
+    Clock, 
+    CheckCircle2, 
+    Info 
 } from 'lucide-react';
 
 // --- 1. CONFIGURACIÓN VISUAL ---
 const estilosProgramas: any = {
-  1: { color: "bg-green-600", text: "text-green-600", border: "border-green-200", hover: "hover:border-green-500", image: "/imags/material_programas/proyect_1.jpg" },
-  2: { color: "bg-blue-600", text: "text-blue-600", border: "border-blue-200", hover: "hover:border-blue-500", image: "/imags/material_programas/proyect_2.jpg" },
-  3: { color: "bg-indigo-600", text: "text-indigo-600", border: "border-indigo-200", hover: "hover:border-indigo-500", image: "/imags/material_programas/proyect_3.jpg" },
-  4: { color: "bg-amber-600", text: "text-amber-600", border: "border-amber-200", hover: "hover:border-amber-500", image: "/imags/material_programas/proyect_4.jpg" },
-  5: { color: "bg-rose-600", text: "text-rose-600", border: "border-rose-200", hover: "hover:border-rose-500", image: "/imags/material_programas/proyect_5.jpg" },
-  6: { color: "bg-cyan-600", text: "text-cyan-600", border: "border-cyan-200", hover: "hover:border-cyan-500", image: "/imags/material_programas/proyect_6.jpg" },
-  7: { color: "bg-slate-600", text: "text-slate-600", border: "border-slate-200", hover: "hover:border-slate-500", image: "/imags/material_programas/proyect_7.jpg" },
-  8: { color: "bg-purple-600", text: "text-purple-600", border: "border-purple-200", hover: "hover:border-purple-500", image: "/imags/material_programas/proyect_8.jpg" },
-  9: { color: "bg-emerald-600", text: "text-emerald-600", border: "border-emerald-200", hover: "hover:border-emerald-500", image: "/imags/material_programas/proyect_9.jpg" }
+    1: { color: "bg-green-600", text: "text-green-600", border: "border-green-200", hover: "hover:border-green-500", image: "/imags/material_programas/proyect_1.jpg" },
+    2: { color: "bg-blue-600", text: "text-blue-600", border: "border-blue-200", hover: "hover:border-blue-500", image: "/imags/material_programas/proyect_2.jpg" },
+    3: { color: "bg-indigo-600", text: "text-indigo-600", border: "border-indigo-200", hover: "hover:border-indigo-500", image: "/imags/material_programas/proyect_3.jpg" },
+    4: { color: "bg-amber-600", text: "text-amber-600", border: "border-amber-200", hover: "hover:border-amber-500", image: "/imags/material_programas/proyect_4.jpg" },
+    5: { color: "bg-rose-600", text: "text-rose-600", border: "border-rose-200", hover: "hover:border-rose-500", image: "/imags/material_programas/proyect_5.jpg" },
+    6: { color: "bg-cyan-600", text: "text-cyan-600", border: "border-cyan-200", hover: "hover:border-cyan-500", image: "/imags/material_programas/proyect_6.jpg" },
+    7: { color: "bg-slate-600", text: "text-slate-600", border: "border-slate-200", hover: "hover:border-slate-500", image: "/imags/material_programas/proyect_7.jpg" },
+    8: { color: "bg-purple-600", text: "text-purple-600", border: "border-purple-200", hover: "hover:border-purple-500", image: "/imags/material_programas/proyect_8.jpg" },
+    9: { color: "bg-emerald-600", text: "text-emerald-600", border: "border-emerald-200", hover: "hover:border-emerald-500", image: "/imags/material_programas/proyect_9.jpg" }
 };
 
 // --- 2. GENERAR RUTAS ESTÁTICAS ---
 export async function getStaticPaths() {
-  const programas = await sql`SELECT slug FROM programas`;
-  return programas.map((prog: any) => ({
-    params: { slug: prog.slug },
-  }));
+    const programas = await sql`SELECT slug FROM programas`;
+    return programas.map((prog: any) => ({
+        params: { slug: prog.slug },
+    }));
 }
 
 // --- 3. OBTENER DATOS ---
@@ -41,22 +41,22 @@ const result = await sql`SELECT * FROM programas WHERE slug = ${slug}`;
 const programa = result[0];
 
 if (!programa) {
-  return Astro.redirect('/404');
+    return Astro.redirect('/404');
 }
 
 const proyectos = await sql`
-  SELECT * FROM proyectos 
-  WHERE programa_id = ${programa.id}
-  ORDER BY fecha_publicacion DESC
+    SELECT * FROM proyectos 
+    WHERE programa_id = ${programa.id}
+    ORDER BY fecha_publicacion DESC
 `;
 
 const estilo = estilosProgramas[programa.id] || { 
-  color: "bg-gray-800", text: "text-gray-600", border: "border-gray-200", hover: "hover:border-gray-400", image: "" 
+    color: "bg-gray-800", text: "text-gray-600", border: "border-gray-200", hover: "hover:border-gray-400", image: "" 
 };
 
 const formatearFecha = (fecha: any) => {
-  if (!fecha) return 'Fecha pendiente';
-  return new Date(fecha).toLocaleDateString('es-BO', { year: 'numeric', month: 'long', day: 'numeric' });
+    if (!fecha) return 'Fecha pendiente';
+    return new Date(fecha).toLocaleDateString('es-BO', { year: 'numeric', month: 'long', day: 'numeric' });
 };
 
 const proyectosEjecucion = proyectos.filter((p: any) => p.estado === 'En Ejecución').length;
@@ -69,19 +69,26 @@ const proyectosPlanificacion = proyectos.filter((p: any) => p.estado === 'En Pla
 
   <main class="bg-slate-50 min-h-screen pb-24">
     
-    <div class="relative h-[60vh] min-h-[500px] flex items-end pb-16 overflow-hidden">
+    {/* SECCIÓN HERO CORREGIDA: Usamos flex-col y justify-between para separar botón y texto */}
+    <div class="relative h-[60vh] min-h-[500px] flex flex-col justify-between pb-16 pt-32 overflow-hidden">
+      
       <div class="absolute inset-0">
          <img src={estilo.image} class="w-full h-full object-cover" alt="" />
          <div class={`absolute inset-0 ${estilo.color} mix-blend-multiply opacity-90`}></div>
          <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
       </div>
       
-      <div class="container relative z-10 mx-auto px-6 max-w-7xl">
-        <a href="/programas" class="group inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors mb-8 font-medium backdrop-blur-md bg-white/5 px-5 py-2.5 rounded-full border border-white/10 hover:bg-white/10 w-fit">
-          <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" /> 
-          Volver al Portafolio
-        </a>
+      <div class="container relative z-10 mx-auto px-6 max-w-7xl h-full flex flex-col justify-between">
         
+        {/* PARTE SUPERIOR: Botón fijo (siempre en la misma posición) */}
+        <div>
+            <a href={`/programas#programa-${slug}`} class="group inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors font-medium backdrop-blur-md bg-white/5 px-5 py-2.5 rounded-full border border-white/10 hover:bg-white/10 w-fit">
+              <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" /> 
+              Volver al Portafolio
+            </a>
+        </div>
+        
+        {/* PARTE INFERIOR: Título y descripción (siempre abajo) */}
         <div class="max-w-4xl">
            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight drop-shadow-2xl">
             {programa.titulo}
@@ -90,9 +97,11 @@ const proyectosPlanificacion = proyectos.filter((p: any) => p.estado === 'En Pla
             {programa.descripcion}
            </p>
         </div>
+
       </div>
     </div>
 
+    {/* BARRA DE ESTADÍSTICAS */}
     <div class="border-b border-slate-200 bg-white sticky top-0 z-30 shadow-sm backdrop-blur-xl bg-white/90">
         <div class="container mx-auto px-6 max-w-7xl h-20 flex items-center justify-between overflow-x-auto gap-8">
             <div class="flex items-center gap-8 text-sm font-medium text-slate-600 whitespace-nowrap">
@@ -119,6 +128,7 @@ const proyectosPlanificacion = proyectos.filter((p: any) => p.estado === 'En Pla
         </div>
     </div>
 
+    {/* LISTA DE PROYECTOS */}
     <div class="container mx-auto px-6 max-w-7xl mt-16">
       
       {proyectos.length === 0 ? (

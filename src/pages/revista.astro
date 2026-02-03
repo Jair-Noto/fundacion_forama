@@ -271,33 +271,14 @@ const journalData = {
     </main>
 
 </Layout>
-<script is:inline>
-    document.addEventListener('astro:page-load', () => {
-        const nav = document.querySelector('nav');
-        
-        const updateNavStyle = () => {
-            if (!nav) return;
-            if (window.scrollY < 50) {
-                // Arriba: Modo oscuro
-                if (!nav.classList.contains('nav-dark-mode')) nav.classList.add('nav-dark-mode');
-            } else {
-                // Abajo: Modo normal
-                if (nav.classList.contains('nav-dark-mode')) nav.classList.remove('nav-dark-mode');
-            }
-        };
-
-        window.addEventListener('scroll', updateNavStyle, { passive: true });
-        updateNavStyle(); 
-    });
-</script>
 
 <style is:global>
-    nav { transition: all 0.3s ease-in-out !important; }
-    /* ... tus estilos de nav-dark-mode ... */
-    nav.nav-dark-mode { background-color: #063c2e !important; border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important; box-shadow: 0 4px 30px rgba(0,0,0,0.3) !important; }
-    nav.nav-dark-mode a, nav.nav-dark-mode button, nav.nav-dark-mode span, nav.nav-dark-mode svg { color: white !important; stroke: white !important; }
-    nav.nav-dark-mode div[class*="bg-white"] a, nav.nav-dark-mode div[class*="bg-white"] span, nav.nav-dark-mode div[class*="bg-white"] p { color: #4b5563 !important; }
-    nav.nav-dark-mode div[class*="bg-white"] h3 { color: #1f2937 !important; }
-    nav.nav-dark-mode button[class*="bg-white"] { color: #dc2626 !important; }
+    /* TRUCO: Cuando el Navbar esté arriba (que por defecto es transparente),
+       lo forzamos a ser VERDE. 
+       Cuando bajes (scroll), React le pondrá la clase 'bg-white' y ganará el blanco.
+    */
+    nav.bg-transparent {
+        background-color: #063c2e !important; /* Verde Forama */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
 </style>
-
