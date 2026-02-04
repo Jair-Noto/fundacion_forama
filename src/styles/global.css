@@ -1,5 +1,7 @@
 @import "tailwindcss";
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 /* 1. CONFIGURACIÓN DEL TEMA (Variables y Animaciones) */
 @theme {
   /* --- Paleta FORAMA --- */
@@ -142,3 +144,41 @@ html {
 /* Retrasos para que las manchas no se muevan al unísono */
 .delay-2000 { animation-delay: 2s; }
 .delay-5000 { animation-delay: 5s; }
+
+/* --- Infinite horizontal marquee --- */
+.marquee {
+  --gap: 6rem;        /* separación entre logos */
+  --duration: 30s;    /* velocidad (menor = más rápido) */
+  overflow: hidden;
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--duration) linear infinite;
+}
+
+.marquee__content {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  padding-right: var(--gap);
+}
+
+/* Pausa al hover (cuando el usuario quiere clickear) */
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+/* Accesibilidad: respeta reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none;
+    transform: none;
+  }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* porque duplicamos 2 veces */
+}
