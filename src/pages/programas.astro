@@ -74,17 +74,45 @@ const proyectoEjemplo = {
             />
             <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/10 to-black/60 z-0"></div>
             
-            <div class="relative z-10 container mx-auto px-4 text-center animate-fade-in-up">
-                <span class="inline-block py-1.5 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-green-300 font-bold tracking-widest uppercase text-xs mb-8 shadow-lg">
-                    Impacto en Terreno
+            <div class="relative z-10 container mx-auto px-4 text-center">
+
+              
+                <span class="inline-flex items-center gap-2 py-1.5 px-5 rounded-full
+                            bg-gradient-to-r from-emerald-700/26 via-green-500/14 to-lime-400/14
+                            backdrop-blur-md
+                            border border-white/12
+                            text-white font-semibold uppercase text-[10px]
+                            tracking-[0.32em] mb-8
+                            shadow-[0_10px_30px_rgba(0,0,0,0.35)]
+                            [text-shadow:0_2px_12px_rgba(0,0,0,0.4)]
+                            animate-[fadeUp_700ms_ease-out_both]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-200/90 shadow-[0_0_14px_rgba(34,211,238,0.75)]"></span>
+                    Impacto en terreno
                 </span>
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 tracking-tight drop-shadow-xl">
+
+               
+                <h1 class="relative font-serif text-6xl md:text-8xl lg:text-9xl font-semibold
+                            mb-7 tracking-tight leading-[0.9] text-white
+                            animate-[heroTitle_900ms_cubic-bezier(.2,.8,.2,1)_both]
+                            [text-shadow:0_2px_0_rgba(0,0,0,0.55),0_10px_30px_rgba(0,0,0,0.55)]
+                            [-webkit-text-stroke:2px_rgba(0,0,0,0.45)]">
                     Programas y Proyectos
                 </h1>
-                <p class="text-xl md:text-3xl text-gray-200 font-light max-w-3xl mx-auto leading-relaxed text-balance">
-                    Estructuramos nuestras acciones bajo 9 programas estratégicos para generar cambios reales en la Amazonía.
+
+                
+                <p class="relative font-serif text-xl md:text-3xl lg:text-4xl font-medium
+                            mb-7 tracking-tight leading-tight text-white
+                            [text-shadow:0_2px_0_rgba(0,0,0,0.65),0_10px_26px_rgba(0,0,0,0.55)]
+                            [-webkit-text-stroke:1px_rgba(0,0,0,0.35)]">
+                    Estructuramos nuestras acciones
+                    <br class="hidden md:block"/>
+                    <span class="italic font-serif font-semibold">
+                    bajo 9 programas estratégicos para generar cambios reales en la Amazonía.
+                    </span>
                 </p>
+
             </div>
+
 
             <div class="absolute bottom-10 z-20 animate-bounce">
                 <ChevronDown size={40} className="text-white/70" />

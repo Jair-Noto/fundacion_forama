@@ -19,8 +19,8 @@ import {
 
     <main>
         
-        <section class="relative h-screen flex items-center justify-center bg-amazon-900 text-white overflow-hidden">
-            
+       <section class="relative h-screen flex items-center justify-center bg-amazon-900 text-white overflow-hidden">
+    
             <img 
                 src="/imags/material_donaciones/donacion.jpg" 
                 alt="Apoyar la Amazonía" 
@@ -29,83 +29,167 @@ import {
             
             <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 z-0"></div>
             
-            <div class="relative z-10 container mx-auto px-4 text-center animate-fade-in-up">
-                <span class="inline-block py-1.5 px-4 rounded-full bg-earth-500/20 backdrop-blur-md border border-earth-500/30 text-earth-400 font-bold tracking-widest uppercase text-xs mb-8 shadow-lg">
-                    Súmate a la Causa
+            <div class="relative z-10 container mx-auto px-4 text-center">
+
+                <!-- BADGE: Cómo apoyar (cobre/ámbar, más “donación”) -->
+                <span class="inline-flex items-center gap-2 py-1.5 px-5 rounded-full
+                            bg-gradient-to-r from-amber-500/25 via-orange-400/16 to-rose-300/12
+                            backdrop-blur-md
+                            border border-white/12
+                            text-white font-semibold uppercase text-[10px]
+                            tracking-[0.34em] mb-8
+                            shadow-[0_12px_35px_rgba(0,0,0,0.38)]
+                            [text-shadow:0_2px_12px_rgba(0,0,0,0.45)]
+                            animate-[fadeUp_700ms_ease-out_both]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-200/95 shadow-[0_0_14px_rgba(251,191,36,0.85)]"></span>
+                    Súmate a la causa
                 </span>
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 tracking-tight drop-shadow-xl">
-                    Tu impacto en <br/> la Amazonía
+
+                <!-- TÍTULO (estándar) -->
+                <h1 class="relative font-serif text-6xl md:text-8xl lg:text-9xl font-semibold
+                            mb-7 tracking-tight leading-[0.9] text-white
+                            animate-[heroTitle_900ms_cubic-bezier(.2,.8,.2,1)_both]
+                            [text-shadow:0_2px_0_rgba(0,0,0,0.55),0_10px_30px_rgba(0,0,0,0.55)]
+                            [-webkit-text-stroke:2px_rgba(0,0,0,0.45)]">
+                    Tu impacto en<br class="hidden md:block"/>la Amazonía
                 </h1>
-                
-                <p class="text-xl md:text-2xl text-gray-200 font-light max-w-4xl mx-auto leading-relaxed text-balance">
-                    FORAMA Amazónica gestiona fondos y alianzas con entidades públicas y privadas, nacionales e internacionales, para ejecutar programas y proyectos de conservación, investigación, educación y bienestar.
+
+                <!-- PÁRRAFO (estándar, alineado a la vista) -->
+                <p class="relative font-serif text-xl md:text-3xl lg:text-4xl font-medium
+                            mb-10 tracking-tight leading-tight text-white
+                            [text-shadow:0_2px_0_rgba(0,0,0,0.65),0_10px_26px_rgba(0,0,0,0.55)]
+                            [-webkit-text-stroke:1px_rgba(0,0,0,0.35)]">
+                    FORAMA Amazónica gestiona fondos y alianzas con entidades públicas y privadas
+                    <br class="hidden md:block"/>
+                    <span class="italic font-serif font-semibold">
+                    para ejecutar programas y proyectos de conservación, investigación, educación y bienestar.
+                    </span>
                 </p>
-                
-                <div class="mt-10">
-                    <a href="#opciones" class="inline-flex items-center gap-2 bg-earth-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-earth-600 transition-all shadow-lg hover:shadow-earth-500/30 transform hover:scale-105">
-                        Ver formas de apoyar <ChevronDown size={20} />
+
+                <!-- CTA: Botón principal (premium, responsive) -->
+                <div class="mx-auto w-full max-w-3xl animate-[fadeUp_900ms_ease-out_both]">
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+
+                    <a href="/como-apoyar#donar"
+                        class="group relative inline-flex items-center justify-center gap-2
+                                h-12 md:h-14 px-7 md:px-10 rounded-2xl overflow-hidden
+                                bg-gradient-to-r from-amber-500 to-orange-500
+                                text-white font-extrabold text-sm md:text-base uppercase tracking-wider
+                                shadow-[0_18px_55px_rgba(245,158,11,0.28)]
+                                hover:brightness-110 hover:scale-[1.01]
+                                active:scale-[0.98]
+                                transition-all duration-300
+                                focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70">
+
+                        <!-- brillo animado -->
+                        <span class="pointer-events-none absolute -left-20 top-0 h-full w-24 bg-white/20 blur-xl
+                                    rotate-12 group-hover:translate-x-[520%] transition-transform duration-700"></span>
+
+                        <!-- icon -->
+                        <svg class="w-5 h-5 opacity-90 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 21s-7-4.35-9.5-8.5C.6 9.6 2.2 6.7 5.2 6.1c1.7-.3 3.2.4 4.1 1.5.9-1.1 2.4-1.8 4.1-1.5 3 .6 4.6 3.5 2.7 6.4C19 16.65 12 21 12 21Z"
+                                fill="currentColor" opacity=".95"/>
+                        </svg>
+
+                        <span class="relative z-10">Hacer un aporte ahora</span>
+
+                        
+                        <svg class="relative z-10 w-5 h-5 opacity-90 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </a>
+                    </div>
+
+                    <!-- Nota corta -->
+                    <p class="mt-5 text-white/70 text-xs md:text-sm font-sans
+                            [text-shadow:0_10px_26px_rgba(0,0,0,0.55)]">
+                    Tu aporte se transforma en acciones medibles: conservación, ciencia aplicada y educación ambiental.
+                    </p>
                 </div>
+
             </div>
+
+
+
         </section>
 
-        <section id="donaciones" class="py-24 bg-stone-50 border-b border-gray-200 scroll-mt-20">
-            <div class="container mx-auto px-4 max-w-6xl">
+        <section class="py-24 bg-stone-50 border-b border-gray-200 scroll-mt-20">
+    <div id="donar" class="container mx-auto px-4 max-w-6xl">
+        
+        <div class="flex flex-col lg:flex-row items-center gap-16">
+            
+            <div class="lg:w-1/2 text-center lg:text-left space-y-6 animate-fade-in-up">
+                <span class="inline-block py-1.5 px-4 rounded-full bg-red-100 text-red-600 font-bold tracking-widest uppercase text-xs mb-2">
+                    Tu Aporte
+                </span>
+                <h2 class="text-4xl md:text-6xl font-extrabold text-amazon-900 leading-tight">
+                    Siembra futuro en la <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Amazonía</span>
+                </h2>
+                <p class="text-xl text-gray-600 font-light leading-relaxed text-pretty">
+                    Tu donación es el combustible para proteger nuestros bosques. Escanea el código QR para realizar una transferencia directa, segura y sin comisiones.
+                </p>
                 
-                <div class="flex flex-col lg:flex-row items-center gap-16">
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
+                    <div class="flex items-center gap-2 text-sm font-bold text-gray-500">
+                        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        100% Seguro
+                    </div>
+                    <div class="flex items-center gap-2 text-sm font-bold text-gray-500">
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                        </div>
+                        Cero Comisiones
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:w-1/2 w-full flex justify-center lg:justify-end animate-fade-in-up delay-100">
+                
+                <div class="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-2xl shadow-amazon-900/10 border border-white relative overflow-hidden max-w-md w-full text-center group">
                     
-                    <div class="lg:w-1/2 text-center lg:text-left space-y-6 animate-fade-in-up">
-                        <span class="inline-block py-1.5 px-4 rounded-full bg-red-100 text-red-600 font-bold tracking-widest uppercase text-xs mb-2">
-                            Tu Aporte
-                        </span>
-                        <h2 class="text-4xl md:text-6xl font-extrabold text-amazon-900 leading-tight">
-                            Siembra futuro en la <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Amazonía</span>
-                        </h2>
-                        <p class="text-xl text-gray-600 font-light leading-relaxed text-pretty">
-                            Tu donación no es solo dinero; es combustible para las lanchas de monitoreo, equipo para los guardaparques y medicinas para las comunidades.
-                        </p>
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-amazon-500 via-green-400 to-amazon-600"></div>
+                    <div class="absolute -right-12 -top-12 w-40 h-40 bg-green-50 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
+                    <div class="absolute -left-12 -bottom-12 w-40 h-40 bg-orange-50 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
+
+                    <div class="mb-8 relative z-10">
+                        <h3 class="text-2xl font-bold text-amazon-900 mb-1">Escanea para Donar</h3>
+                        <p class="text-gray-500 text-sm">Usa tu aplicación de banco favorita</p>
+                    </div>
+
+                    <div class="relative mx-auto w-64 h-64 bg-white rounded-2xl p-4 shadow-inner border border-gray-100 flex items-center justify-center mb-8 group-hover:scale-105 transition-transform duration-500 ease-out">
                         
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
-                            <div class="flex items-center gap-2 text-sm font-bold text-gray-500">
-                                <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600"><Heart size={16} fill="currentColor"/></div>
-                                Seguro
-                            </div>
-                            <div class="flex items-center gap-2 text-sm font-bold text-gray-500">
-                                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600"><CreditCard size={16} /></div>
-                                Transparente
-                            </div>
+                        <div class="absolute top-0 left-0 w-6 h-6 border-l-2 border-t-2 border-amazon-500 rounded-tl-lg"></div>
+                        <div class="absolute top-0 right-0 w-6 h-6 border-r-2 border-t-2 border-amazon-500 rounded-tr-lg"></div>
+                        <div class="absolute bottom-0 left-0 w-6 h-6 border-l-2 border-b-2 border-amazon-500 rounded-bl-lg"></div>
+                        <div class="absolute bottom-0 right-0 w-6 h-6 border-r-2 border-b-2 border-amazon-500 rounded-br-lg"></div>
+
+                        <img 
+                            src="/imags/material_donaciones/qr.jpg" 
+                            alt="QR Simple Pago" 
+                            class="w-full h-full object-contain mix-blend-multiply"
+                        />
+                    </div>
+
+                    <div class="space-y-3 relative z-10">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-amazon-50 text-amazon-700 rounded-full text-[10px] font-extrabold uppercase tracking-widest mb-1">
+                            <span class="w-1.5 h-1.5 bg-amazon-500 rounded-full animate-pulse"></span>
+                            Transferencia Simple
+                        </div>
+                        
+                        <div class="text-sm text-gray-500 bg-gray-50 p-4 rounded-xl border border-gray-100 select-all cursor-text">
+                            <p class="font-bold text-gray-700">Fundación Flora Amazónica</p>
                         </div>
                     </div>
 
-                    <div class="lg:w-1/2 w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-                        
-                        <button class="group relative bg-white p-8 rounded-[2rem] shadow-lg border-2 border-transparent hover:border-earth-400 transition-all duration-300 hover:-translate-y-2 text-left">
-                            <div class="absolute top-4 right-4 text-gray-300 group-hover:text-earth-400 transition-colors">
-                                <CreditCard size={32} />
-                            </div>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Donación Única</h3>
-                            <p class="text-sm text-gray-500 mb-6">Un aporte puntual para una necesidad inmediata.</p>
-                            <span class="inline-flex items-center gap-2 text-earth-600 font-bold group-hover:gap-3 transition-all">
-                                Donar ahora <ArrowRight size={18} />
-                            </span>
-                        </button>
-
-                        <button class="group relative bg-amazon-900 p-8 rounded-[2rem] shadow-xl shadow-amazon-900/20 border-2 border-amazon-700 hover:border-green-400 transition-all duration-300 hover:-translate-y-2 text-left overflow-hidden">
-                            <div class="absolute -right-10 -top-10 w-32 h-32 bg-green-500 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                            <div class="absolute top-4 right-4 text-amazon-400 group-hover:text-green-400 transition-colors">
-                                <CalendarHeart size={32} />
-                            </div>
-                            <h3 class="text-2xl font-bold text-white mb-2">Padrino Mensual</h3>
-                            <p class="text-sm text-amazon-200 mb-6">Sostén nuestros proyectos a largo plazo.</p>
-                            <span class="inline-flex items-center gap-2 text-green-400 font-bold group-hover:gap-3 transition-all">
-                                Unirme al club <ArrowRight size={18} />
-                            </span>
-                        </button>
-
-                    </div>
                 </div>
+
             </div>
-        </section>
+
+        </div>
+    </div>
+</section>
 
         <section id="alianzas" class="py-28 bg-white overflow-hidden relative scroll-mt-20">
             <div class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
