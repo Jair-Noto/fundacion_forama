@@ -72,19 +72,47 @@ const proyectoEjemplo = {
                 alt="Proyectos en la Amazonía" 
                 class="absolute inset-0 w-full h-full object-cover transform scale-105"
             />
-            <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 z-0"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/10 to-black/60 z-0"></div>
             
-            <div class="relative z-10 container mx-auto px-4 text-center animate-fade-in-up">
-                <span class="inline-block py-1.5 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-green-300 font-bold tracking-widest uppercase text-xs mb-8 shadow-lg">
-                    Impacto en Terreno
+            <div class="relative z-10 container mx-auto px-4 text-center">
+
+              
+                <span class="inline-flex items-center gap-2 py-1.5 px-5 rounded-full
+                            bg-gradient-to-r from-emerald-700/26 via-green-500/14 to-lime-400/14
+                            backdrop-blur-md
+                            border border-white/12
+                            text-white font-semibold uppercase text-[10px]
+                            tracking-[0.32em] mb-8
+                            shadow-[0_10px_30px_rgba(0,0,0,0.35)]
+                            [text-shadow:0_2px_12px_rgba(0,0,0,0.4)]
+                            animate-[fadeUp_700ms_ease-out_both]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-200/90 shadow-[0_0_14px_rgba(34,211,238,0.75)]"></span>
+                    Impacto en terreno
                 </span>
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 tracking-tight drop-shadow-xl">
+
+               
+                <h1 class="relative font-serif text-6xl md:text-8xl lg:text-9xl font-semibold
+                            mb-7 tracking-tight leading-[0.9] text-white
+                            animate-[heroTitle_900ms_cubic-bezier(.2,.8,.2,1)_both]
+                            [text-shadow:0_2px_0_rgba(0,0,0,0.55),0_10px_30px_rgba(0,0,0,0.55)]
+                            [-webkit-text-stroke:2px_rgba(0,0,0,0.45)]">
                     Programas y Proyectos
                 </h1>
-                <p class="text-xl md:text-3xl text-gray-200 font-light max-w-3xl mx-auto leading-relaxed text-balance">
-                    Estructuramos nuestras acciones bajo 9 programas estratégicos para generar cambios reales en la Amazonía.
+
+                
+                <p class="relative font-serif text-xl md:text-3xl lg:text-4xl font-medium
+                            mb-7 tracking-tight leading-tight text-white
+                            [text-shadow:0_2px_0_rgba(0,0,0,0.65),0_10px_26px_rgba(0,0,0,0.55)]
+                            [-webkit-text-stroke:1px_rgba(0,0,0,0.35)]">
+                    Estructuramos nuestras acciones
+                    <br class="hidden md:block"/>
+                    <span class="italic font-serif font-semibold">
+                    bajo 9 programas estratégicos para generar cambios reales en la Amazonía.
+                    </span>
                 </p>
+
             </div>
+
 
             <div class="absolute bottom-10 z-20 animate-bounce">
                 <ChevronDown size={40} className="text-white/70" />
@@ -102,24 +130,31 @@ const proyectoEjemplo = {
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {programasDB.map((prog: any) => {
-                        // Combinamos datos de BD con estilos visuales
                         const estilo = configVisual[prog.id] || { 
                             color: "bg-gray-600", img: "", icon: TreePine, desc: "" 
                         };
                         const Icono = estilo.icon; // Componente Icono
 
+                        // MODIFICACIÓN 1: ID ÚNICO PARA RETORNO
+                        const cardId = `programa-${prog.slug}`;
+
                         return (
-                            <div class="group relative h-[400px] rounded-[2rem] overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500">
+                            <div id={cardId} class="group relative h-[400px] rounded-[2rem] overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 scroll-mt-32">
                                 
+                                {/* MODIFICACIÓN 2: ENLACE EN LA IMAGEN */}
+                                <a href={`/programas/${prog.slug}`} class="block absolute inset-0 z-10 cursor-pointer">
+                                    <span class="sr-only">Ver detalles de {prog.titulo}</span>
+                                </a>
+
                                 <img 
                                     src={estilo.img} 
                                     alt={prog.titulo} 
                                     class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                                 
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300 pointer-events-none"></div>
 
-                                <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                                <div class="absolute inset-0 p-8 flex flex-col justify-end pointer-events-none">
                                     
                                     <div class={`w-12 h-1.5 ${estilo.color} rounded-full mb-4 transform -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500`}></div>
 
@@ -131,8 +166,8 @@ const proyectoEjemplo = {
                                         {prog.descripcion}
                                     </p>
                                     
-                                    <div class="transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
-                                        <a href={`/programas/${prog.slug}`} class="inline-flex items-center gap-2 text-white font-bold tracking-wide text-sm uppercase border-b-2 border-white/30 pb-1 hover:border-white transition-colors cursor-pointer">
+                                    <div class="transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100 pointer-events-auto">
+                                        <a href={`/programas/${prog.slug}`} class="inline-flex items-center gap-2 text-white font-bold tracking-wide text-sm uppercase border-b-2 border-white/30 pb-1 hover:border-white transition-colors cursor-pointer relative z-20">
                                             Proyectos <ArrowRight size={16} />
                                         </a>
                                     </div>

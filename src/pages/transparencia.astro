@@ -29,7 +29,7 @@ const equipoEjecutivo = [
     {
         nombre: "Lic. Licet Rosario Benitez Romero",
         cargo: "Responsable de Finanzas",
-        foto: "/imags/material_organigrama/liset.png" 
+        foto: "/imags/material_organigrama/Liset.jpg" 
     },
     {
         nombre: "Ph.D. Songila Maria da Silva Rocha Doi",
@@ -57,7 +57,7 @@ const comiteCientifico = [
         titulo: "Doutor em Ciências Biológicas",
         institucion: "INPA - Brasil",
         cv: "http://lattes.cnpq.br/3176139653120353",
-        foto: "/imags/material_organigrama/Philip.png" 
+        foto: "/imags/material_organigrama/Philip.jpg" 
     },
     {
         nombre: "Ph.D. Laércio Antônio Gonçalves Jacovine",
@@ -71,28 +71,28 @@ const comiteCientifico = [
         titulo: "Doutor em Ciências da Engenharia Ambiental",
         institucion: "ESALQ / USP",
         cv: "http://lattes.cnpq.br/3346897244302980",
-        foto: "/imags/material_organigrama/Edson_vidal.png" 
+        foto: "/imags/material_organigrama/Edson_vidal.jpg" 
     },
     {
         nombre: "Ph.D. Rosana Barbosa de Castro Lopes",
         titulo: "Doutora em Ciências de Florestas Tropicais",
         institucion: "UFAM - Brasil",
         cv: "http://lattes.cnpq.br/7133099115834903",
-        foto: "/imags/material_organigrama/rosana.png" 
+        foto: "/imags/material_organigrama/rosana.jpg" 
     },
     {
         nombre: "Ph.D. Vicente Toledo Machado de Morais Jr.",
         titulo: "Doutor em Ciência Florestal",
         institucion: "UFU - Brasil",
         cv: "http://lattes.cnpq.br/8998189475989255",
-        foto: "/imags/material_organigrama/Vicente.png" 
+        foto: "/imags/material_organigrama/vicente.jpg" 
     },
     {
         nombre: "Ph.D. Rosimeire Araújo Silva",
         titulo: "Doutora em Clima e Ambiente",
         institucion: "INPA - Brasil",
         cv: "http://lattes.cnpq.br/3176139653120353",
-        foto: "/imags/material_organigrama/Rosmeri.png" 
+        foto: "/imags/material_organigrama/Rosmeri.jpg" 
     }
 ];
 ---
@@ -111,21 +111,49 @@ const comiteCientifico = [
             />
             
             <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 z-0"></div>
-            
-            <div class="relative z-10 container mx-auto px-4 text-center animate-fade-in-up pt-10">
-                <span class="inline-block py-1.5 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-green-300 font-bold tracking-widest uppercase text-xs mb-8 shadow-lg">
-                    Organigrama Institucional
+
+
+            <div class="relative z-10 container mx-auto px-4 text-center">
+
+                
+                <span class="inline-flex items-center gap-2 py-1.5 px-5 rounded-full
+                            bg-gradient-to-r from-white/12 via-amber-200/10 to-white/8
+                            backdrop-blur-md
+                            border border-white/14
+                            text-white font-semibold uppercase text-[10px]
+                            tracking-[0.32em] mb-8
+                            shadow-[0_10px_30px_rgba(0,0,0,0.35)]
+                            [text-shadow:0_2px_12px_rgba(0,0,0,0.4)]
+                            animate-[fadeUp_700ms_ease-out_both]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-200/90 shadow-[0_0_14px_rgba(251,191,36,0.75)]"></span>
+                    Organigrama institucional
                 </span>
+
                 
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 tracking-tight drop-shadow-xl">
-                    Estructura y <br/> liderazgo 
+                <h1 class="relative font-serif text-6xl md:text-8xl lg:text-9xl font-semibold
+                            mb-7 tracking-tight leading-[0.9] text-white
+                            animate-[heroTitle_900ms_cubic-bezier(.2,.8,.2,1)_both]
+                            [text-shadow:0_2px_0_rgba(0,0,0,0.55),0_10px_30px_rgba(0,0,0,0.55)]
+                            [-webkit-text-stroke:2px_rgba(0,0,0,0.45)]">
+                    Estructura y<br class="hidden md:block"/>
+                    liderazgo
                 </h1>
-                
-                <p class="text-xl md:text-3xl text-gray-200 font-light max-w-3xl mx-auto leading-relaxed text-balance drop-shadow-md">
-                    Conoce al equipo multidisciplinario que impulsa nuestra misión, combinando <strong class="text-white font-medium">visión estratégica</strong> y <strong class="text-white font-medium">rigor científico</strong> para la conservación de la Amazonía.
+
+            
+                <p class="relative font-serif text-xl md:text-3xl lg:text-4xl font-medium
+                            mb-7 tracking-tight leading-tight text-white
+                            [text-shadow:0_2px_0_rgba(0,0,0,0.65),0_10px_26px_rgba(0,0,0,0.55)]
+                            [-webkit-text-stroke:1px_rgba(0,0,0,0.35)]">
+                    Conoce al equipo multidisciplinario que impulsa
+                    <br class="hidden md:block"/>
+                    <span class="italic font-serif font-semibold">
+                    nuestra misión, combinando visión estratégica y rigor científico.
+                    </span>
                 </p>
+
             </div>
 
+            
             <div class="absolute bottom-10 z-20 animate-bounce">
                 <ChevronDown size={40} className="text-white/70" />
             </div>

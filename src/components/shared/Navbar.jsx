@@ -48,15 +48,6 @@ export default function Navbar() {
         name: 'Revista Cientifica Forama', 
         href: '/revista',
     },
-    {
-        name: 'Colabora', 
-        href: '/como-apoyar',
-        submenu: [
-            { name: 'Donaciones', href: '/como-apoyar#donaciones' }, 
-            { name: 'Alianzas Estratégicas', href: '/como-apoyar#alianzas' },
-            { name: 'Voluntariado', href: '/como-apoyar#voluntariado' }
-        ]
-    },
     { name: 'Contacto', href: '/contacto' },
   ];
 
@@ -84,7 +75,7 @@ export default function Navbar() {
           {/* 1. LOGOTIPO */}
           <a href="/" className="flex items-center gap-2 group z-50 relative">
             <img 
-              src="/imags/material_navbar/logo_FORAMA.png" 
+              src="/imags/material_navbar/logo_FORAMA.svg" 
               alt="FORAMA Logo" 
               className={`
                 w-auto object-contain transition-all duration-500
@@ -231,13 +222,80 @@ export default function Navbar() {
                 </li>
               ))}
               
-              {isOpen && (
-                 <li className="mt-8">
-                    <a href="/como-apoyar" className="w-full bg-amazon-600 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg hover:bg-amazon-700">
-                        <Heart size={20} fill="currentColor" /> APOYAR CAUSA
+             {isOpen && (
+                  <li className="mt-6 px-4 pb-8">
+                    <a
+                      href="/como-apoyar"
+                      className="
+                        group relative
+                        w-full lg:w-auto
+                        inline-flex items-center justify-center gap-2
+                        px-5 sm:px-6
+                        py-4 sm:py-3 lg:py-2
+                        rounded-2xl sm:rounded-full
+                        overflow-hidden
+                        border border-white/10
+                        bg-gradient-to-r from-emerald-700 via-emerald-600 to-lime-500
+                        shadow-[0_12px_30px_rgba(16,185,129,0.22)]
+                        transition-all duration-500 ease-out
+                        hover:shadow-[0_18px_50px_rgba(16,185,129,0.35)]
+                        hover:-translate-y-[1px] hover:scale-[1.02]
+                        active:translate-y-0 active:scale-[0.98]
+                        focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black/30
+                      "
+                    >
+                      {/* overlay */}
+                      <span className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500" />
+
+                      {/* glow blobs */}
+                      <span className="
+                        absolute -top-10 -right-12 h-28 w-28 rounded-full
+                        bg-white/15 blur-2xl
+                        transition-all duration-700 ease-out
+                        group-hover:translate-x-[-10px] group-hover:translate-y-[10px] group-hover:bg-white/25
+                      " />
+                      <span className="
+                        absolute -bottom-10 -left-12 h-28 w-28 rounded-full
+                        bg-emerald-300/20 blur-2xl
+                        transition-all duration-700 ease-out
+                        group-hover:translate-x-[10px] group-hover:translate-y-[-10px] group-hover:bg-emerald-200/30
+                      " />
+
+                      {/* sheen sweep */}
+                      <span className="
+                        absolute inset-0
+                        -translate-x-[130%] skew-x-[-18deg]
+                        bg-gradient-to-r from-transparent via-white/25 to-transparent
+                        transition-transform duration-700 ease-out
+                        group-hover:translate-x-[130%]
+                      " />
+
+                      {/* inner ring */}
+                      <span className="absolute inset-0 rounded-2xl sm:rounded-full ring-1 ring-white/15 group-hover:ring-white/25 transition duration-500" />
+
+                      {/* content */}
+                      <span className="relative z-10 inline-flex items-center gap-2">
+                        <Heart
+                          size={20}
+                          className="
+                            text-red-300
+                            transition-all duration-500
+                            group-hover:text-white group-hover:scale-110
+                            motion-safe:animate-[pulse_1.6s_ease-in-out_infinite]
+                          "
+                          fill="currentColor"
+                        />
+                        <span className="
+                          text-white font-extrabold uppercase
+                          tracking-[0.14em]
+                          text-sm sm:text-xs lg:text-xs
+                        ">
+                          Donar
+                        </span>
+                      </span>
                     </a>
-                 </li>
-              )}
+                  </li>
+                )}
             </ul>
           </div>
 

@@ -9,75 +9,90 @@ import {
     Users,          
     Landmark,       
     CheckCircle2,
-    Mail, 
-    Facebook,
-    Twitter,
-    Linkedin,
-    Instagram,
-    ArrowRight
+    BookOpen,
+    FileText,
+    Search,
+    ArrowRight,
+    LockOpen,
+    Leaf
 } from 'lucide-react';
 
+// --- DATOS ACTUALIZADOS CON EL TEXTO COMPLETO ---
 const journalData = {
     title: "Forests, Conservation and Society",
     slogan: "Advancing science, policy and practice for resilient forests and societies.",
-    description: "Una revista científica internacional revisada por pares, dedicada a avanzar en la investigación interdisciplinaria sobre la conservación de bosques, gestión sostenible y resiliencia socioecológica, con énfasis estratégico en la Amazonía.",
-    status: "En Planificación Editorial",
-    tematicas: [
-        {
-            titulo: "Ecología y Gestión Forestal",
-            desc: "Estructura, dinámica de bosques tropicales y gestión comunitaria.",
-            icon: TreePine,
-            bg: "bg-green-50",
-            text: "text-green-700",
-            border: "border-green-100"
-        },
-        {
-            titulo: "Cambio Climático y Carbono",
-            desc: "Stocks de carbono, sistemas MRV y estrategias de mitigación.",
-            icon: ThermometerSun,
-            bg: "bg-blue-50",
-            text: "text-blue-700",
-            border: "border-blue-100"
-        },
-        {
-            titulo: "Biodiversidad Amazónica",
-            desc: "Conservación de flora y fauna, interacciones y especies amenazadas.",
-            icon: Sprout,
-            bg: "bg-emerald-50",
-            text: "text-emerald-700",
-            border: "border-emerald-100"
-        },
-        {
-            titulo: "Teledetección y GIS",
-            desc: "Uso de LiDAR, drones e IA para el monitoreo ambiental.",
-            icon: MapPin,
-            bg: "bg-purple-50",
-            text: "text-purple-700",
-            border: "border-purple-100"
-        },
-        {
-            titulo: "Dimensiones Sociales",
-            desc: "Conocimiento indígena, equidad de género y educación ambiental.",
-            icon: Users,
-            bg: "bg-rose-50",
-            text: "text-rose-700",
-            border: "border-rose-100"
-        },
-        {
-            titulo: "Política y Gobernanza",
-            desc: "Marcos legales, tenencia de la tierra y desarrollo sostenible.",
-            icon: Landmark,
-            bg: "bg-amber-50",
-            text: "text-amber-700",
-            border: "border-amber-100"
-        }
+    
+    // Texto completo de "About the Journal"
+    about: [
+        "Forests, Conservation and Society is an international, peer-reviewed scientific journal published by the Fundación Flora Amazónica (FORAMA). The journal is dedicated to advancing interdisciplinary research on forest conservation, sustainable management, and socio-ecological resilience, with a particular emphasis on Amazonian forests as globally strategic ecosystems.",
+        "The journal provides a platform for high-quality scientific contributions that integrate ecological science, forest management, climate change research, biodiversity conservation, socio-environmental governance, and community-based approaches. We seek to bridge the gap between academic research, public policy formulation, and on-the-ground practices, fostering evidence-based decision-making for forest-dependent regions.",
+        "The journal promotes open access to scientific knowledge, recognizing that equitable dissemination of research is essential for strengthening local capacities, supporting public policies, and enhancing global understanding of forest systems under rapid environmental and social change."
     ],
-    distintivos: [
-        "Perspectiva centrada en la Amazonía",
-        "Integración Sociedad-Ambiente",
-        "Enfoque Interdisciplinario",
-        "Ciencia Aplicada a la Conservación",
-        "Acceso Abierto (Open Access)"
+
+    aims: "Forests, Conservation and Society aims to publish scientifically rigorous and socially relevant research that contributes to the conservation, sustainable management, and restoration of forest ecosystems, particularly in tropical and Amazonian contexts. The journal prioritizes studies that enhance understanding of forest dynamics, ecosystem services, climate change mitigation and adaptation, and the interactions between forests and human well-being.",
+
+    // Scope detallado con viñetas
+    scope: [
+        {
+            category: "Forest Ecology and Sustainable Management",
+            icon: TreePine,
+            items: [
+                "Structure, composition, and dynamics of tropical and subtropical forests",
+                "Sustainable forest management systems and reduced-impact logging",
+                "Community-based forest management and territorial governance",
+                "Forest landscape restoration and ecological connectivity"
+            ]
+        },
+        {
+            category: "Climate Change, Carbon and Ecosystem Services",
+            icon: ThermometerSun,
+            items: [
+                "Forest carbon stocks, biomass estimation, and allometric modeling",
+                "MRV systems (Monitoring, Reporting and Verification) for forest carbon",
+                "Climate change mitigation and adaptation strategies in forest landscapes",
+                "Ecosystem services valuation and nature-based solutions"
+            ]
+        },
+        {
+            category: "Biodiversity Conservation and Amazonian Resources",
+            icon: Sprout,
+            items: [
+                "Conservation of flora and fauna, including threatened species",
+                "Functional diversity, species interactions, and habitat resilience",
+                "Non-timber forest products and bioeconomy approaches",
+                "Impacts of deforestation, forest degradation, and land-use change"
+            ]
+        },
+        {
+            category: "Remote Sensing, Geospatial Analysis and Monitoring",
+            icon: MapPin,
+            items: [
+                "Application of GIS, remote sensing, LiDAR, and UAVs in forest studies",
+                "Land-use and land-cover change analysis",
+                "Environmental monitoring and early warning systems",
+                "Predictive modeling and artificial intelligence applied to forest conservation"
+            ]
+        },
+        {
+            category: "Social Dimensions, Indigenous Knowledge and Gender",
+            icon: Users,
+            items: [
+                "Indigenous, campesino, and traditional knowledge systems",
+                "Gender equity and the role of women in forest conservation",
+                "Social innovation, environmental education, and capacity building",
+                "Participatory research and co-production of knowledge"
+            ]
+        },
+        {
+            category: "Policy, Governance and Sustainable Development",
+            icon: Landmark,
+            items: [
+                "Forest-related public policies and legal frameworks",
+                "Environmental governance, tenure systems, and land-use planning",
+                "Science–policy interfaces and decision-support tools",
+                "Sustainable development strategies for forest-dependent regions"
+            ]
+        }
     ]
 };
 ---
@@ -86,182 +101,191 @@ const journalData = {
     
     <Navbar client:load transition:persist />
 
-    <main class="bg-stone-50 overflow-hidden">
+    <main class="bg-white min-h-screen">
         
-        <section class="relative pt-40 pb-20 lg:pt-52 lg:pb-32 overflow-hidden bg-[#fdfbf7]">
-            
-            <div class="absolute inset-0 opacity-40 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]"></div>
-            
-            <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-radial from-green-900/5 to-transparent rounded-full blur-3xl pointer-events-none transform translate-x-1/3 -translate-y-1/4"></div>
-            <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-radial from-earth-500/5 to-transparent rounded-full blur-3xl pointer-events-none transform -translate-x-1/3 translate-y-1/4"></div>
-
-            <div class="container mx-auto px-4 relative z-10">
-                <div class="max-w-4xl mx-auto text-center">
+        <section class="bg-[#063c2e] text-white pt-32 pb-16 relative overflow-hidden">
+            <div class="container mx-auto px-4 max-w-7xl relative z-10">
+                <div class="flex flex-col md:flex-row gap-10 items-start">
                     
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-200 bg-orange-50/50 backdrop-blur-sm mb-10 animate-fade-in-up shadow-sm">
-                        <span class="relative flex h-2.5 w-2.5">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-orange-500"></span>
-                        </span>
-                        <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-orange-800">
-                            {journalData.status}
-                        </span>
-                    </div>
-
-                    <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl text-amazon-950 leading-[0.95] mb-8 animate-fade-in-up delay-100 tracking-tight">
-                        Forests, <span class="italic text-earth-600">Conservation</span> <br />
-                        and Society
-                    </h1>
-
-                    <p class="text-xl md:text-2xl text-gray-600 font-light italic mb-12 max-w-2xl mx-auto animate-fade-in-up delay-200">
-                        "{journalData.slogan}"
-                    </p>
-
-                    <p class="text-gray-500 leading-relaxed max-w-3xl mx-auto mb-16 animate-fade-in-up delay-300 text-pretty text-lg">
-                        {journalData.description}
-                    </p>
-
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto border-t border-b border-gray-200 py-8 animate-fade-in-up delay-500">
-                        <div class="text-center">
-                            <span class="block text-3xl font-serif font-bold text-amazon-900">Open</span>
-                            <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Access</span>
-                        </div>
-                        <div class="text-center border-l border-gray-200">
-                            <span class="block text-3xl font-serif font-bold text-amazon-900">Peer</span>
-                            <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Reviewed</span>
-                        </div>
-                        <div class="text-center border-l border-gray-200">
-                            <span class="block text-3xl font-serif font-bold text-amazon-900">Multi</span>
-                            <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Lingual</span>
-                        </div>
-                        <div class="text-center border-l border-gray-200">
-                            <span class="block text-3xl font-serif font-bold text-amazon-900">Amazon</span>
-                            <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Focus</span>
+                    <div class="w-full md:w-[280px] shrink-0">
+                        <div class="bg-white p-1 shadow-2xl rotate-0 md:-rotate-1 transition-transform duration-500 hover:rotate-0">
+                            <img 
+                                src="/imags/material_revista/amazon.jpg" 
+                                alt="Portada Forests, Conservation and Society" 
+                                class="w-full h-auto object-cover aspect-[3/4]"
+                            />
+                        
                         </div>
                     </div>
 
+                    <div class="flex-1 pt-2">
+                        <div class="flex flex-wrap gap-3 mb-6">
+                            <span class="bg-white/10 text-white/90 px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-sm backdrop-blur-sm border border-white/20">
+                                Open Access
+                            </span>
+                            <span class="bg-earth-500 text-white px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-sm">
+                                Peer Reviewed
+                            </span>
+                            <span class="bg-white/10 text-white/90 px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-sm backdrop-blur-sm border border-white/20">
+                                Amazonian approach
+                            </span>
+                        </div>
+
+                        <h1 class="font-serif text-4xl md:text-6xl font-medium mb-4 leading-tight">
+                            Forests, Conservation <br/> and Society
+                        </h1>
+
+                        <p class="text-xl text-green-100 font-light italic mb-8 max-w-2xl border-l-4 border-earth-500 pl-4">
+                            "{journalData.slogan}"
+                        </p>
+
+                        <div class="flex flex-wrap gap-4 mt-8">
+                            <button class="bg-white text-[#063c2e] px-6 py-3 font-bold text-sm uppercase tracking-wide hover:bg-gray-100 transition-colors shadow-lg flex items-center gap-2">
+                                <FileText size={18} />
+                                Submit Your Article
+                            </button>
+                            <button class="bg-transparent border border-white text-white px-6 py-3 font-bold text-sm uppercase tracking-wide hover:bg-white/10 transition-colors flex items-center gap-2">
+                                <BookOpen size={18} />
+                                Guide for Authors
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="relative -mt-24 z-20 pb-24">
-            <div class="container mx-auto px-4 flex justify-center">
-                <div class="relative w-[300px] h-[400px] md:w-[380px] md:h-[500px] bg-amazon-950 rounded-r-2xl rounded-l-sm shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] transform rotate-1 hover:rotate-0 transition-all duration-700 group cursor-default border-l-4 border-gray-700 overflow-hidden">
+        <div class="border-b border-gray-200 sticky top-20 z-40 bg-white/95 backdrop-blur-sm shadow-sm hidden md:block">
+            <div class="container mx-auto px-4 max-w-7xl">
+                <ul class="flex gap-8 text-sm font-medium text-gray-600">
+                    <li class="border-b-2 border-amazon-700 text-amazon-900 py-4 cursor-pointer font-bold">About the Journal</li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-4 max-w-7xl">
+                <div class="grid md:grid-cols-12 gap-12">
                     
-                    <div class="absolute left-0 top-0 bottom-0 w-3 bg-gradient-to-r from-white/20 to-transparent z-10"></div>
-                    
-                    <div class="absolute inset-0 p-8 flex flex-col justify-between bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-90">
+                    <div class="md:col-span-8 space-y-12">
                         
-                        <div class="border-b border-white/10 pb-4">
-                            <div class="flex justify-between items-start">
-                                <span class="text-white/50 text-[10px] uppercase tracking-[0.2em] font-bold">Vol. 01 &bull; 2026</span>
-                                <div class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/80">
-                                    <span class="font-serif italic font-bold">F</span>
-                                </div>
+                        <div>
+                            <h2 class="text-3xl font-serif text-[#063c2e] mb-6 font-bold">About the journal</h2>
+                            <div class="prose prose-lg text-gray-700 leading-relaxed text-justify">
+                                {journalData.about.map((paragraph, index) => (
+                                    <p class="mb-4 font-sans text-base md:text-lg">{paragraph}</p>
+                                ))}
                             </div>
                         </div>
 
-                        <div class="text-center mt-4">
-                            <h2 class="font-serif text-4xl md:text-5xl text-white leading-[0.9] mb-4 drop-shadow-lg">
-                                Forests,<br/>
-                                <span class="text-earth-400 italic">Conservation</span><br/>
-                                and Society
-                            </h2>
-                            <div class="w-16 h-1 bg-amazon-500 mx-auto rounded-full"></div>
+                        <div class="bg-gray-50 p-8 rounded-xl border-l-4 border-earth-500">
+                            <h3 class="text-xl font-serif font-bold text-gray-900 mb-4">Aims</h3>
+                            <p class="text-gray-700 text-base md:text-lg leading-relaxed italic">
+                                {journalData.aims}
+                            </p>
                         </div>
 
                         <div>
-                            <p class="text-white/60 text-[10px] uppercase tracking-widest text-center mb-3">Published by FORAMA</p>
-                            <div class="flex justify-center gap-3 text-white/30 text-[9px] font-bold uppercase tracking-wider">
-                                <span>Ecology</span> &bull; <span>Policy</span> &bull; <span>Society</span>
+                            <h3 class="text-2xl font-serif font-bold text-[#063c2e] mb-8 border-b border-gray-100 pb-4">
+                                Scope & Thematic Areas
+                            </h3>
+                            
+                            <div class="space-y-10">
+                                {journalData.scope.map((area) => {
+                                    const Icono = area.icon;
+                                    return (
+                                        <div class="flex gap-5 items-start group">
+                                            <div class="shrink-0 mt-1 p-3 bg-white border border-gray-100 rounded-lg shadow-sm text-amazon-700 group-hover:border-amazon-200 transition-colors">
+                                                <Icono size={24} strokeWidth={1.5} />
+                                            </div>
+                                            
+                                            <div class="flex-1">
+                                                <h4 class="font-serif text-lg font-bold text-gray-900 mb-3 group-hover:text-amazon-700 transition-colors">
+                                                    {area.category}
+                                                </h4>
+                                                
+                                                <ul class="grid md:grid-cols-2 gap-x-8 gap-y-2">
+                                                    {area.items.map((item) => (
+                                                        <li class="flex items-start gap-2 text-gray-600 text-sm leading-snug">
+                                                            <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-earth-400 shrink-0"></span>
+                                                            {item}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    )
+                                })}
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <section id="scope" class="py-24 bg-white relative">
-            <div class="container mx-auto px-4 max-w-7xl">
-                
-                <div class="text-center mb-16">
-                    <span class="text-amazon-600 font-bold tracking-[0.2em] uppercase text-xs mb-3 block">Alcance Científico</span>
-                    <h2 class="font-serif text-3xl md:text-5xl text-amazon-900 mb-6">Áreas Temáticas</h2>
-                    <p class="text-gray-500 max-w-2xl mx-auto font-light text-lg">
-                        Cubrimos un amplio espectro de disciplinas para abordar la complejidad de los ecosistemas forestales.
-                    </p>
-                </div>
-
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {journalData.tematicas.map((tema) => {
-                        const Icono = tema.icon;
-                        return (
-                            <div class={`p-8 rounded-[2rem] border ${tema.border} ${tema.bg} hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group`}>
-                                <div class={`w-14 h-14 rounded-2xl bg-white flex items-center justify-center ${tema.text} mb-6 shadow-sm group-hover:scale-110 transition-transform`}>
-                                    <Icono size={28} />
-                                </div>
-                                <h3 class="text-xl font-bold text-amazon-900 mb-3 font-serif">{tema.titulo}</h3>
-                                <p class="text-gray-600 text-sm leading-relaxed font-medium">
-                                    {tema.desc}
-                                </p>
-                            </div>
-                        )
-                    })}
-                </div>
-
-            </div>
-        </section>
-
-        <section class="py-24 bg-amazon-950 text-white relative overflow-hidden">
-            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
-            
-            <div class="container mx-auto px-4 max-w-6xl relative z-10">
-                <div class="grid lg:grid-cols-2 gap-20 items-center">
-                    
-                    <div>
-                        <span class="text-earth-400 font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Valor Diferencial</span>
-                        <h2 class="font-serif text-4xl md:text-5xl mb-8 leading-tight">¿Qué nos distingue?</h2>
-                        <p class="text-gray-400 leading-relaxed text-lg mb-10">
-                            Forests, Conservation and Society busca cerrar la brecha entre la investigación académica, la formulación de políticas públicas y las prácticas en el terreno.
-                        </p>
-                        
-                        <ul class="space-y-5">
-                            {journalData.distintivos.map((item) => (
-                                <li class="flex items-center gap-4 group">
-                                    <div class="w-8 h-8 rounded-full bg-earth-500 flex items-center justify-center shrink-0 group-hover:bg-white transition-colors">
-                                        <CheckCircle2 size={16} className="text-amazon-950" />
+                        <div class="mt-12">
+                             <h3 class="text-2xl font-serif font-bold text-[#063c2e] mb-6">Journal Distinctiveness</h3>
+                             <p class="text-gray-600 mb-6">Forests, Conservation and Society distinguishes itself through:</p>
+                             <div class="grid md:grid-cols-2 gap-4">
+                                {[
+                                    "Amazon-focused perspective", 
+                                    "Strong integration of society and environment",
+                                    "Interdisciplinary scope",
+                                    "Community-centered approach",
+                                    "Open-access commitment",
+                                    "Applied science orientation"
+                                ].map(item => (
+                                    <div class="flex items-center gap-3 p-3 bg-green-50/50 rounded-lg border border-green-50">
+                                        <Leaf size={16} className="text-green-600" />
+                                        <span class="text-sm font-bold text-green-900">{item}</span>
                                     </div>
-                                    <span class="font-medium text-gray-200 group-hover:text-white transition-colors">{item}</span>
-                                </li>
-                            ))}
-                        </ul>
+                                ))}
+                             </div>
+                        </div>
+
                     </div>
 
-                    <div class="relative bg-white/5 border border-white/10 rounded-[2.5rem] p-12 backdrop-blur-sm">
-                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-earth-500 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
+
+                    <div class="md:col-span-4 space-y-8">
                         
-                        <h3 class="font-serif text-3xl mb-8 text-white">Audiencia Objetivo</h3>
-                        <p class="text-gray-400 text-sm mb-8 leading-relaxed">
-                            [cite_start]Esta publicación está dirigida a una comunidad global comprometida con el futuro de los bosques, incluyendo científicos, ONGs y comunidades locales. [cite: 53-59]
-                        </p>
-                        
-                        <div class="flex flex-wrap gap-3">
-                            {['Ecólogos Forestales', 'Expertos en Carbono', 'ONGs', 'Tomadores de Decisiones', 'Investigadores Indígenas'].map(tag => (
-                                <span class="px-4 py-2 bg-white/10 rounded-xl text-xs font-bold text-earth-300 border border-white/5 hover:bg-white/20 transition-colors cursor-default">
-                                    {tag}
-                                </span>
-                            ))}
+                        <div class="relative group overflow-hidden bg-white p-8 border border-gray-100 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300">
+                            <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-[#063c2e] to-emerald-500 group-hover:w-2 transition-all duration-300"></div>
+                            <div class="absolute -right-12 -top-12 w-40 h-40 bg-emerald-50 rounded-full blur-3xl group-hover:bg-emerald-100 transition-colors duration-500"></div>
+                            <div class="relative z-10">
+                                <h3 class="font-serif text-2xl text-[#063c2e] mb-3 font-bold tracking-tight">Editorial Platform</h3>
+                                <p class="font-sans text-gray-600 text-sm mb-8 leading-relaxed">
+                                    Submission management, peer review, and access to the full editorial board are all handled through our <strong>OJS</strong> system.
+                                </p>
+                                <a href="#" target="_blank" class="flex items-center justify-between w-full bg-[#063c2e] text-white px-6 py-4 rounded-lg shadow-md hover:bg-emerald-800 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group/btn">
+                                    <span class="font-sans font-bold text-xs uppercase tracking-widest">Access OJS Platform</span>
+                                    <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform"/>
+                                </a>
+                            </div>
                         </div>
 
-                        <div class="mt-10 pt-8 border-t border-white/10 flex items-center justify-between">
-                            <div>
-                                <span class="block text-[10px] uppercase tracking-widest text-gray-500 mb-1">Publicada por</span>
-                                <span class="font-bold text-white text-lg tracking-tight">FORAMA</span>
-                            </div>
-                            <div class="h-10 w-10 bg-white rounded-full flex items-center justify-center text-amazon-950 font-bold">
-                                F
+                        <div class="relative group overflow-hidden bg-white p-8 border border-gray-100 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300">
+                            <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-orange-500 to-amber-400 group-hover:w-2 transition-all duration-300"></div>
+                            <div class="absolute -right-10 -top-10 w-32 h-32 bg-orange-50 rounded-full blur-2xl group-hover:bg-amber-50 transition-colors duration-500"></div>
+                            <div class="relative z-10">
+                                <h3 class="font-serif text-2xl text-gray-900 mb-6 font-bold tracking-tight">Publishing Options</h3>
+                                <div class="mb-6">
+                                    <div class="flex items-center gap-3 mb-3">
+                                         <div class="p-2 bg-orange-100 text-orange-600 rounded-lg shrink-0">
+                                            <LockOpen size={20} strokeWidth={2.5} />
+                                         </div>
+                                         <span class="font-serif text-lg font-bold text-gray-900">Open Access</span>
+                                    </div>
+                                    <p class="font-sans text-gray-600 text-sm leading-relaxed">
+                                        Articles are freely available to both subscribers and the wider public with permitted reuse.
+                                    </p>
+                                </div>
+                                <div class="bg-gradient-to-br from-stone-50 to-white border border-stone-200 p-4 rounded-xl flex gap-3 items-start group-hover:border-orange-200 transition-colors shadow-sm">
+                                    <div class="mt-0.5 text-emerald-600 shrink-0"><CheckCircle2 size={18} strokeWidth={2.5} /></div>
+                                    <div>
+                                        <span class="block font-sans font-bold text-gray-900 text-[10px] uppercase tracking-widest mb-1">APC Fully Funded</span>
+                                        <p class="font-sans text-xs text-gray-600 leading-snug">
+                                            Publication costs are fully covered by <strong>FORAMA Foundation</strong> funding for the 2026 period.
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -269,113 +293,11 @@ const journalData = {
         </section>
 
     </main>
-
 </Layout>
 
-<script is:inline>
-    document.addEventListener('astro:page-load', () => {
-        const nav = document.querySelector('nav');
-        
-        const updateNavStyle = () => {
-            if (window.scrollY < 50) {
-                // ESTAMOS ARRIBA: Ponemos modo oscuro
-                nav.classList.add('nav-dark-mode');
-            } else {
-                // BAJAMOS: Quitamos modo oscuro (vuelve al blanco original)
-                nav.classList.remove('nav-dark-mode');
-            }
-        };
-
-        // Escuchar el evento scroll
-        window.addEventListener('scroll', updateNavStyle);
-        // Ejecutar al inicio por si recargan a mitad de página
-        updateNavStyle();
-    });
-</script>
-
-<script is:inline>
-    document.addEventListener('astro:page-load', () => {
-        const nav = document.querySelector('nav');
-        
-        const updateNavStyle = () => {
-            // Si estamos en el TOPE (scroll < 50px), activamos modo oscuro
-            if (window.scrollY < 50) {
-                nav.classList.add('nav-dark-mode');
-            } else {
-                // Si bajamos, volvemos al modo normal (blanco)
-                nav.classList.remove('nav-dark-mode');
-            }
-        };
-
-        window.addEventListener('scroll', updateNavStyle);
-        updateNavStyle(); // Ejecutar al cargar
-    });
-</script>
-
-<script is:inline>
-    document.addEventListener('astro:page-load', () => {
-        const nav = document.querySelector('nav');
-        
-        const updateNavStyle = () => {
-            if (window.scrollY < 50) {
-                nav.classList.add('nav-dark-mode');
-            } else {
-                nav.classList.remove('nav-dark-mode');
-            }
-        };
-
-        window.addEventListener('scroll', updateNavStyle);
-        updateNavStyle(); 
-    });
-</script>
-
 <style is:global>
-    nav {
-        transition: all 0.3s ease-in-out !important;
-    }
-
-    /* --- MODO OSCURO (Barra Superior) --- */
-    nav.nav-dark-mode {
-        /* Tu verde oscuro elegante */
+    nav.bg-transparent {
         background-color: #063c2e !important; 
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-        box-shadow: 0 4px 30px rgba(0,0,0,0.3) !important;
-    }
-
-    /* TEXTO BLANCO en los botones principales (Inicio, Quiénes Somos...) */
-    nav.nav-dark-mode > div > div > a,
-    nav.nav-dark-mode > div > div > button,
-    nav.nav-dark-mode > div > div > div > button {
-        color: white !important;
-    }
-    
-    /* ICONOS BLANCOS (Flechas hacia abajo) */
-    nav.nav-dark-mode > div svg {
-        stroke: white !important;
-    }
-
-    /* --- AQUÍ ESTÁ EL CAMBIO PARA LOS DESPLEGABLES --- */
-    
-    /* 1. Títulos o texto normal dentro de la caja blanca: GRIS SUAVE (No negro) */
-    nav.nav-dark-mode div[class*="bg-white"] a,
-    nav.nav-dark-mode div[class*="bg-white"] span,
-    nav.nav-dark-mode div[class*="bg-white"] p {
-        color: #4b5563 !important; /* <--- GRIS 600 (Más clarito, estándar web) */
-    }
-
-    /* 2. Efecto Hover (Al pasar el mouse): Se pone VERDE */
-    nav.nav-dark-mode div[class*="bg-white"] a:hover {
-        color: #059669 !important; /* Verde esmeralda */
-        background-color: #f3f4f6 !important; /* Fondo gris muy tenue */
-    }
-
-    /* 3. Títulos de secciones si los hubiera (negrita) */
-    nav.nav-dark-mode div[class*="bg-white"] h3 {
-        color: #1f2937 !important; /* Gris un poco más oscuro para títulos */
-    }
-
-    /* Botón Donar dentro del menú */
-    nav.nav-dark-mode button[class*="bg-white"] {
-        color: #dc2626 !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 </style>

@@ -15,9 +15,32 @@ export default function HeroCarousel() {
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
+        // 1. Lógica del Carrusel (Cambio de slides)
         const interval = setInterval(() => {
             setIndex((prevIndex) => (prevIndex + 1) % slides.length);
-        }, 4500); // 4.5 segundos por slide
+        }, 4500); 
+
+        // =========================================================
+        // 2. PARCHE DE TRADUCCIÓN PARA REACT
+        // =========================================================
+        // Esto soluciona que el carrusel vuelva a español al regresar al Home.
+        try {
+            const savedLang = localStorage.getItem('forama_lang');
+            
+            // Si el usuario quiere Inglés o Portugués...
+            if (savedLang && savedLang !== 'es') {
+                // Esperamos un poquito (300ms) a que React termine de "pintar" el texto en Español
+                setTimeout(() => {
+                    const teCombo = document.querySelector('.goog-te-combo');
+                    if (teCombo) {
+                        // Le gritamos a Google: "¡Traduce esto otra vez!"
+                        teCombo.value = savedLang;
+                        teCombo.dispatchEvent(new Event('change'));
+                    }
+                }, 300);
+            }
+        } catch (e) { console.error(e); }
+
         return () => clearInterval(interval);
     }, []);
 
