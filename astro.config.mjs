@@ -1,26 +1,29 @@
+// @ts-check
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
+
 import react from '@astrojs/react';
-import vercel from '@astrojs/vercel/serverless'; // Importante para Vercel
+import tailwindcss from '@tailwindcss/vite';
 
-// PASO 1: Determinar el entorno
-const isVercel = process.env.VERCEL === '1';
+import node from '@astrojs/node';
 
+// https://astro.build/config
 export default defineConfig({
-  // PASO 2: Configurar el Adaptador
-  // Si detecta Vercel, usa el adaptador de Vercel (SSR). 
-  // Si es Local o SPanel, puedes usar 'static' o el adaptador de Node.
-  output: isVercel ? 'server' : 'static', 
-  adapter: isVercel ? vercel() : undefined,
+  // ⚠️ IMPORTANTE: Esto activa el modo servidor (SSR)
+  output: 'server',
 
-  integrations: [
-    tailwind(),
-    react()
-  ],
+  integrations: [react()],
 
-  // PASO 3: Configuración de servidor para desarrollo local
+  vite: {
+    plugins: [tailwindcss()]
+  },
+
+  adapter: node({
+    mode: 'standalone'
+  }),
+
+  // Opcional pero recomendado para VPS/SPanel:
+  // Asegura que el servidor escuche en todas las direcciones internas
   server: {
-    port: 3000,
     host: true
   }
 });
