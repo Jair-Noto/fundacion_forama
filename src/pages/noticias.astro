@@ -38,19 +38,49 @@ const noticias = await sql`
             />
             
             <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 z-0"></div>
-            
-            <div class="relative z-10 container mx-auto px-4 text-center animate-fade-in-up">
-                <span class="inline-block py-1.5 px-4 rounded-full bg-earth-500/20 backdrop-blur-md border border-earth-500/30 text-earth-400 font-bold tracking-widest uppercase text-xs mb-8 shadow-lg">
-                    Difusión del Conocimiento
-                </span>
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 tracking-tight drop-shadow-xl">
-                    Noticias y <br/> Actividades
-                </h1>
-                <p class="text-xl md:text-2xl text-gray-200 font-light max-w-3xl mx-auto leading-relaxed text-balance">
-                    Compartimos los avances, descubrimientos y lecciones aprendidas en nuestra labor por la Amazonía.
-                </p>
-            </div>
 
+
+            <div class="relative z-10 container mx-auto px-4 text-center">
+
+                <span class="inline-flex items-center gap-2 py-1.5 px-5 rounded-full
+                            bg-gradient-to-r from-amber-500/25 via-orange-400/16 to-rose-400/14
+                            backdrop-blur-md
+                            border border-white/12
+                            text-white font-semibold uppercase text-[10px]
+                            tracking-[0.34em] mb-8
+                            shadow-[0_12px_35px_rgba(0,0,0,0.38)]
+                            [text-shadow:0_2px_12px_rgba(0,0,0,0.45)]
+                            animate-[fadeUp_700ms_ease-out_both]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-200/90 shadow-[0_0_14px_rgba(251,191,36,0.80)]"></span>
+                    Difusión del conocimiento
+                </span>
+
+                
+                <h1 class="relative font-serif text-6xl md:text-8xl lg:text-9xl font-semibold
+                            mb-7 tracking-tight leading-[0.9] text-white
+                            animate-[heroTitle_900ms_cubic-bezier(.2,.8,.2,1)_both]
+                            [text-shadow:0_2px_0_rgba(0,0,0,0.55),0_10px_30px_rgba(0,0,0,0.55)]
+                            [-webkit-text-stroke:2px_rgba(0,0,0,0.45)]">
+                    Noticias y<br class="hidden md:block"/>
+                    Actividades
+                </h1>
+
+                
+                <p class="relative font-serif text-xl md:text-3xl lg:text-4xl font-medium
+                            mb-7 tracking-tight leading-tight text-white
+                            [text-shadow:0_2px_0_rgba(0,0,0,0.65),0_10px_26px_rgba(0,0,0,0.55)]
+                            [-webkit-text-stroke:1px_rgba(0,0,0,0.35)]">
+                    Compartimos los avances, descubrimientos y
+                    <br class="hidden md:block"/>
+                    <span class="italic font-serif font-semibold">
+                    lecciones aprendidas en nuestra labor por la Amazonía.
+                    </span>
+                </p>
+
+            </div>  
+
+            
+    
             <div class="absolute bottom-10 z-20 animate-bounce">
                 <ChevronDown size={40} className="text-white/70" />
             </div>

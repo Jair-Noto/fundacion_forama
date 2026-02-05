@@ -19,6 +19,8 @@ const { title } = Astro.props;
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <title>{title} | FORAMA</title>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+        
         
         <ClientRouter />
 
@@ -36,8 +38,17 @@ const { title } = Astro.props;
     <body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
         
         <div transition:animate="slide" class="flex flex-col flex-grow w-full">
+                <div class="fixed inset-0 -z-10 h-full w-full bg-white">
+        
+                    <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+                    
+                    <div class="absolute top-0 left-0 right-0 h-[500px] w-full bg-[radial-gradient(circle_800px_at_50%_-100px,#4ade8020,transparent)]"></div>
+                    
+                    <div class="absolute bottom-0 right-0 h-[500px] w-[500px] bg-[radial-gradient(circle_400px_at_100%_100%,#f9731615,transparent)]"></div>
+
+                </div>
             <slot /> 
-            <Footer /> 
+          <Footer /> 
         </div>
 
         <div transition:persist>
