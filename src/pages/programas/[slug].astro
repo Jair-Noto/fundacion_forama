@@ -1,4 +1,5 @@
 ---
+// 1. IMPORTACIONES (Siempre deben ir primero)
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/shared/Navbar.jsx';
 import sql from '../../lib/db.js';
@@ -13,7 +14,11 @@ import {
     Info 
 } from 'lucide-react';
 
-// --- 1. CONFIGURACIÓN VISUAL ---
+// 2. DEFINICIÓN DE TIPOS Y VARIABLES
+// Hacemos el casting aquí para que TypeScript no se queje, pero sin romper los imports
+const typedSql = sql as (query: TemplateStringsArray, ...values: any[]) => Promise<any[]>;
+
+// --- CONFIGURACIÓN VISUAL ---
 const estilosProgramas: any = {
     1: { color: "bg-green-600", text: "text-green-600", border: "border-green-200", hover: "hover:border-green-500", image: "/imags/material_programas/proyect_1.jpg" },
     2: { color: "bg-blue-600", text: "text-blue-600", border: "border-blue-200", hover: "hover:border-blue-500", image: "/imags/material_programas/proyect_2.jpg" },
@@ -26,25 +31,24 @@ const estilosProgramas: any = {
     9: { color: "bg-emerald-600", text: "text-emerald-600", border: "border-emerald-200", hover: "hover:border-emerald-500", image: "/imags/material_programas/proyect_9.jpg" }
 };
 
-// --- 2. GENERAR RUTAS ESTÁTICAS ---
-export async function getStaticPaths() {
-    const programas = await sql`SELECT slug FROM programas`;
-    return programas.map((prog: any) => ({
-        params: { slug: prog.slug },
-    }));
-}
-
-// --- 3. OBTENER DATOS ---
+// --- 3. OBTENER DATOS EN VIVO ---
 const { slug } = Astro.params;
 
-const result = await sql`SELECT * FROM programas WHERE slug = ${slug}`;
+// Validar que tengamos slug
+if (!slug) {
+    return Astro.redirect('/404');
+}
+
+// Usamos typedSql para que el editor te ayude con la sintaxis
+const result = await typedSql`SELECT * FROM programas WHERE slug = ${slug}`;
 const programa = result[0];
 
 if (!programa) {
     return Astro.redirect('/404');
 }
 
-const proyectos = await sql`
+// Consulta de proyectos
+const proyectos = await typedSql`
     SELECT * FROM proyectos 
     WHERE programa_id = ${programa.id}
     ORDER BY fecha_publicacion DESC
@@ -69,7 +73,7 @@ const proyectosPlanificacion = proyectos.filter((p: any) => p.estado === 'En Pla
 
   <main class="bg-slate-50 min-h-screen pb-24">
     
-    {/* SECCIÓN HERO CORREGIDA: Usamos flex-col y justify-between para separar botón y texto */}
+    {/* SECCIÓN HERO */}
     <div class="relative h-[60vh] min-h-[500px] flex flex-col justify-between pb-16 pt-32 overflow-hidden">
       
       <div class="absolute inset-0">
@@ -80,7 +84,7 @@ const proyectosPlanificacion = proyectos.filter((p: any) => p.estado === 'En Pla
       
       <div class="container relative z-10 mx-auto px-6 max-w-7xl h-full flex flex-col justify-between">
         
-        {/* PARTE SUPERIOR: Botón fijo (siempre en la misma posición) */}
+        {/* Botón Volver */}
         <div>
             <a href={`/programas#programa-${slug}`} class="group inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors font-medium backdrop-blur-md bg-white/5 px-5 py-2.5 rounded-full border border-white/10 hover:bg-white/10 w-fit">
               <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" /> 
@@ -88,7 +92,7 @@ const proyectosPlanificacion = proyectos.filter((p: any) => p.estado === 'En Pla
             </a>
         </div>
         
-        {/* PARTE INFERIOR: Título y descripción (siempre abajo) */}
+        {/* Título y descripción */}
         <div class="max-w-4xl">
            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight drop-shadow-2xl">
             {programa.titulo}
@@ -124,7 +128,6 @@ const proyectosPlanificacion = proyectos.filter((p: any) => p.estado === 'En Pla
                     </>
                 )}
             </div>
-           
         </div>
     </div>
 
@@ -141,7 +144,7 @@ const proyectosPlanificacion = proyectos.filter((p: any) => p.estado === 'En Pla
         </div>
       ) : (
         <div class="grid gap-10">
-          {proyectos.map((proyecto: any, index: number) => (
+          {proyectos.map((proyecto: any) => (
             <article class={`group relative bg-white rounded-[2rem] p-8 md:p-10 border border-slate-200 shadow-sm hover:shadow-2xl transition-all duration-300 ${estilo.hover}`}>
               
               <div class={`absolute left-0 top-10 bottom-10 w-1.5 ${estilo.color} rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity`}></div>
