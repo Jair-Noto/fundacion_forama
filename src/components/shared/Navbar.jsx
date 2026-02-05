@@ -5,6 +5,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false); // Menú móvil
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileSubmenu, setMobileSubmenu] = useState(null); // Estado para acordeón móvil
+  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false); // Estado para el menú de idiomas
   
   // Detectar scroll para cambiar el diseño (Transparente -> Blanco)
   useEffect(() => {
@@ -17,7 +18,8 @@ export default function Navbar() {
   const changeLang = (langCode) => {
     if (typeof window.doGTranslate === 'function') {
       window.doGTranslate(`es|${langCode}`);
-      setIsOpen(false); 
+      setIsOpen(false); // Cierra menú móvil si está abierto
+      setIsLangMenuOpen(false); // Cierra menú idiomas
     } else {
       console.warn("Google Translate script not loaded yet");
     }
@@ -94,19 +96,26 @@ export default function Navbar() {
           {/* 2. BOTONES DERECHA */}
           <div className="flex lg:order-2 gap-2 z-50 relative items-center">
             
-            {/* --- BOTÓN DE IDIOMA --- */}
-            <div className="relative group h-full flex items-center">
+            {/* --- BOTÓN DE IDIOMA (MODIFICADO PARA MÓVIL) --- */}
+            <div className="relative h-full flex items-center">
                 
-                <button className={`flex items-center gap-1 p-2 rounded-full transition-colors hover:bg-black/5 outline-none ${burgerColor}`}>
+                <button 
+                    onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                    className={`flex items-center gap-1 p-2 rounded-full transition-colors hover:bg-black/5 outline-none ${burgerColor}`}
+                >
                     <Globe size={20} />
-                    <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-300" />
+                    <ChevronDown 
+                        size={14} 
+                        className={`transition-transform duration-300 ${isLangMenuOpen ? 'rotate-180' : ''}`} 
+                    />
                 </button>
 
-                {/* MENÚ DESPLEGABLE */}
-                <div className="absolute top-full right-0 pt-2 w-40 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 ease-out">
+                {/* MENÚ DESPLEGABLE DE IDIOMAS */}
+                <div className={`
+                    absolute top-full right-0 pt-2 w-40 transition-all duration-300 ease-out
+                    ${isLangMenuOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-2'}
+                `}>
                     <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden p-1.5">
-                        
-                        {/* AQUI ESTÁ EL CAMBIO: Agregué la clase 'notranslate' a los SPAN de códigos */}
                         
                         <button onClick={() => changeLang('es')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm text-gray-700 hover:bg-amazon-50 hover:text-amazon-700 rounded-xl transition-colors font-bold group/item">
                             <span className="notranslate text-[10px] uppercase text-gray-400 font-extrabold w-5 group-hover/item:text-amazon-600">ES</span> 
@@ -128,6 +137,7 @@ export default function Navbar() {
             </div>
             {/* --- FIN BOTÓN IDIOMA --- */}
 
+            {/* Botón Donar (Versión Desktop - Oculto en móvil) */}
             <a href="/como-apoyar" className={`
                 hidden sm:flex items-center gap-2 font-bold rounded-full text-xs px-5 py-2 transition-all transform hover:scale-105 shadow-lg
                 ${isScrolled 
@@ -138,6 +148,7 @@ export default function Navbar() {
               <span>Donar</span>
             </a>
             
+            {/* Botón Hamburguesa */}
             <button 
               onClick={() => setIsOpen(!isOpen)}
               type="button" 
@@ -147,7 +158,7 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* 3. MENÚ PRINCIPAL */}
+          {/* 3. MENÚ PRINCIPAL (MOBILE & DESKTOP) */}
           <div className={`items-center justify-between w-full lg:flex lg:w-auto lg:order-1 
               ${isOpen ? 'absolute top-0 left-0 w-full h-screen bg-white overflow-y-auto flex flex-col pt-24 pb-10 shadow-xl' : 'hidden'}
           `}>
@@ -222,17 +233,18 @@ export default function Navbar() {
                 </li>
               ))}
               
-             {isOpen && (
-                  <li className="mt-6 px-4 pb-8">
+              {/* --- AQUÍ ESTÁ EL BOTÓN DONAR PARA MÓVIL QUE PEDISTE --- */}
+              {isOpen && (
+                  <li className="mt-6 px-4 pb-8 lg:hidden">
                     <a
                       href="/como-apoyar"
                       className="
                         group relative
-                        w-full lg:w-auto
+                        w-full
                         inline-flex items-center justify-center gap-2
                         px-5 sm:px-6
-                        py-4 sm:py-3 lg:py-2
-                        rounded-2xl sm:rounded-full
+                        py-4 sm:py-3
+                        rounded-2xl
                         overflow-hidden
                         border border-white/10
                         bg-gradient-to-r from-emerald-700 via-emerald-600 to-lime-500
@@ -241,8 +253,8 @@ export default function Navbar() {
                         hover:shadow-[0_18px_50px_rgba(16,185,129,0.35)]
                         hover:-translate-y-[1px] hover:scale-[1.02]
                         active:translate-y-0 active:scale-[0.98]
-                        focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black/30
                       "
+                      onClick={() => setIsOpen(false)}
                     >
                       {/* overlay */}
                       <span className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500" />
@@ -271,7 +283,7 @@ export default function Navbar() {
                       " />
 
                       {/* inner ring */}
-                      <span className="absolute inset-0 rounded-2xl sm:rounded-full ring-1 ring-white/15 group-hover:ring-white/25 transition duration-500" />
+                      <span className="absolute inset-0 rounded-2xl ring-1 ring-white/15 group-hover:ring-white/25 transition duration-500" />
 
                       {/* content */}
                       <span className="relative z-10 inline-flex items-center gap-2">
@@ -288,7 +300,7 @@ export default function Navbar() {
                         <span className="
                           text-white font-extrabold uppercase
                           tracking-[0.14em]
-                          text-sm sm:text-xs lg:text-xs
+                          text-sm
                         ">
                           Donar
                         </span>
@@ -296,6 +308,8 @@ export default function Navbar() {
                     </a>
                   </li>
                 )}
+                {/* --- FIN BOTÓN DONAR MÓVIL --- */}
+
             </ul>
           </div>
 
