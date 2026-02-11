@@ -1,482 +1,741 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/shared/Navbar.jsx';
-
 import { 
-    MapPin, 
-    Mail, 
-    Phone, 
-    Send, 
-    Target, 
-    Eye,
-    Clock,
-    ChevronDown,
-    ExternalLink, 
-    Telescope,
+  MapPin, 
+  Mail, 
+  Phone, 
+  Send, 
+  Target, 
+  Eye,
+  Clock,
+  ChevronDown,
+  ExternalLink, 
+  Telescope,
+  Sparkles,
+  TreePine,
+  Leaf,
+  Users, 
+  Briefcase
 } from 'lucide-react';
 ---
 
-<Layout title="Contacto">
+<Layout 
+  title="Contacto" 
+  description="Contacta con FORAMA - Fundación Flora Amazónica. Estamos en Cobija, Pando, Bolivia. Alianzas, proyectos y consultas institucionales."
+>
+  
+  {/* ✅ OPTIMIZACIÓN 1: Navbar persistente */}
+  <Navbar client:load transition:persist />
+
+  <main>
     
-    <Navbar client:load transition:persist />
+    {/* ✅ OPTIMIZACIÓN 2: Hero optimizado */}
+    <section 
+  class="relative h-screen flex items-start justify-center bg-amazon-900 text-white overflow-hidden pt-55"
+  aria-labelledby="hero-heading"
+>
+  <img 
+    src="/imags/material_contactos/contacto.jpg" 
+    alt="Paisaje amazónico de Pando, Bolivia - Sede de FORAMA" 
+    class="absolute inset-0 w-full h-full object-cover transform scale-105"
+    loading="eager"
+    width="1920"
+    height="1080"
+  />
+  
+  <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 z-0" aria-hidden="true"></div>
 
-    <main>
-        
-        <section class="relative h-screen flex items-start justify-center bg-amazon-900 text-white overflow-hidden pt-55">
-            
-                <img 
-                src="/imags/material_contactos/contacto.jpg" 
-                alt="Contacto con Forama" 
-                class="absolute inset-0 w-full h-full object-cover transform scale-105"
-                />
-            
-            <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 z-0"></div>
+  <div class="relative z-10 container mx-auto px-4 text-center">
+    <span class="inline-flex items-center gap-2 py-1.5 px-5 rounded-full
+                bg-gradient-to-r from-amber-500/22 via-orange-400/14 to-rose-300/12
+                backdrop-blur-md
+                border border-white/12
+                text-white font-semibold uppercase text-[10px]
+                tracking-[0.34em] mb-8
+                shadow-[0_12px_35px_rgba(0,0,0,0.38)]
+                [text-shadow:0_2px_12px_rgba(0,0,0,0.45)]
+                animate-[fadeUp_700ms_ease-out_both]">
+      <span class="w-1.5 h-1.5 rounded-full bg-amber-200/95 shadow-[0_0_14px_rgba(251,191,36,0.80)]" aria-hidden="true"></span>
+      Contactos
+    </span>
 
-            <div class="relative z-10 container mx-auto px-4 text-center">
+    <h1 
+      id="hero-heading"
+      class="relative font-serif text-6xl md:text-8xl lg:text-9xl font-semibold
+                mb-7 tracking-tight leading-[0.9] text-white
+                animate-[heroTitle_900ms_cubic-bezier(.2,.8,.2,1)_both]
+                [text-shadow:0_2px_0_rgba(0,0,0,0.55),0_10px_30px_rgba(0,0,0,0.55)]
+                [-webkit-text-stroke:2px_rgba(0,0,0,0.45)]"
+    >
+      Contáctanos
+    </h1>
 
-                
-                <span class="inline-flex items-center gap-2 py-1.5 px-5 rounded-full
-                            bg-gradient-to-r from-amber-500/22 via-orange-400/14 to-rose-300/12
-                            backdrop-blur-md
-                            border border-white/12
-                            text-white font-semibold uppercase text-[10px]
-                            tracking-[0.34em] mb-8
-                            shadow-[0_12px_35px_rgba(0,0,0,0.38)]
-                            [text-shadow:0_2px_12px_rgba(0,0,0,0.45)]
-                            animate-[fadeUp_700ms_ease-out_both]">
-                    <span class="w-1.5 h-1.5 rounded-full bg-amber-200/95 shadow-[0_0_14px_rgba(251,191,36,0.80)]"></span>
-                    Contactos
-                </span>
+    <p class="relative font-serif text-xl md:text-3xl lg:text-4xl font-medium
+                mb-10 tracking-tight leading-tight text-white
+                [text-shadow:0_2px_0_rgba(0,0,0,0.65),0_10px_26px_rgba(0,0,0,0.55)]
+                [-webkit-text-stroke:1px_rgba(0,0,0,0.35)]">
+      Estamos aquí para alianzas, proyectos, prensa y consultas institucionales.
+      <br class="hidden md:block" aria-hidden="true"/>
+      <span class="italic font-serif font-semibold">
+        Construyamos sostenibilidad desde el corazón del bosque.
+      </span>
+    </p>
 
-                
-                <h1 class="relative font-serif text-6xl md:text-8xl lg:text-9xl font-semibold
-                            mb-7 tracking-tight leading-[0.9] text-white
-                            animate-[heroTitle_900ms_cubic-bezier(.2,.8,.2,1)_both]
-                            [text-shadow:0_2px_0_rgba(0,0,0,0.55),0_10px_30px_rgba(0,0,0,0.55)]
-                            [-webkit-text-stroke:2px_rgba(0,0,0,0.45)]">
-                    Contáctanos
-                </h1>
+    <div class="mx-auto w-full max-w-4xl animate-[fadeUp_900ms_ease-out_both]">
+      <div class="flex flex-col sm:flex-row items-stretch justify-center gap-3">
+        {/* Botón 1: Escribir Email */}
+        <a 
+          href="mailto:contacto@forama.org"
+          class="group inline-flex items-center justify-center gap-2
+                  h-12 md:h-14 px-6 md:px-8 rounded-2xl
+                  bg-white/10 backdrop-blur-md border border-white/15
+                  text-white font-extrabold text-sm md:text-base uppercase tracking-wider
+                  shadow-[0_18px_50px_rgba(0,0,0,0.45)]
+                  hover:bg-white/14 hover:border-white/25 hover:scale-[1.01]
+                  active:scale-[0.98]
+                  transition-all duration-300
+                  focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+          aria-label="Enviar email a contacto@forama.org"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          Escribir Email
+        </a>
 
-                
-                <p class="relative font-serif text-xl md:text-3xl lg:text-4xl font-medium
-                            mb-10 tracking-tight leading-tight text-white
-                            [text-shadow:0_2px_0_rgba(0,0,0,0.65),0_10px_26px_rgba(0,0,0,0.55)]
-                            [-webkit-text-stroke:1px_rgba(0,0,0,0.35)]">
-                    Estamos aquí para alianzas, proyectos, prensa y consultas institucionales.
-                    <br class="hidden md:block"/>
-                    <span class="italic font-serif font-semibold">
-                    Construyamos sostenibilidad desde el corazón del bosque.
-                    </span>
+      </div>
+
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-2">
+        <a 
+          href="https://wa.me/59171114083"
+          class="px-4 py-2 rounded-full bg-white/8 backdrop-blur-md border border-white/12
+                  text-white/90 text-xs md:text-sm font-semibold
+                  hover:bg-white/12 hover:border-white/20 transition-all duration-300
+                  focus:outline-none focus:ring-2 focus:ring-white/30"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Contactar por WhatsApp al +591 71114083"
+        >
+          💬 WhatsApp 📞 +591 71114083
+        </a>
+        <a 
+          href="https://wa.me/5592993197428"
+          class="px-4 py-2 rounded-full bg-white/8 backdrop-blur-md border border-white/12
+                  text-white/90 text-xs md:text-sm font-semibold
+                  hover:bg-white/12 hover:border-white/20 transition-all duration-300
+                  focus:outline-none focus:ring-2 focus:ring-white/30"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Contactar por WhatsApp al +55 92993197428"
+        >
+          💬 WhatsApp 📞 +55 92993197428
+        </a>
+      </div>
+
+      <p class="mt-5 text-white/70 text-xs md:text-sm font-sans
+              [text-shadow:0_10px_26px_rgba(0,0,0,0.55)]">
+        Respondemos normalmente en 24–48 horas hábiles. Para prensa o alianzas, incluye tu institución y objetivo.
+      </p>
+    </div>
+  </div>
+
+  <div class="absolute bottom-10 z-20 animate-bounce">
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/70" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+</section>
+
+<section id="voluntariado" class="py-24 bg-amazon-900 text-white relative overflow-hidden scroll-mt-20">
+
+  {/* Decoración igual que antes */}
+  <div class="absolute -left-20 -top-20 w-96 h-96 bg-green-500 rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
+
+  <div class="container mx-auto px-4 max-w-6xl relative z-10">
+    <div class="grid md:grid-cols-2 gap-16 items-center">
+
+      {/* ── COLUMNA IZQUIERDA ── */}
+      <div>
+
+        {/* Badge nuevo */}
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/8 border border-white/12 text-green-300 text-[11px] font-bold uppercase tracking-[0.2em] mb-5">
+          <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+          Únete al equipo
+        </span>
+
+        {/* Título cambiado */}
+        <h2 class="text-4xl font-extrabold mb-4 leading-tight">
+          Trabaja con nosotros
+        </h2>
+
+        <p class="text-amazon-200 text-lg mb-8 leading-relaxed">
+          Más allá de lo económico, FORAMA se construye con manos y mentes. 
+          Ofrecemos espacios para voluntariado técnico y servicios profesionales.
+        </p>
+
+        {/* Items rediseñados — misma info + nueva línea */}
+        <div class="space-y-4">
+
+          {/* Item 1: Voluntariado */}
+          <div class="flex gap-4 p-4 rounded-2xl bg-white/5 border border-white/8 hover:bg-white/10 hover:border-green-400/30 transition-all duration-200 group">
+            <div class="w-11 h-11 bg-green-500/15 border border-green-400/25 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-green-400">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-base font-bold text-white">Voluntariado</h4>
+              <p class="text-sm text-amazon-300 mt-0.5">Únete a salidas de campo y análisis de datos.</p>
+            </div>
+          </div>
+
+          {/* Item 2: Servicios Técnicos */}
+          <div class="flex gap-4 p-4 rounded-2xl bg-white/5 border border-white/8 hover:bg-white/10 hover:border-amber-400/30 transition-all duration-200 group">
+            <div class="w-11 h-11 bg-amber-500/15 border border-amber-400/25 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400">
+                <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-base font-bold text-white">Servicios Técnicos</h4>
+              <p class="text-sm text-amazon-300 mt-0.5">Consultorías especializadas en conservación.</p>
+            </div>
+          </div>
+
+          {/* Item 3: NUEVO — Trabaja con FORAMA */}
+          <div class="flex gap-4 p-4 rounded-2xl bg-white/5 border border-white/8 hover:bg-white/10 hover:border-blue-400/30 transition-all duration-200 group">
+            <div class="w-11 h-11 bg-blue-500/15 border border-blue-400/25 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-base font-bold text-white">Trabaja con FORAMA</h4>
+              <p class="text-sm text-amazon-300 mt-0.5">Forma parte de nuestra misión por la Amazonía boliviana.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* ── COLUMNA DERECHA — card rediseñada ── */}
+      <div class="relative">
+
+        {/* Glow detrás de la card */}
+        <div class="absolute -inset-4 bg-green-500/10 rounded-3xl blur-2xl pointer-events-none"></div>
+
+        <div class="relative bg-white/6 backdrop-blur-xl border border-white/12 p-8 rounded-3xl">
+
+          {/* Header de la card */}
+          <div class="flex items-center gap-3 mb-6 pb-6 border-b border-white/10">
+            <div class="w-10 h-10 bg-green-500/20 border border-green-400/30 rounded-xl flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-white leading-tight">Postúlate hoy</h3>
+              <p class="text-xs text-amazon-300">Cuéntanos cómo te gustaría involucrarte.</p>
+            </div>
+          </div>
+
+          {/* Micro stats */}
+          <div class="grid grid-cols-2 gap-3 mb-6">
+            <div class="bg-white/5 rounded-2xl p-4 text-center border border-white/8">
+              <p class="text-2xl font-extrabold text-green-400">FORAMA</p>
+              <p class="text-xs text-amazon-300 mt-0.5">Fundacion Flora Amazonica</p>
+            </div>
+            <div class="bg-white/5 rounded-2xl p-4 text-center border border-white/8">
+              <p class="text-2xl font-extrabold text-amber-400">Pando</p>
+              <p class="text-xs text-amazon-300 mt-0.5">Amazonía boliviana</p>
+            </div>
+          </div>
+
+          {/* Botón principal */}
+          <a 
+            href="mailto:contacto@forama.org?subject=Quiero%20unirme%20a%20FORAMA"
+            class="flex items-center justify-center gap-2 w-full py-3.5 bg-white text-amazon-900 font-bold rounded-xl hover:bg-green-400 hover:text-amazon-900 transition-all duration-200 shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-white/20"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="16" x="2" y="4" rx="2"/>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+            Contactar al equipo
+          </a>
+
+          {/* Link secundario WhatsApp */}
+          <a
+            href="https://wa.me/59171114083?text=Hola%2C%20quiero%20trabajar%20con%20FORAMA"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center justify-center gap-2 w-full mt-3 py-3 bg-white/6 border border-white/12 text-white/80 text-sm font-semibold rounded-xl hover:bg-white/10 hover:text-white transition-all duration-200"
+          >
+            💬 Escribir por WhatsApp
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+    {/* ✅ OPTIMIZACIÓN 3: Formulario de contacto optimizado */}
+    <section 
+      id="contacto-info" 
+      class="pb-24 bg-stone-50"
+      aria-labelledby="form-heading"
+    >
+      <div class="container mx-auto px-4 max-w-7xl">
+        <div class="bg-white rounded-[3rem] shadow-xl border border-gray-100 overflow-hidden">
+          <div class="grid lg:grid-cols-12">
+
+            {/* Panel izquierdo - Info */}
+            <aside class="lg:col-span-5 bg-amazon-900 text-white p-8 md:p-12 lg:p-14 relative overflow-hidden flex flex-col justify-between">
+              {/* Pattern decorativo */}
+              <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none" aria-hidden="true">
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#grid)" />
+                </svg>
+              </div>
+
+              <div class="relative z-10">
+                <h3 class="text-2xl md:text-3xl font-bold mb-2">
+                  Información de Contacto
+                </h3>
+                <p class="text-amazon-200 mb-8 md:mb-9 text-base md:text-lg">
+                  Aquí nos encuentras siempre.
                 </p>
 
-                
-                <div class="mx-auto w-full max-w-4xl animate-[fadeUp_900ms_ease-out_both]">
+                <div class="space-y-6 md:space-y-7">
+                  {/* Ubicación */}
+                  <div class="flex items-start gap-4 md:gap-5">
+                    <div class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                      <MapPin size={24} className="text-earth-400" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-lg">Visítanos</h4>
+                      <address class="text-amazon-100 text-sm leading-relaxed mt-1 not-italic">
+                        Calle Graciela Pérez N° 055,<br/>Barrio Nazaria. Cobija, Pando.
+                      </address>
+                    </div>
+                  </div>
 
-             
-                    <div class="flex flex-col sm:flex-row items-stretch justify-center gap-3">
-                    
-                    <a href="mailto:contacto@forama.org"
-                        class="group inline-flex items-center justify-center gap-2
-                                h-12 md:h-14 px-6 md:px-8 rounded-2xl
-                                bg-white/10 backdrop-blur-md border border-white/15
-                                text-white font-extrabold text-sm md:text-base uppercase tracking-wider
-                                shadow-[0_18px_50px_rgba(0,0,0,0.45)]
-                                hover:bg-white/14 hover:border-white/25 hover:scale-[1.01]
-                                active:scale-[0.98]
-                                transition-all duration-300
-                                focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40">
-                        <!-- icon -->
-                        <svg class="w-5 h-5 opacity-90 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M4 6h16v12H4V6Z" stroke="currentColor" stroke-width="2" />
-                        <path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  {/* Email */}
+                  <div class="flex items-start gap-4 md:gap-5">
+                    <div class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                      <Mail size={24} className="text-earth-400" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-lg">Escríbenos</h4>
+                      <a 
+                        href="mailto:contacto@forama.org" 
+                        class="text-amazon-100 text-sm hover:text-white transition-colors block mt-1"
+                      >
+                        contacto@forama.org
+                      </a>
+                      <span class="text-xs text-amazon-400">Respuesta en 24-48 hrs</span>
+                    </div>
+                  </div>
+
+                  {/* Horario */}
+                  <div class="flex items-start gap-4 md:gap-5">
+                    <div class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                      <Clock size={24} className="text-earth-400" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-lg">Horario</h4>
+                      <p class="text-amazon-100 text-sm mt-1">Lunes a Viernes</p>
+                      <time class="text-white font-bold">08:30 - 16:30</time>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <blockquote class="relative z-10 mt-10 pt-10 border-t border-white/10">
+                <p class="text-sm text-amazon-300 italic">
+                  "Protegiendo el corazón del bosque desde Pando."
+                </p>
+              </blockquote>
+            </aside>
+
+            {/* Panel derecho - Formulario */}
+            <div class="lg:col-span-7 p-8 md:p-12 lg:p-14 bg-white">
+              <h3 id="form-heading" class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                Envíanos un mensaje
+              </h3>
+              <p class="text-gray-500 mb-8 md:mb-9">
+                ¿Tienes alguna duda o propuesta? Llena el formulario.
+              </p>
+
+              <form id="contact-form" class="space-y-5 md:space-y-6">
+            <div class="grid md:grid-cols-2 gap-5 md:gap-6">
+                <div class="space-y-2">
+                <label for="nombre" class="text-sm font-bold text-gray-700 ml-1">
+                    Nombre Completo
+                </label>
+                <input
+                    type="text"
+                    id="nombre"
+                    name="nombre"
+                    required
+                    class="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200
+                        focus:border-amazon-500 focus:bg-white focus:ring-4 focus:ring-amazon-500/10
+                        outline-none transition-all"
+                    placeholder="Tu nombre"
+                    aria-required="true"
+                />
+                </div>
+
+                <div class="space-y-2">
+                <label for="institucion" class="text-sm font-bold text-gray-700 ml-1">
+                    Institución
+                </label>
+                <input
+                    type="text"
+                    id="institucion"
+                    name="institucion"
+                    class="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200
+                        focus:border-amazon-500 focus:bg-white focus:ring-4 focus:ring-amazon-500/10
+                        outline-none transition-all"
+                    placeholder="Empresa / ONG (Opcional)"
+                />
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-5 md:gap-6">
+                <div class="space-y-2">
+                <label for="email" class="text-sm font-bold text-gray-700 ml-1">
+                    Correo Electrónico
+                </label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    class="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200
+                        focus:border-amazon-500 focus:bg-white focus:ring-4 focus:ring-amazon-500/10
+                        outline-none transition-all"
+                    placeholder="tucorreo@ejemplo.com"
+                    aria-required="true"
+                />
+                </div>
+
+                <div class="space-y-2">
+                <label for="asunto" class="text-sm font-bold text-gray-700 ml-1">
+                    Asunto
+                </label>
+                <div class="relative">
+                    <select
+                    id="asunto"
+                    name="asunto"
+                    required
+                    class="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200
+                            focus:border-amazon-500 focus:bg-white focus:ring-4 focus:ring-amazon-500/10
+                            outline-none transition-all appearance-none cursor-pointer text-gray-600"
+                    aria-required="true"
+                    >
+                    <option value="" disabled selected>Selecciona un motivo</option>
+                    <option value="alianzas">Alianzas Institucionales</option>
+                    <option value="donacion">Donación</option>
+                    <option value="voluntariado">Voluntariado</option>
+                    <option value="prensa">Prensa/Media</option>
+                    <option value="otros">Otro</option>
+                    </select>
+                    <ChevronDown size={20} className="absolute right-4 top-3 text-gray-400 pointer-events-none" aria-hidden="true" />
+                </div>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <label for="mensaje" class="text-sm font-bold text-gray-700 ml-1">
+                Mensaje
+                </label>
+                <textarea
+                id="mensaje"
+                name="mensaje"
+                rows="4"
+                required
+                class="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200
+                        focus:border-amazon-500 focus:bg-white focus:ring-4 focus:ring-amazon-500/10
+                        outline-none transition-all resize-none"
+                placeholder="¿Cómo podemos colaborar?"
+                aria-required="true"
+                ></textarea>
+            </div>
+
+            {/* Estado del formulario */}
+            <div id="form-status" class="hidden"></div>
+
+            <button
+                type="submit"
+                id="submit-btn"
+                class="w-full md:w-auto px-7 bg-amazon-600 text-white font-bold py-3.5 rounded-xl shadow-lg hover:bg-amazon-700 hover:-translate-y-1 transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-4 focus:ring-amazon-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Enviar mensaje de contacto"
+            >
+                <span id="btn-text">Enviar Mensaje</span>
+                <Send size={20} id="btn-icon" aria-hidden="true" />
+                <svg 
+                id="btn-spinner" 
+                class="hidden animate-spin" 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="20" 
+                height="20" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                stroke-width="2" 
+                stroke-linecap="round" 
+                stroke-linejoin="round"
+                >
+                <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                </svg>
+            </button>
+            </form>
+
+            <script>
+            const form = document.getElementById('contact-form') as HTMLFormElement;
+            const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+            const btnText = document.getElementById('btn-text') as HTMLSpanElement;
+            const btnIcon = document.getElementById('btn-icon') as HTMLElement | SVGElement | null;
+            const btnSpinner = document.getElementById('btn-spinner') as HTMLElement | SVGElement | null;
+            const formStatus = document.getElementById('form-status') as HTMLDivElement;
+
+            form?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                submitBtn.disabled = true;
+                btnText.textContent = 'Enviando...';
+                btnIcon?.classList.add('hidden');
+                btnSpinner?.classList.remove('hidden');
+                const formData = new FormData(form);
+                const data = {
+                nombre: formData.get('nombre'),
+                institucion: formData.get('institucion') || '',
+                email: formData.get('email'),
+                asunto: formData.get('asunto'),
+                mensaje: formData.get('mensaje'),
+                tipo: 'contacto'
+                };
+
+                try {
+                const response = await fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    formStatus.className = 'p-4 bg-green-50 border border-green-200 rounded-xl text-green-700';
+                    formStatus.innerHTML = `
+                    <div class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
                         </svg>
-                        Escribir email
-                    </a>
-
+                        <div>
+                        <strong class="block font-bold mb-1">¡Mensaje enviado correctamente!</strong>
+                        <p class="text-sm">Te responderemos pronto en <strong>${data.email}</strong></p>
+                        </div>
                     </div>
-
-                    
-                    <div class="mt-6 flex flex-wrap items-center justify-center gap-2">
-                    <a href="https://wa.me/59171114083"
-                        class="px-4 py-2 rounded-full bg-white/8 backdrop-blur-md border border-white/12
-                                text-white/90 text-xs md:text-sm font-semibold
-                                hover:bg-white/12 hover:border-white/20 transition-all duration-300">
-                        💬 WhatsApp        
-                        📞 +591 71114083
-                    </a>
-                    <a href="https://wa.me/5592993197428"
-                        class="px-4 py-2 rounded-full bg-white/8 backdrop-blur-md border border-white/12
-                                text-white/90 text-xs md:text-sm font-semibold
-                                hover:bg-white/12 hover:border-white/20 transition-all duration-300">
-                        💬 WhatsApp
-                        📞 +55 92993197428
-                    </a>
-
-            
+                    `;
+                    form.reset();
+                } else {
+                    throw new Error(result.error);
+                }
+                } catch (error) {
+                formStatus.className = 'p-4 bg-red-50 border border-red-200 rounded-xl text-red-700';
+                formStatus.innerHTML = `
+                    <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="12"/>
+                        <line x1="12" y1="16" x2="12.01" y2="16"/>
+                    </svg>
+                    <div>
+                        <strong class="block font-bold mb-1">Error al enviar</strong>
+                        <p class="text-sm">Intenta nuevamente o escríbenos a <strong>contacto@forama.org</strong></p>
                     </div>
+                    </div>
+                `;
+                } finally {
+                submitBtn.disabled = false;
+                btnText.textContent = 'Enviar Mensaje';
+                btnIcon?.classList.remove('hidden');
+                btnSpinner?.classList.add('hidden');
+                formStatus.classList.remove('hidden');
 
-                    <!-- Nota -->
-                    <p class="mt-5 text-white/70 text-xs md:text-sm font-sans
-                            [text-shadow:0_10px_26px_rgba(0,0,0,0.55)]">
-                    Respondemos normalmente en 24–48 horas hábiles. Para prensa o alianzas, incluye tu institución y objetivo.
-                    </p>
+                setTimeout(() => formStatus.classList.add('hidden'), 8000);
+                formStatus.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+            </script>
 
-                </div>
-                
             </div>
 
-            
-           
-            <div class="absolute bottom-10 z-20 animate-bounce">
-                <ChevronDown size={40} className="text-white/70" />
-            </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <section class="relative z-10 py-24 px-4 bg-stone-50">
-                <div class="container mx-auto max-w-6xl">
-                    
-                    <div class="text-center mb-12 animate-fade-in-up">
-                        <span class="inline-block py-1 px-3 rounded-full bg-white shadow-sm text-amazon-600 font-bold uppercase tracking-wider text-xs mb-2 border border-gray-100">
-                            Nuestra Esencia
-                        </span>
-                        <h2 class="text-3xl md:text-5xl font-extrabold text-amazon-90 drop-shadow-sm">
-                            Nuestra Brújula
-                        </h2>
-                    </div>
+    {/* ✅ OPTIMIZACIÓN 4: Sección de ubicación optimizada */}
+    <section 
+      class="py-24 bg-amazon-900 relative overflow-hidden"
+      aria-labelledby="location-heading"
+    >
+      {/* Background decorativo */}
+      <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#22c55e 1px, transparent 1px); background-size: 30px 30px;" aria-hidden="true"></div>
+      <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-green-500/10 rounded-full blur-[100px] pointer-events-none" aria-hidden="true"></div>
 
-                    <div class="grid md:grid-cols-2 gap-8">
-                        
-                        <div class="group relative bg-white rounded-[2.5rem] p-8 md:p-10 shadow-xl transition-all duration-500 hover:-translate-y-3 hover:shadow-earth-500/30 overflow-hidden border border-gray-100">
-                            
-                            <div class="absolute -top-20 -right-20 w-64 h-64 bg-earth-100/80 rounded-full blur-3xl group-hover:bg-earth-200/80 transition-colors duration-500 animate-pulse"></div>
-                            <div class="absolute bottom-0 left-0 w-32 h-32 bg-orange-50 rounded-tr-full opacity-50"></div>
-
-                            <div class="relative z-10">
-                                <div class="w-16 h-16 bg-gradient-to-br from-earth-400 to-earth-600 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-earth-500/40 group-hover:scale-110 transition-transform duration-300">
-                                    <Target size={32} strokeWidth={2} />
-                                </div>
-
-                                <h3 class="text-3xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-earth-600 to-orange-500">
-                                    Nuestra Misión
-                                </h3>
-                                
-                                <p class="text-gray-600 leading-relaxed text-lg text-pretty">
-                                    FORAMA Amazónica impulsa el desarrollo sostenible en la Amazonía boliviana integrando 
-                                    <span class="bg-earth-50 px-1 rounded text-earth-700 font-bold">ciencia, educación, salud y gestión territorial</span>.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="group relative bg-white rounded-[2.5rem] p-8 md:p-10 shadow-xl transition-all duration-500 hover:-translate-y-3 hover:shadow-amazon-500/30 overflow-hidden border border-gray-100">
-                            
-                            <div class="absolute -top-20 -right-20 w-64 h-64 bg-amazon-100/80 rounded-full blur-3xl group-hover:bg-amazon-200/80 transition-colors duration-500 animate-pulse delay-700"></div>
-                            <div class="absolute bottom-0 left-0 w-32 h-32 bg-green-50 rounded-tr-full opacity-50"></div>
-
-                            <div class="relative z-10">
-                                <div class="w-16 h-16 bg-gradient-to-br from-amazon-400 to-amazon-600 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-amazon-500/40 group-hover:scale-110 transition-transform duration-300">
-                                    <Telescope size={32} strokeWidth={2} />
-                                </div>
-
-                                <h3 class="text-3xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-amazon-600 to-green-500">
-                                    Nuestra Visión
-                                </h3>
-                                
-                                <p class="text-gray-600 leading-relaxed text-lg text-pretty">
-                                    Ser una fundación referente en la Amazonía por su impacto verificable en 
-                                    <span class="bg-amazon-50 px-1 rounded text-amazon-700 font-bold">conservación, restauración y resiliencia climática</span>.
-                                </p>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>  
-            </section>
-
-            <section id="contacto-info" class="pb-24 bg-stone-50">
-                    <div class="container mx-auto px-4 max-w-7xl">
-
-                        <div class="bg-white rounded-[3rem] shadow-xl border border-gray-100 overflow-hidden">
-
-                        <div class="grid lg:grid-cols-12">
-
-                            <!-- LEFT -->
-                            <div
-                            class="lg:col-span-5 bg-amazon-900 text-white
-                                    p-8 md:p-12 lg:p-14  <!-- ↓ antes p-10 md:p-16 -->
-                                    relative overflow-hidden flex flex-col justify-between"
-                            >
-                            <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-                                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
-                                    </pattern>
-                                </defs>
-                                <rect width="100%" height="100%" fill="url(#grid)" />
-                                </svg>
-                            </div>
-
-                            <div class="relative z-10">
-                                <h3 class="text-2xl md:text-3xl font-bold mb-2">
-                                Información de Contacto
-                                </h3>
-                                <p class="text-amazon-200 mb-8 md:mb-9 text-base md:text-lg">
-                                Aquí nos encuentras siempre.
-                                </p>
-
-                                <div class="space-y-6 md:space-y-7">
-                                <div class="flex items-start gap-4 md:gap-5">
-                                    <div class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                                    <MapPin size={24} className="text-earth-400" />
-                                    </div>
-                                    <div>
-                                    <h4 class="font-bold text-lg">Visítanos</h4>
-                                    <p class="text-amazon-100 text-sm leading-relaxed mt-1">
-                                        Calle Graciela Pérez N° 055,<br/>Barrio Nazaria. Cobija, Pando.
-                                    </p>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-start gap-4 md:gap-5">
-                                    <div class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                                    <Mail size={24} className="text-earth-400" />
-                                    </div>
-                                    <div>
-                                    <h4 class="font-bold text-lg">Escríbenos</h4>
-                                    <a href="mailto:contacto@forama.org" class="text-amazon-100 text-sm hover:text-white transition-colors block mt-1">
-                                        contacto@forama.org
-                                    </a>
-                                    <span class="text-xs text-amazon-400">Respuesta en 24-48 hrs</span>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-start gap-4 md:gap-5">
-                                    <div class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                                    <Clock size={24} className="text-earth-400" />
-                                    </div>
-                                    <div>
-                                    <h4 class="font-bold text-lg">Horario</h4>
-                                    <p class="text-amazon-100 text-sm mt-1">Lunes a Viernes</p>
-                                    <p class="text-white font-bold">08:30 - 16:30</p>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-
-                            <div class="relative z-10 mt-10 pt-10 border-t border-white/10">
-                                <p class="text-sm text-amazon-300 italic">
-                                "Protegiendo el corazón del bosque desde Pando."
-                                </p>
-                            </div>
-                            </div>
-
-                            <!-- RIGHT -->
-                            <div
-                            class="lg:col-span-7
-                                    p-8 md:p-12 lg:p-14  <!-- ↓ antes p-10 md:p-16 -->
-                                    bg-white"
-                            >
-                            <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-                                Envíanos un mensaje
-                            </h3>
-                            <p class="text-gray-500 mb-8 md:mb-9">
-                                ¿Tienes alguna duda o propuesta? Llena el formulario.
-                            </p>
-
-                            <form class="space-y-5 md:space-y-6">
-                                <div class="grid md:grid-cols-2 gap-5 md:gap-6">
-                                <div class="space-y-2">
-                                    <label for="nombre" class="text-sm font-bold text-gray-700 ml-1">Nombre Completo</label>
-                                    <input
-                                    type="text"
-                                    id="nombre"
-                                    class="w-full px-4 py-2.5  <!-- ↓ antes py-3 -->
-                                            rounded-xl bg-gray-50 border border-gray-200
-                                            focus:border-amazon-500 focus:bg-white focus:ring-4 focus:ring-amazon-500/10
-                                            outline-none transition-all"
-                                    placeholder="Tu nombre"
-                                    />
-                                </div>
-
-                                <div class="space-y-2">
-                                    <label for="institucion" class="text-sm font-bold text-gray-700 ml-1">Institución</label>
-                                    <input
-                                    type="text"
-                                    id="institucion"
-                                    class="w-full px-4 py-2.5
-                                            rounded-xl bg-gray-50 border border-gray-200
-                                            focus:border-amazon-500 focus:bg-white focus:ring-4 focus:ring-amazon-500/10
-                                            outline-none transition-all"
-                                    placeholder="Empresa / ONG (Opcional)"
-                                    />
-                                </div>
-                                </div>
-
-                                <div class="grid md:grid-cols-2 gap-5 md:gap-6">
-                                <div class="space-y-2">
-                                    <label for="email" class="text-sm font-bold text-gray-700 ml-1">Correo Electrónico</label>
-                                    <input
-                                    type="email"
-                                    id="email"
-                                    class="w-full px-4 py-2.5
-                                            rounded-xl bg-gray-50 border border-gray-200
-                                            focus:border-amazon-500 focus:bg-white focus:ring-4 focus:ring-amazon-500/10
-                                            outline-none transition-all"
-                                    placeholder="tucorreo@ejemplo.com"
-                                    />
-                                </div>
-
-                                <div class="space-y-2">
-                                    <label for="asunto" class="text-sm font-bold text-gray-700 ml-1">Asunto</label>
-                                    <div class="relative">
-                                    <select
-                                        id="asunto"
-                                        class="w-full px-4 py-2.5
-                                            rounded-xl bg-gray-50 border border-gray-200
-                                            focus:border-amazon-500 focus:bg-white focus:ring-4 focus:ring-amazon-500/10
-                                            outline-none transition-all appearance-none cursor-pointer text-gray-600"
-                                    >
-                                        <option disabled selected>Selecciona un motivo</option>
-                                        <option value="alianzas">Alianzas Institucionales</option>
-                                        <option value="donacion">Donación</option>
-                                        <option value="voluntariado">Voluntariado</option>
-                                        <option value="otros">Otro</option>
-                                    </select>
-                                    <ChevronDown size={20} className="absolute right-4 top-3 text-gray-400 pointer-events-none" />
-                                    </div>
-                                </div>
-                                </div>
-
-                                <div class="space-y-2">
-                                <label for="mensaje" class="text-sm font-bold text-gray-700 ml-1">Mensaje</label>
-                                <textarea
-                                    id="mensaje"
-                                    rows="4"
-                                    class="w-full px-4 py-2.5
-                                        rounded-xl bg-gray-50 border border-gray-200
-                                        focus:border-amazon-500 focus:bg-white focus:ring-4 focus:ring-amazon-500/10
-                                        outline-none transition-all resize-none"
-                                    placeholder="¿Cómo podemos colaborar?"
-                                ></textarea>
-                                </div>
-
-                                <button
-                                type="submit"
-                                class="w-full md:w-auto px-7  <!-- ↓ antes px-8 -->
-                                        bg-amazon-600 text-white font-bold py-3.5  <!-- ↓ antes py-4 -->
-                                        rounded-xl shadow-lg hover:bg-amazon-700 hover:-translate-y-1 transition-all
-                                        flex items-center justify-center gap-2"
-                                >
-                                Enviar Mensaje <Send size={20} />
-                                </button>
-                            </form>
-                            </div>
-
-                        </div>
-                        </div>
-                    </div>
-                </section>
-
+      <div class="container mx-auto px-4 max-w-7xl relative z-10">
         
-                
-       <section class="py-24 bg-amazon-900 relative overflow-hidden">
-            
-            <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#22c55e 1px, transparent 1px); background-size: 30px 30px;"></div>
-            <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-green-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <header class="text-center mb-12">
+          <span class="text-green-400 font-bold tracking-widest uppercase text-sm">Territorio Amazónico</span>
+          <h2 id="location-heading" class="text-4xl md:text-7xl font-extrabold text-white mt-2">
+            Nuestra Sede en <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-green-400">Cobija, Pando Bolivia</span>
+          </h2>
+        </header>
 
-            <div class="container mx-auto px-4 max-w-7xl relative z-10">
-                
-                <div class="text-center mb-12">
-                    <span class="text-green-400 font-bold tracking-widest uppercase text-sm">Territorio Amazónico</span>
-                    <h2 class="text-4xl md:text-7xl font-extrabold text-white mt-2">
-                        Nuestra Sede en <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-green-400">Pando, Cobija Bolivia</span>
-                    </h2>
-                </div>
+        <div class="grid lg:grid-cols-2 gap-6 lg:gap-8">
+          
+          {/* Video */}
+          <div class="relative h-[400px] lg:h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10 group">
+            <video 
+              autoplay 
+              loop 
+              muted 
+              playsinline 
+              class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+              aria-label="Video del bosque amazónico en Pando"
+            >
+              <source src="/videos/capibara.mp4" type="video/mp4" />
+              Tu navegador no soporta video HTML5.
+            </video>
 
-                <div class="grid lg:grid-cols-2 gap-6 lg:gap-8">
-                    
-                    <div class="relative h-[400px] lg:h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10 group">
-                        
-                        <video 
-                            autoplay 
-                            loop 
-                            muted 
-                            playsinline 
-                            class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                        >
-                            <source src="/videos/capibara.mp4" type="video/mp4" />
-                        </video>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" aria-hidden="true"></div>
 
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20"></div>
-
-                        <div class="absolute bottom-8 left-8 right-8">
-                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold mb-3">
-                                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                                En vivo desde el bosque
-                            </div>
-                            <p class="text-white text-lg md:text-xl font-light leading-relaxed text-pretty">
-                                "Operamos desde el corazón de la Amazonía, donde la naturaleza y la comunidad se encuentran."
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="relative h-[400px] lg:h-[550px] w-full rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white/10 group">
-                        
-                        <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31435.32832599727!2d-68.7844!3d-11.0267!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9161a0b6eb06316d%3A0x6a0f67954b3445e0!2sCobija%2C%20Bolivia!5e0!3m2!1ses!2sbo!4v1700000000000!5m2!1ses!2sbo" 
-                            width="100%" 
-                            height="100%" 
-                            style="border:0;" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade"
-                            class="grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
-                        ></iframe>
-
-                       <div class="absolute bottom-6 left-6 md:bottom-12 md:left-12 bg-white/95 backdrop-blur-xl p-6 md:p-8 rounded-3xl shadow-2xl max-w-sm border border-white/60 animate-fade-in-up z-20">
-
-                        <div class="mb-5 border-b border-gray-100 pb-4">
-                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Ubicación</p>
-
-                            <div class="flex items-center gap-3">
-                                <h4 class="font-extrabold text-amazon-900 text-2xl leading-tight">Pando Cobija</h4>
-
-                                <img
-                                    src="/imags/material_contactos/cobija.jpg"
-                                    alt="Bandera de Cobija"
-                                    class="w-10 h-auto rounded shadow-sm border border-gray-100 object-contain"
-                                />
-
-                                <img
-                                    src="/imags/material_contactos/pando.svg"
-                                    alt="Bandera de Pando"
-                                    class="w-10 h-auto rounded shadow-sm border border-gray-100 object-contain"
-                                />
-                            </div>
-                        </div>
-
-                        <div class="space-y-5">
-                            <p class="text-gray-600 flex items-start gap-3 text-base leading-relaxed">
-                                <MapPin size={22} className="text-amazon-600 shrink-0 mt-0.5" />
-                                <span>Calle Graciela Pérez N° 055,<br>Barrio Nazaria.</span>
-                            </p>
-
-                            <a href="maps.google.com/1" target="_blank" class="w-full bg-amazon-900 text-white font-bold py-3.5 rounded-xl shadow-md hover:bg-green-600 hover:shadow-green-500/30 transition-all flex items-center justify-center gap-2 group/btn">
-                                <span>Ver en Google Maps</span>
-                                <ExternalLink size={18} className="group-hover/btn:translate-x-1 transition-transform" />
-                            </a>
-                        </div>
-
-                    </div>
-
-                    </div>
-
-                </div>
-
+            <div class="absolute bottom-8 left-8 right-8">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold mb-3">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse" aria-hidden="true"></span>
+                En vivo desde el bosque
+              </div>
+              <p class="text-white text-lg md:text-xl font-light leading-relaxed text-pretty">
+                "Operamos desde el corazón de la Amazonía, donde la naturaleza y la comunidad se encuentran."
+              </p>
             </div>
-        </section>
-    </main>
+          </div>
 
+          {/* Mapa */}
+          <div class="relative h-[400px] lg:h-[550px] w-full rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white/10 group">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3905.7726384592866!2d-68.77608332387799!3d-11.03791668912555!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTHCsDAyJzE2LjUiUyA2OMKwNDYnMjUuOSJX!5e1!3m2!1ses!2sbo!4v1700000000000!5m2!1ses!2sbo" 
+              width="100%" 
+              height="100%" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade"
+              class="grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
+              title="Mapa de ubicación de FORAMA en Cobija, Pando"
+            ></iframe>
 
+            <div class="absolute bottom-6 left-6 md:bottom-12 md:left-12 bg-white/95 backdrop-blur-xl p-6 md:p-8 rounded-3xl shadow-2xl max-w-sm border border-white/60 z-20">
+              <div class="mb-5 border-b border-gray-100 pb-4">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Ubicación</p>
+
+                <div class="flex items-center gap-3">
+                  <h4 class="font-extrabold text-amazon-900 text-2xl leading-tight">Pando Bolivia</h4>
+
+                  <img
+                    src="/imags/material_contactos/pando.svg"
+                    alt="Bandera de Pando"
+                    class="w-10 h-auto rounded shadow-sm border border-gray-100 object-contain"
+                    loading="lazy"
+                  />
+
+                   <img
+                    src="/imags/material_contactos/Bolivia.png"
+                    alt="Bandera de Bolivia"
+                    class="w-10 h-auto rounded shadow-sm border border-gray-100 object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+
+              <div class="space-y-5">
+                <address class="text-gray-600 flex items-start gap-3 text-base leading-relaxed not-italic">
+                  <MapPin size={22} className="text-amazon-600 shrink-0 mt-0.5" aria-hidden="true" />
+                  <span>Calle Graciela Pérez N° 055,<br>Barrio Nazaria.</span>
+                </address>
+
+                {/* ✅ ENLACE ACTUALIZADO con las coordenadas exactas */}
+                <a 
+                  href="https://www.google.com/maps/search/?api=1&query=-11.037917,-68.773861" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="w-full bg-amazon-900 text-white font-bold py-3.5 rounded-xl shadow-md hover:bg-green-600 hover:shadow-green-500/30 transition-all flex items-center justify-center gap-2 group/btn focus:outline-none focus:ring-4 focus:ring-amazon-500/50"
+                >
+                  <span>Ver en Google Maps</span>
+                  <ExternalLink size={18} className="group-hover/btn:translate-x-1 transition-transform" aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
 </Layout>
+
+{/* ✅ Estilos adicionales para animaciones */}
+<style>
+  @keyframes blob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+  }
+
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes heroTitle {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

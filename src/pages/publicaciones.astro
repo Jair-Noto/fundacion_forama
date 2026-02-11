@@ -10,242 +10,418 @@ import {
   Calendar, 
   ArrowRight, 
   Filter,
-  ChevronDown
+  ChevronDown,
+  Book,
+  FileQuestion
 } from 'lucide-react';
 
-// --- 1. CONSULTA A LA BASE DE DATOS (Artículos y Noticias) ---
-const articulos = await sql`
-    SELECT p.*, c.nombre as categoria_nombre 
+// ✅ OPTIMIZACIÓN 1: Interfaces TypeScript
+interface Publicacion {
+  id: number;
+  slug: string;
+  titulo: string;
+  resumen: string | null;
+  imagen_portada: string | null;
+  fecha_publicacion: Date;
+  categoria_nombre: string | null;
+  categoria_slug: string | null;
+  tipo: 'articulo' | 'libro' | 'noticia';
+  archivo_pdf?: string | null;
+  peso_archivo?: string | null;
+  anio_edicion?: number | null;
+  link_externo?: string | null; // ✅ NUEVO: Para artículos de OJS
+  autor?: string | null; // ✅ NUEVO: Para mostrar autores
+}
+
+// ✅ OPTIMIZACIÓN 2: Queries con error handling
+let articulos: Publicacion[] = [];
+let libros: Publicacion[] = [];
+
+try {
+  // Query de artículos
+  articulos = await sql<Publicacion[]>`
+    SELECT 
+      p.id,
+      p.slug,
+      p.titulo,
+      p.resumen,
+      p.imagen_portada,
+      p.fecha_publicacion,
+      p.link_externo,
+      p.autor,
+      p.archivo_pdf,
+      c.nombre as categoria_nombre,
+      c.slug as categoria_slug
     FROM publicaciones p
     LEFT JOIN categorias c ON p.categoria_id = c.id
-    WHERE p.tipo IN ('articulo')
+    WHERE p.tipo = 'articulo'
     ORDER BY p.fecha_publicacion DESC 
     LIMIT 6
-`;
+  `;
 
-// --- 2. CONSULTA A LA BASE DE DATOS (Libros) ---
-const libros = await sql`
-    SELECT p.*, c.nombre as categoria_nombre 
+  // Query de libros
+  libros = await sql<Publicacion[]>`
+    SELECT 
+      p.id,
+      p.slug,
+      p.titulo,
+      p.imagen_portada,
+      p.fecha_publicacion,
+      p.archivo_pdf,
+      p.peso_archivo,
+      p.anio_edicion,
+      c.nombre as categoria_nombre,
+      c.slug as categoria_slug
     FROM publicaciones p
     LEFT JOIN categorias c ON p.categoria_id = c.id
     WHERE p.tipo = 'libro'
     ORDER BY p.fecha_publicacion DESC
-`;
+    LIMIT 8
+  `;
+
+} catch (error) {
+  console.error('Error loading publicaciones:', error);
+  articulos = [];
+  libros = [];
+}
+
+// ✅ OPTIMIZACIÓN 3: Función helper para fechas
+const formatearFecha = (fecha: Date): string => {
+  try {
+    return new Date(fecha).toLocaleDateString('es-BO', { 
+      day: 'numeric', 
+      month: 'long', 
+      year: 'numeric' 
+    });
+  } catch {
+    return 'Fecha no disponible';
+  }
+};
+
+// ✅ OPTIMIZACIÓN 4: Placeholder images
+const placeholderArticulo = 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=400&auto=format&fit=crop';
+const placeholderLibro = 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400&auto=format&fit=crop';
 ---
 
-<Layout title="Noticias y Publicaciones | FORAMA">
+<Layout 
+  title="Publicaciones Científicas" 
+  description="Accede a artículos científicos, libros técnicos y publicaciones de FORAMA sobre conservación, investigación y desarrollo sostenible en la Amazonía boliviana."
+>
   
+  {/* ✅ OPTIMIZACIÓN 5: Navbar persistente */}
   <Navbar client:load transition:persist />
 
   <main class="bg-stone-50 min-h-screen pb-20">
 
-    <section class="relative h-screen flex items-center justify-center bg-gray-900 text-white overflow-hidden">
-        
-        <img 
-            src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=2070&auto=format&fit=crop" 
-            alt="Biblioteca y Documentos" 
-            class="absolute inset-0 w-full h-full object-cover transform scale-105"
-        />
-        
-        <div class="absolute inset-0 bg-black/40"></div>
+    {/* ✅ OPTIMIZACIÓN 6: Hero optimizado */}
+    <section 
+      class="relative h-screen flex items-center justify-center bg-gray-900 text-white overflow-hidden"
+      aria-labelledby="hero-heading"
+    >
+      <img 
+        src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=2070&auto=format&fit=crop" 
+        alt="Biblioteca científica con libros y documentos de investigación" 
+        class="absolute inset-0 w-full h-full object-cover transform scale-105"
+        loading="eager"
+        width="1920"
+        height="1080"
+      />
+      
+      <div class="absolute inset-0 bg-black/40" aria-hidden="true"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/80" aria-hidden="true"></div>
+      
+      <div class="relative z-10 container mx-auto px-4 text-center">
+        <span class="inline-flex items-center gap-2 py-1.5 px-5 rounded-full
+                    bg-gradient-to-r from-slate-200/14 via-amber-200/12 to-orange-200/10
+                    backdrop-blur-md
+                    border border-white/14
+                    text-white font-semibold uppercase text-[10px]
+                    tracking-[0.34em] mb-8
+                    shadow-[0_12px_35px_rgba(0,0,0,0.38)]
+                    [text-shadow:0_2px_12px_rgba(0,0,0,0.45)]
+                    animate-[fadeUp_700ms_ease-out_both]">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-200/90 shadow-[0_0_14px_rgba(251,191,36,0.80)]" aria-hidden="true"></span>
+          Centro de conocimiento
+        </span>
 
-        <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/80"></div>
-        
-        <div class="relative z-10 container mx-auto px-4 text-center">
+        <h1 
+          id="hero-heading"
+          class="relative font-serif text-6xl md:text-8xl lg:text-9xl font-semibold
+                    mb-7 tracking-tight leading-[0.9] text-white
+                    animate-[heroTitle_900ms_cubic-bezier(.2,.8,.2,1)_both]
+                    [text-shadow:0_2px_0_rgba(0,0,0,0.55),0_10px_30px_rgba(0,0,0,0.55)]
+                    [-webkit-text-stroke:2px_rgba(0,0,0,0.45)]"
+        >
+          Artículos científicos y<br class="hidden md:block" aria-hidden="true"/>
+          libros
+        </h1>
 
-            <!-- BADGE: Centro de conocimiento (biblioteca / publicaciones) -->
-            <span class="inline-flex items-center gap-2 py-1.5 px-5 rounded-full
-                        bg-gradient-to-r from-slate-200/14 via-amber-200/12 to-orange-200/10
-                        backdrop-blur-md
-                        border border-white/14
-                        text-white font-semibold uppercase text-[10px]
-                        tracking-[0.34em] mb-8
-                        shadow-[0_12px_35px_rgba(0,0,0,0.38)]
-                        [text-shadow:0_2px_12px_rgba(0,0,0,0.45)]
-                        animate-[fadeUp_700ms_ease-out_both]">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-200/90 shadow-[0_0_14px_rgba(251,191,36,0.80)]"></span>
-                Centro de conocimiento
-            </span>
+        <p class="relative font-serif text-xl md:text-3xl lg:text-4xl font-medium
+                    mb-8 tracking-tight leading-tight text-white
+                    [text-shadow:0_2px_0_rgba(0,0,0,0.65),0_10px_26px_rgba(0,0,0,0.55)]
+                    [-webkit-text-stroke:1px_rgba(0,0,0,0.35)]">
+          Accede a nuestra biblioteca técnica, informes de gestión y publicaciones
+          <br class="hidden md:block" aria-hidden="true"/>
+          <span class="italic font-serif font-semibold">
+            con avances, metodologías y evidencia para la Amazonía boliviana.
+          </span>
+        </p>
 
-            <!-- TÍTULO (estándar) -->
-            <h1 class="relative font-serif text-6xl md:text-8xl lg:text-9xl font-semibold
-                        mb-7 tracking-tight leading-[0.9] text-white
-                        animate-[heroTitle_900ms_cubic-bezier(.2,.8,.2,1)_both]
-                        [text-shadow:0_2px_0_rgba(0,0,0,0.55),0_10px_30px_rgba(0,0,0,0.55)]
-                        [-webkit-text-stroke:2px_rgba(0,0,0,0.45)]">
-                Artículos científicos y<br class="hidden md:block"/>
-                libros
-            </h1>
+      </div>
 
-            <!-- SUBTEXTO (más completo, pero mismo estándar visual) -->
-            <p class="relative font-serif text-xl md:text-3xl lg:text-4xl font-medium
-                        mb-8 tracking-tight leading-tight text-white
-                        [text-shadow:0_2px_0_rgba(0,0,0,0.65),0_10px_26px_rgba(0,0,0,0.55)]
-                        [-webkit-text-stroke:1px_rgba(0,0,0,0.35)]">
-                Accede a nuestra biblioteca técnica, informes de gestión y publicaciones
-                <br class="hidden md:block"/>
-                <span class="italic font-serif font-semibold">
-                con avances, metodologías y evidencia para la Amazonía boliviana.
-                </span>
-            </p>
-
-            <!-- BUSCADOR (premium / responsive) -->
-            <form class="mx-auto w-full max-w-3xl animate-[fadeUp_900ms_ease-out_both]">
-                <div class="relative flex items-center gap-3 rounded-2xl
-                            bg-white/10 backdrop-blur-md border border-white/15
-                            shadow-[0_18px_50px_rgba(0,0,0,0.45)]
-                            px-4 py-3 md:px-5 md:py-4">
-                
-                <!-- Icono (SVG inline) -->
-                <svg class="shrink-0 w-5 h-5 text-white/70" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M21 21l-4.3-4.3m1.8-5.2a7 7 0 11-14 0 7 7 0 0114 0z"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-
-                <!-- Input -->
-                <input
-                    type="text"
-                    placeholder="Buscar artículos, informes o libros…"
-                    class="w-full bg-transparent text-white placeholder:text-white/55
-                        outline-none font-sans text-sm md:text-base
-                        focus:placeholder:text-white/40"
-                />
-
-                <!-- Botón -->
-                <button
-                    type="submit"
-                    class="shrink-0 inline-flex items-center justify-center
-                        h-11 md:h-12 px-5 md:px-6 rounded-xl
-                        bg-gradient-to-r from-amber-500 to-orange-500
-                        text-white font-bold text-sm md:text-base
-                        shadow-[0_12px_30px_rgba(245,158,11,0.35)]
-                        hover:brightness-110 active:scale-[0.98]
-                        transition-all duration-300
-                        focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70">
-                    Buscar
-                </button>
-                </div>
-
-                <!-- Mini nota opcional -->
-                <p class="mt-4 text-white/70 text-xs md:text-sm font-sans
-                        [text-shadow:0_10px_26px_rgba(0,0,0,0.55)]">
-                Filtra por tema, año o tipo de documento para encontrar resultados más rápido.
-                </p>
-            </form>
-
-        </div>
-
-
-        <div class="absolute bottom-10 z-20 animate-bounce cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
-            <ChevronDown size={48} className="text-white" />
-        </div>
+      <div class="absolute bottom-10 z-20 animate-bounce">
+        <ChevronDown size={48} className="text-white opacity-70 hover:opacity-100 transition-opacity" aria-hidden="true" />
+      </div>
     </section>
 
     <div class="container mx-auto px-6 max-w-7xl py-24 relative z-20">
-        
-        <section class="mb-24">
-            <div class="flex items-center justify-between mb-12"> 
-                <h2 class="text-3xl md:text-4xl font-bold text-amazon-900 flex items-center gap-3">
-                    <FileText className="text-earth-500" /> Artículos Recientes
-                </h2>
-                <a href="#" class="group text-amazon-600 font-bold hover:text-earth-500 transition-colors flex items-center gap-2 text-sm uppercase tracking-wider">
-                    Ver todos <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </a>
-            </div>
+      
+      {/* ✅ SECCIÓN ARTÍCULOS RECIENTES MODIFICADA */}
+      <section 
+        class="mb-24"
+        aria-labelledby="articulos-heading"
+      >
+        <header class="flex items-center justify-between mb-12">
+          <h2 
+            id="articulos-heading"
+            class="text-3xl md:text-4xl font-bold text-amazon-900 flex items-center gap-3"
+          >
+            <FileText className="text-earth-500" aria-hidden="true" /> 
+            Artículos Recientes
+          </h2>
+        </header>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                {articulos.map(art => (
-                    <article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-full border border-gray-100">
-                        <div class="relative h-64 overflow-hidden"> 
-                            <img 
-                                src={art.imagen_portada} 
-                                alt={art.titulo} 
-                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            />
-                            <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-bold text-amazon-700 uppercase tracking-wide shadow-sm">
-                                {art.categoria_nombre}
-                            </div>
-                        </div>
-                        <div class="p-8 flex-1 flex flex-col">
-                            <div class="flex items-center gap-2 text-gray-400 text-xs font-medium mb-3 uppercase tracking-wider">
-                                <Calendar size={14} /> 
-                                {new Date(art.fecha_publicacion).toLocaleDateString('es-BO', { day: 'numeric', month: 'long', year: 'numeric' })}
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-earth-600 transition-colors">
-                                {art.titulo}
-                            </h3>
-                            <p class="text-gray-500 text-sm leading-relaxed mb-6 flex-1 line-clamp-3">
-                                {art.resumen}
-                            </p>
-                            
-                            <a href={`/publicaciones/${art.slug}`} class="inline-flex items-center gap-2 text-amazon-700 font-bold text-sm hover:translate-x-1 transition-transform mt-auto">
-                                Leer artículo <ArrowRight size={16} />
-                            </a>
-                        </div>
-                    </article>
-                ))}
-            </div>
-        </section>
-
-        <section class="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-lg border border-gray-100">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
-                <div>
-                    <h2 class="text-3xl font-bold text-amazon-900 flex items-center gap-3 mb-2">
-                        <BookOpen className="text-earth-500" /> Biblioteca Técnica
-                    </h2>
-                    <p class="text-gray-500">Documentos oficiales, guías y material científico descargable.</p>
-                </div>
-                <button class="flex items-center gap-2 px-5 py-2.5 border border-gray-300 rounded-full text-gray-600 font-bold hover:bg-gray-50 transition-colors">
-                    <Filter size={18} /> Filtrar por tema
-                </button>
-            </div>
-
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {libros.map(libro => (
-                    <div class="group relative">
-                        <div class="relative aspect-[3/4] rounded-tr-2xl rounded-br-2xl shadow-[5px_5px_15px_rgba(0,0,0,0.15)] group-hover:shadow-[10px_10px_30px_rgba(0,0,0,0.2)] transition-all duration-300 bg-gray-200 overflow-hidden">
-                            <img 
-                                src={libro.imagen_portada} 
-                                alt={libro.titulo} 
-                                class="w-full h-full object-cover"
-                            />
-                            <div class="absolute inset-0 bg-amazon-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4 text-center">
-                                <span class="text-white font-bold text-lg mb-4">Descargar PDF</span>
-                                
-                                <a 
-                                    href={libro.archivo_pdf} 
-                                    download 
-                                    class="bg-earth-500 text-white p-3 rounded-full hover:bg-earth-600 hover:scale-110 transition-all cursor-pointer"
-                                >
-                                    <Download size={24} />
-                                </a>
-                                
-                                <span class="text-white/70 text-xs mt-4">{libro.peso_archivo}</span>
-                            </div>
-                        </div>
-
-                        <div class="mt-5 space-y-1">
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold text-earth-600 uppercase tracking-wider truncate max-w-[70%]">
-                                    {libro.categoria_nombre}
-                                </span>
-                                <span class="text-xs text-gray-400 font-mono">{libro.anio_edicion}</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-gray-900 leading-tight group-hover:text-amazon-700 transition-colors cursor-pointer line-clamp-2">
-                                {libro.titulo}
-                            </h3>
-                        </div>
+        {articulos.length > 0 ? (
+          <div class="grid md:grid-cols-3 gap-8">
+            {articulos.map((art, index) => (
+              <article 
+                class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-full border border-gray-100"
+              >
+                {/* Imagen del artículo */}
+                <div class="relative h-64 overflow-hidden">
+                  <img 
+                    src={art.imagen_portada || placeholderArticulo} 
+                    alt={`Imagen de portada: ${art.titulo}`}
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading={index < 3 ? 'eager' : 'lazy'}
+                    width="400"
+                    height="256"
+                  />
+                  {art.categoria_nombre && (
+                    <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-bold text-amazon-700 uppercase tracking-wide shadow-sm">
+                      {art.categoria_nombre}
                     </div>
-                ))}
-            </div>
+                  )}
+                </div>
 
-            <div class="mt-12 text-center">
-                <button class="inline-flex items-center gap-2 px-8 py-3 bg-gray-100 hover:bg-gray-200 text-amazon-900 font-bold rounded-full transition-colors">
-                    Ver todos los documentos
-                </button>
-            </div>
-        </section>
+                <div class="p-8 flex-1 flex flex-col">
+                  {/* Fecha */}
+                  <div class="flex items-center gap-2 text-gray-400 text-xs font-medium mb-3 uppercase tracking-wider">
+                    <Calendar size={14} aria-hidden="true" /> 
+                    <time datetime={new Date(art.fecha_publicacion).toISOString()}>
+                      {formatearFecha(art.fecha_publicacion)}
+                    </time>
+                  </div>
 
+                  {/* Título */}
+                  <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-earth-600 transition-colors">
+                    <a 
+                    href={art.link_externo || art.archivo_pdf || `/publicaciones/${art.slug}`}
+                    target={art.link_externo || art.archivo_pdf ? '_blank' : '_self'}
+                    rel={art.link_externo || art.archivo_pdf ? 'noopener noreferrer' : undefined}
+                     
+                      class="hover:underline focus:outline-none focus:ring-2 focus:ring-earth-500 rounded"
+                    >
+                      {art.titulo}
+                    </a>
+                  </h3>
+
+                  {/* CAMBIO AQUI: Eliminado 'line-clamp-3' para mostrar todo el texto */}
+                  <p class="text-gray-500 text-sm leading-relaxed mb-6 flex-1">
+                    {art.resumen || 'Lee el artículo completo para más información.'}
+                  </p>
+                  
+                  {/* Botón Leer artículo */}
+                  <a 
+                    href={art.link_externo || art.archivo_pdf || `/publicaciones/${art.slug}`}
+                    target={art.link_externo || art.archivo_pdf ? '_blank' : '_self'}
+                    rel={art.link_externo || art.archivo_pdf ? 'noopener noreferrer' : undefined}
+                    class="inline-flex items-center gap-2 text-amazon-700 font-bold text-sm hover:translate-x-1 transition-transform mt-auto focus:outline-none focus:ring-2 focus:ring-amazon-500 rounded"
+                    aria-label={`Leer artículo: ${art.titulo}`}
+                  >
+                    Leer artículo <ArrowRight size={16} aria-hidden="true" />
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div class="text-center py-20" role="status">
+            <FileQuestion size={64} className="mx-auto text-gray-300 mb-4" aria-hidden="true" />
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">No hay artículos disponibles</h3>
+            <p class="text-gray-500">Vuelve pronto para ver nuestras últimas publicaciones.</p>
+          </div>
+        )}
+      </section>
+
+      {/* ✅ OPTIMIZACIÓN 11: Biblioteca técnica optimizada */}
+
+      {/* ✅ SECCIÓN BIBLIOTECA MODIFICADA */}
+      <section 
+        class="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-lg border border-gray-100"
+        aria-labelledby="biblioteca-heading"
+      >
+        <header class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+          <div>
+            <h2 
+              id="biblioteca-heading"
+              class="text-3xl font-bold text-amazon-900 flex items-center gap-3 mb-2"
+            >
+              <BookOpen className="text-earth-500" aria-hidden="true" /> 
+              Biblioteca Técnica
+            </h2>
+            <p class="text-gray-500">
+              Documentos oficiales, guías y material científico descargable.
+            </p>
+          </div>
+          <button 
+            class="flex items-center gap-2 px-5 py-2.5 border border-gray-300 rounded-full text-gray-600 font-bold hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400"
+            aria-label="Abrir filtros de búsqueda"
+          >
+            <Filter size={18} aria-hidden="true" /> 
+            Filtrar por tema
+          </button>
+        </header>
+
+        {libros.length > 0 ? (
+          <>
+            {/* CAMBIO 1: lg:grid-cols-3 (antes era 4). Esto hace las tarjetas más anchas */}
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+              {libros.map((libro, index) => (
+                <article class="group relative flex flex-col" data-id={libro.id}>
+                  
+                  {/* Contenedor de la imagen */}
+                  <div class="relative aspect-[2/3] w-full rounded-tr-2xl rounded-br-2xl shadow-[5px_5px_15px_rgba(0,0,0,0.15)] group-hover:shadow-[10px_10px_30px_rgba(0,0,0,0.2)] transition-all duration-300 bg-gray-200 overflow-hidden">
+                    <img 
+                      src={libro.imagen_portada || placeholderLibro} 
+                      alt={`Portada del libro: ${libro.titulo}`}
+                      class="w-full h-full object-cover"
+                      loading={index < 4 ? 'eager' : 'lazy'}
+                      width="400"
+                      height="533"
+                    />
+                    
+                    {/* Overlay de descarga */}
+                    <div class="absolute inset-0 bg-amazon-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4 text-center">
+                      <span class="text-white font-bold text-lg mb-4">Descargar PDF</span>
+                      
+                      {libro.archivo_pdf ? (
+                        <a 
+                          href={libro.archivo_pdf} 
+                          download 
+                          class="bg-earth-500 text-white p-3 rounded-full hover:bg-earth-600 hover:scale-110 transition-all focus:outline-none focus:ring-2 focus:ring-white"
+                          aria-label={`Descargar ${libro.titulo}`}
+                        >
+                          <Download size={24} aria-hidden="true" />
+                        </a>
+                      ) : (
+                        <button 
+                          class="bg-gray-500 text-white p-3 rounded-full cursor-not-allowed"
+                          disabled
+                          aria-label="Descarga no disponible"
+                        >
+                          <Download size={24} aria-hidden="true" />
+                        </button>
+                      )}
+                      
+                      {libro.peso_archivo && (
+                        <span class="text-white/70 text-xs mt-4">{libro.peso_archivo}</span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Info del libro */}
+                  <div class="mt-5 space-y-2">
+                    <div class="flex items-center justify-between">
+                      <span class="text-xs font-bold text-earth-600 uppercase tracking-wider">
+                        {libro.categoria_nombre || 'General'}
+                      </span>
+                      {libro.anio_edicion && (
+                        <time class="text-xs text-gray-400 font-mono" datetime={libro.anio_edicion.toString()}>
+                          {libro.anio_edicion}
+                        </time>
+                      )}
+                    </div>
+                    
+                    {/* CAMBIO 2: Eliminé 'line-clamp-2'. Ahora el título se muestra completo siempre. */}
+                    <h3 class="text-lg font-bold text-gray-900 leading-tight group-hover:text-amazon-700 transition-colors">
+                      {libro.titulo}
+                    </h3>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </>
+        ) : (
+          <div class="text-center py-20" role="status">
+            <Book size={64} className="mx-auto text-gray-300 mb-4" aria-hidden="true" />
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">No hay libros disponibles</h3>
+            <p class="text-gray-500">Estamos preparando material descargable.</p>
+          </div>
+        )}
+      </section>
+      
     </div>
   </main>
 </Layout>
+
+{/* ✅ OPTIMIZACIÓN 13: Estilos para line-clamp y animaciones */}
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes heroTitle {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

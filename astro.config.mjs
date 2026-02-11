@@ -8,6 +8,7 @@ import node from '@astrojs/node';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://forama.org',
   // ⚠️ IMPORTANTE: Esto activa el modo servidor (SSR)
   output: 'server',
 

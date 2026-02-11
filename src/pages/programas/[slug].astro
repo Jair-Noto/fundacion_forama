@@ -1,226 +1,314 @@
 ---
-// 1. IMPORTACIONES (Siempre deben ir primero)
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/shared/Navbar.jsx';
 import sql from '../../lib/db.js';
 import { 
-    ArrowLeft, 
-    Calendar, 
-    MapPin, 
-    Activity, 
-    Tag, 
-    Clock, 
-    CheckCircle2, 
-    Info 
+  ArrowLeft, 
+  Sprout,
+  Lightbulb,
+  FileText,
+  Users
 } from 'lucide-react';
 
-// 2. DEFINICIÓN DE TIPOS Y VARIABLES
-// Hacemos el casting aquí para que TypeScript no se queje, pero sin romper los imports
-const typedSql = sql as (query: TemplateStringsArray, ...values: any[]) => Promise<any[]>;
+interface Programa {
+  id: number;
+  slug: string;
+  titulo: string;
+  descripcion: string;
+}
 
-// --- CONFIGURACIÓN VISUAL ---
-const estilosProgramas: any = {
-    1: { color: "bg-green-600", text: "text-green-600", border: "border-green-200", hover: "hover:border-green-500", image: "/imags/material_programas/proyect_1.jpg" },
-    2: { color: "bg-blue-600", text: "text-blue-600", border: "border-blue-200", hover: "hover:border-blue-500", image: "/imags/material_programas/proyect_2.jpg" },
-    3: { color: "bg-indigo-600", text: "text-indigo-600", border: "border-indigo-200", hover: "hover:border-indigo-500", image: "/imags/material_programas/proyect_3.jpg" },
-    4: { color: "bg-amber-600", text: "text-amber-600", border: "border-amber-200", hover: "hover:border-amber-500", image: "/imags/material_programas/proyect_4.jpg" },
-    5: { color: "bg-rose-600", text: "text-rose-600", border: "border-rose-200", hover: "hover:border-rose-500", image: "/imags/material_programas/proyect_5.jpg" },
-    6: { color: "bg-cyan-600", text: "text-cyan-600", border: "border-cyan-200", hover: "hover:border-cyan-500", image: "/imags/material_programas/proyect_6.jpg" },
-    7: { color: "bg-slate-600", text: "text-slate-600", border: "border-slate-200", hover: "hover:border-slate-500", image: "/imags/material_programas/proyect_7.jpg" },
-    8: { color: "bg-purple-600", text: "text-purple-600", border: "border-purple-200", hover: "hover:border-purple-500", image: "/imags/material_programas/proyect_8.jpg" },
-    9: { color: "bg-emerald-600", text: "text-emerald-600", border: "border-emerald-200", hover: "hover:border-emerald-500", image: "/imags/material_programas/proyect_9.jpg" }
+interface EstiloPrograma {
+  color: string;
+  text: string;
+  border: string;
+  hover: string;
+  image: string;
+}
+
+const estilosProgramas: Record<number, EstiloPrograma> = {
+  1: { 
+    color: "bg-green-600", 
+    text: "text-green-600", 
+    border: "border-green-200", 
+    hover: "hover:border-green-500", 
+    image: "/imags/material_programas/proyect_1.jpg" 
+  },
+  2: { 
+    color: "bg-blue-600", 
+    text: "text-blue-600", 
+    border: "border-blue-200", 
+    hover: "hover:border-blue-500", 
+    image: "/imags/material_programas/proyect_2.jpg" 
+  },
+  3: { 
+    color: "bg-indigo-600", 
+    text: "text-indigo-600", 
+    border: "border-indigo-200", 
+    hover: "hover:border-indigo-500", 
+    image: "/imags/material_programas/proyect_3.jpg" 
+  },
+  4: { 
+    color: "bg-amber-600", 
+    text: "text-amber-600", 
+    border: "border-amber-200", 
+    hover: "hover:border-amber-500", 
+    image: "/imags/material_programas/proyect_4.jpg" 
+  },
+  5: { 
+    color: "bg-rose-600", 
+    text: "text-rose-600", 
+    border: "border-rose-200", 
+    hover: "hover:border-rose-500", 
+    image: "/imags/material_programas/proyect_5.jpg" 
+  },
+  6: { 
+    color: "bg-cyan-600", 
+    text: "text-cyan-600", 
+    border: "border-cyan-200", 
+    hover: "hover:border-cyan-500", 
+    image: "/imags/material_programas/proyect_6.jpg" 
+  },
+  7: { 
+    color: "bg-slate-600", 
+    text: "text-slate-600", 
+    border: "border-slate-200", 
+    hover: "hover:border-slate-500", 
+    image: "/imags/material_programas/proyect_7.jpg" 
+  },
+  8: { 
+    color: "bg-purple-600", 
+    text: "text-purple-600", 
+    border: "border-purple-200", 
+    hover: "hover:border-purple-500", 
+    image: "/imags/material_programas/proyect_8.jpg" 
+  },
+  9: { 
+    color: "bg-emerald-600", 
+    text: "text-emerald-600", 
+    border: "border-emerald-200", 
+    hover: "hover:border-emerald-500", 
+    image: "/imags/material_programas/proyect_9.jpg" 
+  }
 };
 
-// --- 3. OBTENER DATOS EN VIVO ---
+const defaultEstilo: EstiloPrograma = { 
+  color: "bg-gray-800", 
+  text: "text-gray-600", 
+  border: "border-gray-200", 
+  hover: "hover:border-gray-400", 
+  image: "/imags/material_programas/default.jpg" 
+};
+
 const { slug } = Astro.params;
 
-// Validar que tengamos slug
 if (!slug) {
-    return Astro.redirect('/404');
+  return Astro.redirect('/404');
 }
 
-// Usamos typedSql para que el editor te ayude con la sintaxis
-const result = await typedSql`SELECT * FROM programas WHERE slug = ${slug}`;
-const programa = result[0];
+let programa: Programa | null = null;
 
-if (!programa) {
+try {
+  const resultPrograma = await sql<Programa[]>`
+    SELECT id, slug, titulo, descripcion 
+    FROM programas 
+    WHERE slug = ${slug}
+    LIMIT 1
+  `;
+  
+  programa = resultPrograma[0] || null;
+
+  if (!programa) {
     return Astro.redirect('/404');
-}
+  }
 
-// Consulta de proyectos
-const proyectos = await typedSql`
+  // ✅ PROYECTOS COMENTADOS - Para implementación futura
+  /*
+  proyectos = await sql<Proyecto[]>`
     SELECT * FROM proyectos 
     WHERE programa_id = ${programa.id}
     ORDER BY fecha_publicacion DESC
-`;
+  `;
+  */
 
-const estilo = estilosProgramas[programa.id] || { 
-    color: "bg-gray-800", text: "text-gray-600", border: "border-gray-200", hover: "hover:border-gray-400", image: "" 
-};
+} catch (error) {
+  console.error('Database error:', error);
+  return Astro.redirect('/500');
+}
 
-const formatearFecha = (fecha: any) => {
-    if (!fecha) return 'Fecha pendiente';
-    return new Date(fecha).toLocaleDateString('es-BO', { year: 'numeric', month: 'long', day: 'numeric' });
-};
-
-const proyectosEjecucion = proyectos.filter((p: any) => p.estado === 'En Ejecución').length;
-const proyectosPlanificacion = proyectos.filter((p: any) => p.estado === 'En Planificación').length;
+const estilo = estilosProgramas[programa.id] || defaultEstilo;
 ---
 
-<Layout title={programa.titulo}>
+<Layout 
+  title={`${programa.titulo} - Programa FORAMA`}
+  description={`${programa.descripcion} - Programa de FORAMA en Pando, Bolivia`}
+>
   
   <Navbar client:load transition:persist />
 
   <main class="bg-slate-50 min-h-screen pb-24">
     
-    {/* SECCIÓN HERO */}
-    <div class="relative h-[60vh] min-h-[500px] flex flex-col justify-between pb-16 pt-32 overflow-hidden">
+    {/* ✅ HERO MEJORADO - Responsive y mejor diseño */}
+    <header 
+      class="relative min-h-[70vh] flex flex-col justify-end pb-12 md:pb-20 pt-32 md:pt-40 overflow-hidden"
+      aria-label="Encabezado del programa"
+    >
       
+      {/* Background */}
       <div class="absolute inset-0">
-         <img src={estilo.image} class="w-full h-full object-cover" alt="" />
-         <div class={`absolute inset-0 ${estilo.color} mix-blend-multiply opacity-90`}></div>
-         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
+        <img 
+          src={estilo.image} 
+          alt={`Imagen representativa del programa ${programa.titulo}`}
+          class="w-full h-full object-cover"
+          loading="eager"
+          width="1920"
+          height="600"
+        />
+        <div class={`absolute inset-0 ${estilo.color} mix-blend-multiply opacity-90`} aria-hidden="true"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent" aria-hidden="true"></div>
       </div>
       
-      <div class="container relative z-10 mx-auto px-6 max-w-7xl h-full flex flex-col justify-between">
+      <div class="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         
-        {/* Botón Volver */}
-        <div>
-            <a href={`/programas#programa-${slug}`} class="group inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors font-medium backdrop-blur-md bg-white/5 px-5 py-2.5 rounded-full border border-white/10 hover:bg-white/10 w-fit">
-              <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" /> 
-              Volver al Portafolio
-            </a>
-        </div>
+        {/* ✅ Botón volver CON ID */}
+        <nav aria-label="Navegación de retorno" class="mb-8 md:mb-12">
+          <a 
+            href={`/programas#programa-${slug}`}
+            class="group inline-flex items-center gap-2 text-white/80 hover:text-white transition-all duration-300 font-medium backdrop-blur-md bg-white/10 hover:bg-white/20 px-4 md:px-6 py-2.5 md:py-3 rounded-full border border-white/20 hover:border-white/40 w-fit focus:outline-none focus:ring-2 focus:ring-white shadow-lg"
+            aria-label={`Volver al portafolio y ver ${programa.titulo}`}
+          >
+            <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" aria-hidden="true" /> 
+            <span class="text-sm md:text-base">Volver al Portafolio</span>
+          </a>
+        </nav>
         
-        {/* Título y descripción */}
-        <div class="max-w-4xl">
-           <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight drop-shadow-2xl">
+        {/* ✅ Título y descripción RESPONSIVE */}
+        <div class="max-w-5xl">
+          <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white mb-4 md:mb-6 leading-[1.1] drop-shadow-2xl">
             {programa.titulo}
-           </h1>
-           <p class="text-xl md:text-2xl text-slate-200 font-light leading-relaxed max-w-3xl border-l-4 border-white/30 pl-6">
-            {programa.descripcion}
-           </p>
-        </div>
-
-      </div>
-    </div>
-
-    {/* BARRA DE ESTADÍSTICAS */}
-    <div class="border-b border-slate-200 bg-white sticky top-0 z-30 shadow-sm backdrop-blur-xl bg-white/90">
-        <div class="container mx-auto px-6 max-w-7xl h-20 flex items-center justify-between overflow-x-auto gap-8">
-            <div class="flex items-center gap-8 text-sm font-medium text-slate-600 whitespace-nowrap">
-                <div class="flex items-center gap-2">
-                    <Activity size={18} className={estilo.text} />
-                    <span class="font-bold text-slate-900 text-lg">{proyectos.length}</span> Proyectos Totales
-                </div>
-                <div class="h-4 w-px bg-slate-300"></div>
-                <div class="flex items-center gap-2">
-                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                    <span class="font-bold text-slate-900 text-lg">{proyectosEjecucion}</span> En Ejecución
-                </div>
-                {proyectosPlanificacion > 0 && (
-                    <>
-                    <div class="h-4 w-px bg-slate-300"></div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
-                        <span class="font-bold text-slate-900 text-lg">{proyectosPlanificacion}</span> Planificados
-                    </div>
-                    </>
-                )}
-            </div>
-        </div>
-    </div>
-
-    {/* LISTA DE PROYECTOS */}
-    <div class="container mx-auto px-6 max-w-7xl mt-16">
-      
-      {proyectos.length === 0 ? (
-        <div class="bg-white p-16 rounded-[2rem] shadow-sm text-center border-2 border-dashed border-slate-200">
-          <div class={`inline-flex p-6 rounded-full bg-slate-50 mb-6 text-slate-400`}>
-            <Info size={40} />
+          </h1>
+          
+          {/* ✅ DESCRIPCIÓN MEJORADA - Más legible y responsive */}
+          <div class="relative">
+            <div class="absolute left-0 top-0 bottom-0 w-1 md:w-1.5 bg-white/40 rounded-full" aria-hidden="true"></div>
+            <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-100 font-light leading-relaxed pl-4 md:pl-6 max-w-4xl">
+              {programa.descripcion}
+            </p>
           </div>
-          <h3 class="text-2xl font-bold text-slate-900 mb-2">Sin proyectos activos</h3>
-          <p class="text-slate-500 text-lg">Actualmente estamos formulando nuevas iniciativas para esta área.</p>
         </div>
-      ) : (
-        <div class="grid gap-10">
-          {proyectos.map((proyecto: any) => (
-            <article class={`group relative bg-white rounded-[2rem] p-8 md:p-10 border border-slate-200 shadow-sm hover:shadow-2xl transition-all duration-300 ${estilo.hover}`}>
+      </div>
+    </header>
+
+    {/* ✅ MENSAJE DE PRÓXIMAMENTE - Diseño Premium */}
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl mt-12 md:mt-20">
+      
+      <div class="relative overflow-hidden bg-gradient-to-br from-white via-slate-50 to-white rounded-2xl md:rounded-[3rem] p-8 sm:p-10 md:p-16 shadow-2xl border border-slate-200">
+        
+        {/* Decoración de fondo */}
+        <div class="absolute top-0 right-0 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-br from-green-100/40 to-blue-100/40 rounded-full blur-3xl -z-0" aria-hidden="true"></div>
+        <div class="absolute bottom-0 left-0 w-56 h-56 md:w-80 md:h-80 bg-gradient-to-tr from-amber-100/30 to-emerald-100/30 rounded-full blur-3xl -z-0" aria-hidden="true"></div>
+        
+        <div class="relative z-10 text-center max-w-3xl mx-auto">
+          
+          {/* Icono central animado */}
+          <div class="inline-flex items-center justify-center mb-6 md:mb-8">
+            <div class="relative">
+              {/* Anillos animados */}
+              <div class="absolute inset-0 rounded-full bg-green-400/20 animate-ping" aria-hidden="true"></div>
+              <div class="absolute inset-0 rounded-full bg-green-300/30 animate-pulse" aria-hidden="true"></div>
               
-              <div class={`absolute left-0 top-10 bottom-10 w-1.5 ${estilo.color} rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity`}></div>
-
-              <div class="grid lg:grid-cols-12 gap-8 lg:gap-12">
-                
-                <div class="lg:col-span-8 space-y-6">
-                    
-                    <div class="flex flex-wrap items-center gap-4">
-                        <span class={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border 
-                          ${proyecto.estado === 'En Ejecución' 
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-100' 
-                            : 'bg-amber-50 text-amber-700 border-amber-100'}`}>
-                          {proyecto.estado === 'En Ejecución' && <CheckCircle2 size={14} />}
-                          {proyecto.estado}
-                        </span>
-                        
-                        {proyecto.rubro && (
-                           <span class="inline-flex items-center gap-1.5 text-slate-500 text-xs font-bold uppercase tracking-wider px-3 py-1.5 bg-slate-100 rounded-lg">
-                             <Tag size={12} />
-                             {proyecto.rubro}
-                           </span>
-                        )}
-                    </div>
-
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight group-hover:text-slate-700 transition-colors">
-                      {proyecto.nombre}
-                    </h2>
-                    
-                    {proyecto.descripcion ? (
-                      <p class="text-lg text-slate-600 leading-relaxed">
-                        {proyecto.descripcion}
-                      </p>
-                    ) : (
-                        <p class="text-lg text-slate-400 italic">No hay descripción disponible para este proyecto.</p>
-                    )}
-
-                </div>
-
-                <div class="lg:col-span-4 flex flex-col justify-center">
-                    <div class="bg-slate-50 rounded-3xl p-6 border border-slate-100 space-y-5">
-                        
-                        <div class="flex items-start gap-4">
-                            <div class={`p-3 rounded-2xl bg-white shadow-sm text-slate-400 ${estilo.text}`}>
-                                <MapPin size={24} />
-                            </div>
-                            <div>
-                                <span class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Ubicación</span>
-                                <span class="text-lg font-bold text-slate-800 leading-tight">
-                                    {proyecto.ubicacion || "Ubicación no especificada"}
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="w-full h-px bg-slate-200"></div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="p-3 rounded-2xl bg-white shadow-sm text-slate-400">
-                                <Clock size={24} />
-                            </div>
-                            <div>
-                                <span class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Fecha de Inicio</span>
-                                <span class="text-base font-medium text-slate-700">
-                                    {formatearFecha(proyecto.fecha_publicacion)}
-                                </span>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
+              {/* Icono principal */}
+              <div class={`relative ${estilo.color} rounded-full p-6 md:p-8 shadow-2xl`}>
+                <Sprout size={48} className="text-white md:w-16 md:h-16" aria-hidden="true" />
               </div>
-            </article>
-          ))}
+            </div>
+          </div>
+
+          {/* Título principal */}
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 md:mb-6 leading-tight">
+            Sembrando el Futuro
+          </h2>
+
+          {/* Descripción */}
+          <p class="text-lg sm:text-xl md:text-2xl text-slate-600 font-light leading-relaxed mb-8 md:mb-10">
+            Los proyectos específicos de este programa están en fase de <span class="font-semibold text-slate-900">diseño y estructuración</span>. 
+            Estamos trabajando en iniciativas concretas que pronto tomarán forma para transformar esta visión en acciones tangibles.
+          </p>
+
+          {/* Nota final */}
+          <p class="mt-6 md:mt-8 text-xs md:text-sm text-slate-500 italic">
+            Mantente al tanto de nuestros avances suscribiéndote a nuestro boletín o siguiéndonos en redes sociales.
+          </p>
         </div>
-      )}
+      </div>
+
     </div>
   </main>
 </Layout>
+
+{/* ✅ SCRIPT PARA SCROLL SUAVE AL VOLVER */}
+<script>
+  // Detectar si venimos de un link con hash
+  if (window.location.hash) {
+    // Esperar a que el DOM cargue
+    window.addEventListener('load', () => {
+      const targetId = window.location.hash.substring(1);
+      const targetElement = document.getElementById(targetId);
+      
+      if (targetElement) {
+        // Scroll suave al elemento
+        setTimeout(() => {
+          targetElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center'
+          });
+          
+          // Highlight temporal del elemento
+          targetElement.classList.add('highlight-programa');
+          setTimeout(() => {
+            targetElement.classList.remove('highlight-programa');
+          }, 2000);
+        }, 100);
+      }
+    });
+  }
+</script>
+
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Animación de highlight cuando vuelves al programa */
+  .highlight-programa {
+    animation: highlight 2s ease-out;
+  }
+
+  @keyframes highlight {
+    0% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+      transform: scale(1);
+    }
+    50% {
+      box-shadow: 0 0 0 20px rgba(59, 130, 246, 0);
+      transform: scale(1.02);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+      transform: scale(1);
+    }
+  }
+
+  /* Animaciones personalizadas */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+</style>

@@ -2,352 +2,512 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/shared/Navbar.jsx';
 import { 
-    ShieldCheck, 
-    Users, 
-    Gavel, 
-    ChevronDown, 
-    Link as LinkIcon,
-    Network,
-    Award
+  ShieldCheck, 
+  Users, 
+  Gavel, 
+  ChevronDown, 
+  Link as LinkIcon,
+  Network,
+  Award,
+  Briefcase,
+  ExternalLink
 } from 'lucide-react';
-import { imageConfig } from 'astro:assets';
 
-// --- DATOS DEL NIVEL EJECUTIVO ---
-const equipoEjecutivo = [
-    {
-        nombre: "Ing. Richard Andres Benitez Romero",
-        cargo: "Director General",
-        foto: "/imags/material_organigrama/richard.jpg" 
-    },
-    {
-        nombre: "Ph.D. Flora Magdaline Benitez Romero",
-        cargo: "Coordinadora de Proyectos",
-        institucion: "INPA - Brasil",
-        cv: "http://lattes.cnpq.br/7246800278204204",
-        foto: "/imags/material_organigrama/Flora.jpeg" 
-    },
-    {
-        nombre: "Lic. Licet Rosario Benitez Romero",
-        cargo: "Responsable de Finanzas",
-        foto: "/imags/material_organigrama/Liset.jpg" 
-    },
-    {
-        nombre: "Ph.D. Songila Maria da Silva Rocha Doi",
-        cargo: "Relaciones Institucionales",
-        institucion: "UFPR- Brasil   ",
-        cv: "http://lattes.cnpq.br/6268600027860423",
-        foto: "/imags/material_organigrama/Songila.jpg" 
-    },
-    {
-        nombre: "Gabriela Benitez Lima",
-        cargo: "Responsable de Comunicación",
-        foto: "/imags/material_organigrama/gabriela.jpg" 
-    },
-    {
-        nombre: "Jair Noto Enriquez",
-        cargo: "Desarrollador Web Full Stack",
-        foto: "/imags/material_organigrama/jair.jpg" 
-    }
-];
-// --- DATOS DEL COMITÉ CIENTÍFICO ---
+// ✅ OPTIMIZACIÓN 1: Interfaces TypeScript
+interface Miembro {
+  nombre: string;
+  cargo: string;
+  foto: string;
+  institucion?: string;
+  cv?: string;
+}
 
-const comiteCientifico = [
-    {
-        nombre: "Ph.D. Philip Martin Fearnside",
-        titulo: "Doutor em Ciências Biológicas",
-        institucion: "INPA - Brasil",
-        cv: "http://lattes.cnpq.br/3176139653120353",
-        foto: "/imags/material_organigrama/Philip.jpg" 
-    },
-    {
-        nombre: "Ph.D. Laércio Antônio Gonçalves Jacovine",
-        titulo: "Doutor em Ciência Florestal",
-        institucion: "UFV - Brasil",
-        cv: "http://lattes.cnpq.br/1174194948048451",
-        foto: "/imags/material_organigrama/Laercio.jpeg" 
-    },
-    {
-        nombre: "Ph.D. Edson José Vidal da Silva",
-        titulo: "Doutor em Ciências da Engenharia Ambiental",
-        institucion: "ESALQ / USP",
-        cv: "http://lattes.cnpq.br/3346897244302980",
-        foto: "/imags/material_organigrama/Edson_vidal.jpg" 
-    },
-    {
-        nombre: "Ph.D. Rosana Barbosa de Castro Lopes",
-        titulo: "Doutora em Ciências de Florestas Tropicais",
-        institucion: "UFAM - Brasil",
-        cv: "http://lattes.cnpq.br/7133099115834903",
-        foto: "/imags/material_organigrama/rosana.jpg" 
-    },
-    {
-        nombre: "Ph.D. Vicente Toledo Machado de Morais Jr.",
-        titulo: "Doutor em Ciência Florestal",
-        institucion: "UFU - Brasil",
-        cv: "http://lattes.cnpq.br/8998189475989255",
-        foto: "/imags/material_organigrama/vicente.jpg" 
-    },
-    {
-        nombre: "Ph.D. Rosimeire Araújo Silva",
-        titulo: "Doutora em Clima e Ambiente",
-        institucion: "INPA - Brasil",
-        cv: "http://lattes.cnpq.br/3176139653120353",
-        foto: "/imags/material_organigrama/Rosmeri.jpg" 
-    }
+interface Cientifico extends Miembro {
+  titulo: string;
+}
+
+interface Alianza {
+  nombre: string;
+  url: string;
+  logo: string;
+  descripcion?: string;
+}
+
+// ✅ OPTIMIZACIÓN 2: Datos estructurados del equipo ejecutivo
+const equipoEjecutivo: Miembro[] = [
+  {
+    nombre: "Ing. Richard Andres Benitez Romero",
+    cargo: "Director General",
+    foto: "/imags/material_organigrama/richard.jpg"
+  },
+  {
+    nombre: "Ph.D. Flora Magdaline Benitez Romero",
+    cargo: "Coordinadora de Proyectos",
+    institucion: "INPA - Brasil",
+    cv: "http://lattes.cnpq.br/7246800278204204",
+    foto: "/imags/material_organigrama/Flora.jpeg"
+  },
+  {
+    nombre: "Lic. Licet Rosario Benitez Romero",
+    cargo: "Responsable de Finanzas",
+    foto: "/imags/material_organigrama/Liset.jpg"
+  },
+  {
+    nombre: "Ph.D. Songila Maria da Silva Rocha Doi",
+    cargo: "Relaciones Institucionales",
+    institucion: "UFPR - Brasil",
+    cv: "http://lattes.cnpq.br/6268600027860423",
+    foto: "/imags/material_organigrama/Songila.jpg"
+  },
+  {
+    nombre: "Gabriela Benitez Lima",
+    cargo: "Responsable de Comunicación",
+    foto: "/imags/material_organigrama/gabriela.jpg"
+  },
+  {
+    nombre: "Jair Noto Enriquez",
+    cargo: "Desarrollador Web Full Stack",
+    foto: "/imags/material_organigrama/jair.jpg"
+  }
 ];
+
+// ✅ OPTIMIZACIÓN 3: Datos estructurados del comité científico
+const comiteCientifico: Cientifico[] = [
+  {
+    nombre: "Ph.D. Philip Martin Fearnside",
+    titulo: "Doutor em Ciências Biológicas",
+    cargo: "Asesor Científico",
+    institucion: "INPA - Brasil",
+    cv: "http://lattes.cnpq.br/3176139653120353",
+    foto: "/imags/material_organigrama/Philip.jpg"
+  },
+  {
+    nombre: "Ph.D. Laércio Antônio Gonçalves Jacovine",
+    titulo: "Doutor em Ciência Florestal",
+    cargo: "Asesor Científico",
+    institucion: "UFV - Brasil",
+    cv: "http://lattes.cnpq.br/1174194948048451",
+    foto: "/imags/material_organigrama/Laercio.jpeg"
+  },
+  {
+    nombre: "Ph.D. Edson José Vidal da Silva",
+    titulo: "Doutor em Ciências da Engenharia Ambiental",
+    cargo: "Asesor Científico",
+    institucion: "ESALQ / USP",
+    cv: "http://lattes.cnpq.br/3346897244302980",
+    foto: "/imags/material_organigrama/Edson_vidal.jpg"
+  },
+  {
+    nombre: "Ph.D. Rosana Barbosa de Castro Lopes",
+    titulo: "Doutora em Ciências de Florestas Tropicais",
+    cargo: "Asesora Científica",
+    institucion: "UFAM - Brasil",
+    cv: "http://lattes.cnpq.br/7133099115834903",
+    foto: "/imags/material_organigrama/rosana.jpg"
+  },
+  {
+    nombre: "Ph.D. Vicente Toledo Machado de Morais Jr.",
+    titulo: "Doutor em Ciência Florestal",
+    cargo: "Asesor Científico",
+    institucion: "UFU - Brasil",
+    cv: "http://lattes.cnpq.br/8998189475989255",
+    foto: "/imags/material_organigrama/vicente.jpg"
+  },
+  {
+    nombre: "Ph.D. Rosimeire Araújo Silva",
+    titulo: "Doutora em Clima e Ambiente",
+    cargo: "Asesora Científica",
+    institucion: "INPA - Brasil",
+    cv: "http://lattes.cnpq.br/3176139653120353",
+    foto: "/imags/material_organigrama/Rosmeri.jpg"
+  }
+];
+
+// ✅ OPTIMIZACIÓN 4: Datos estructurados de alianzas
+const alianzasAcademicas: Alianza[] = [
+  {
+    nombre: "INPA - Instituto Nacional de Pesquisas da Amazônia",
+    url: "https://www.gov.br/inpa/pt-br",
+    logo: "/imags/material_aliados/INPA.png",
+    descripcion: "Principal instituto de investigación amazónica de Brasil"
+  },
+  {
+    nombre: "UFAM - Universidade Federal do Amazonas",
+    url: "https://www.ufam.edu.br/",
+    logo: "/imags/material_aliados/UFAM.png",
+    descripcion: "Universidad líder en estudios amazónicos"
+  },
+  {
+    nombre: "UFU - Universidade Federal de Uberlândia",
+    url: "https://ufu.br/",
+    logo: "/imags/material_aliados/UFU.svg",
+    descripcion: "Referente en ciencias forestales"
+  },
+  {
+    nombre: "UFPR - Universidade Federal do Paraná",
+    url: "https://ufpr.br/",
+    logo: "/imags/material_aliados/UFPR.svg",
+    descripcion: "Excelencia en investigación ambiental"
+  },
+  {
+    nombre: "ESALQ - Escola Superior de Agricultura Luiz de Queiroz",
+    url: "https://en.esalq.usp.br/es",
+    logo: "/imags/material_aliados/ESALQ.png",
+    descripcion: "Líder en ciencias agrarias y forestales"
+  },
+  {
+    nombre: "UFV - Universidade Federal de Viçosa",
+    url: "https://ufv.br/",
+    logo: "/imags/material_aliados/UFV.png",
+    descripcion: "Pionera en gestión forestal sostenible"
+  }
+];
+
+// ✅ OPTIMIZACIÓN 5: Estructura del directorio
+const directorio = ['Presidencia', 'Secretaría General', 'Secretaría de Finanzas', 'Vocalía'];
 ---
 
-<Layout title="Transparencia y Gobernanza | FORAMA">
-    
-    <Navbar client:load transition:persist />
+<Layout 
+  title="Transparencia y Gobernanza" 
+  description="Conoce la estructura organizacional de FORAMA, nuestro equipo ejecutivo, comité científico y red de alianzas institucionales en la Amazonía."
+>
+  
+  {/* ✅ OPTIMIZACIÓN 6: Navbar persistente */}
+  <Navbar client:load transition:persist />
 
-    <main class="bg-stone-50">
+  <main class="bg-stone-50">
+    
+    {/* ✅ OPTIMIZACIÓN 7: Hero optimizado */}
+    <section 
+      class="relative h-screen flex items-center justify-center bg-amazon-900 text-white overflow-hidden"
+      aria-labelledby="hero-heading"
+    >
+      <img 
+        src="/imags/material_transpariencia/transpariencia.jpg" 
+        alt="Equipo de FORAMA en sesión de planificación estratégica" 
+        class="absolute inset-0 w-full h-full object-cover transform scale-105"
+        loading="eager"
+        width="1920"
+        height="1080"
+      />
+      
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 z-0" aria-hidden="true"></div>
+
+      <div class="relative z-10 container mx-auto px-4 text-center">
+        <span class="inline-flex items-center gap-2 py-1.5 px-5 rounded-full
+                    bg-gradient-to-r from-white/12 via-amber-200/10 to-white/8
+                    backdrop-blur-md
+                    border border-white/14
+                    text-white font-semibold uppercase text-[10px]
+                    tracking-[0.32em] mb-8
+                    shadow-[0_10px_30px_rgba(0,0,0,0.35)]
+                    [text-shadow:0_2px_12px_rgba(0,0,0,0.4)]
+                    animate-[fadeUp_700ms_ease-out_both]">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-200/90 shadow-[0_0_14px_rgba(251,191,36,0.75)]" aria-hidden="true"></span>
+          Organigrama institucional
+        </span>
+
+        <h1 
+          id="hero-heading"
+          class="relative font-serif text-6xl md:text-8xl lg:text-9xl font-semibold
+                    mb-7 tracking-tight leading-[0.9] text-white
+                    animate-[heroTitle_900ms_cubic-bezier(.2,.8,.2,1)_both]
+                    [text-shadow:0_2px_0_rgba(0,0,0,0.55),0_10px_30px_rgba(0,0,0,0.55)]
+                    [-webkit-text-stroke:2px_rgba(0,0,0,0.45)]"
+        >
+          Estructura y<br class="hidden md:block" aria-hidden="true"/>
+          liderazgo
+        </h1>
+
+        <p class="relative font-serif text-xl md:text-3xl lg:text-4xl font-medium
+                    mb-7 tracking-tight leading-tight text-white
+                    [text-shadow:0_2px_0_rgba(0,0,0,0.65),0_10px_26px_rgba(0,0,0,0.55)]
+                    [-webkit-text-stroke:1px_rgba(0,0,0,0.35)]">
+          Conoce al equipo multidisciplinario que impulsa
+          <br class="hidden md:block" aria-hidden="true"/>
+          <span class="italic font-serif font-semibold">
+            nuestra misión, combinando visión estratégica y rigor científico.
+          </span>
+        </p>
+      </div>
+
+      <div class="absolute bottom-10 z-20 animate-bounce">
+        <ChevronDown size={40} className="text-white/70" aria-hidden="true" />
+      </div>
+    </section>
+
+    {/* ✅ OPTIMIZACIÓN 8: Estructura orgánica con semántica mejorada */}
+    <section 
+      id="gobernanza" 
+      class="py-24 relative overflow-hidden"
+      aria-labelledby="gobernanza-heading"
+    >
+      <div class="container mx-auto px-4 max-w-[95rem] relative z-10">
         
-        <section class="relative h-screen flex items-center justify-center bg-amazon-900 text-white overflow-hidden">
-            <img 
-                src="/imags/material_transpariencia/transpariencia.jpg" 
-                alt="Transparencia y Gobernanza" 
-                class="absolute inset-0 w-full h-full object-cover transform scale-105"
-            />
-            
-            <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 z-0"></div>
+        <header class="text-center mb-16">
+          <h2 id="gobernanza-heading" class="text-4xl font-extrabold text-amazon-900 mb-4">
+            Estructura Orgánica
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Organización sólida para la toma de decisiones estratégicas.
+          </p>
+        </header>
 
-
-            <div class="relative z-10 container mx-auto px-4 text-center">
-
-                
-                <span class="inline-flex items-center gap-2 py-1.5 px-5 rounded-full
-                            bg-gradient-to-r from-white/12 via-amber-200/10 to-white/8
-                            backdrop-blur-md
-                            border border-white/14
-                            text-white font-semibold uppercase text-[10px]
-                            tracking-[0.32em] mb-8
-                            shadow-[0_10px_30px_rgba(0,0,0,0.35)]
-                            [text-shadow:0_2px_12px_rgba(0,0,0,0.4)]
-                            animate-[fadeUp_700ms_ease-out_both]">
-                    <span class="w-1.5 h-1.5 rounded-full bg-amber-200/90 shadow-[0_0_14px_rgba(251,191,36,0.75)]"></span>
-                    Organigrama institucional
-                </span>
-
-                
-                <h1 class="relative font-serif text-6xl md:text-8xl lg:text-9xl font-semibold
-                            mb-7 tracking-tight leading-[0.9] text-white
-                            animate-[heroTitle_900ms_cubic-bezier(.2,.8,.2,1)_both]
-                            [text-shadow:0_2px_0_rgba(0,0,0,0.55),0_10px_30px_rgba(0,0,0,0.55)]
-                            [-webkit-text-stroke:2px_rgba(0,0,0,0.45)]">
-                    Estructura y<br class="hidden md:block"/>
-                    liderazgo
-                </h1>
-
-            
-                <p class="relative font-serif text-xl md:text-3xl lg:text-4xl font-medium
-                            mb-7 tracking-tight leading-tight text-white
-                            [text-shadow:0_2px_0_rgba(0,0,0,0.65),0_10px_26px_rgba(0,0,0,0.55)]
-                            [-webkit-text-stroke:1px_rgba(0,0,0,0.35)]">
-                    Conoce al equipo multidisciplinario que impulsa
-                    <br class="hidden md:block"/>
-                    <span class="italic font-serif font-semibold">
-                    nuestra misión, combinando visión estratégica y rigor científico.
-                    </span>
-                </p>
-
+        <div class="flex flex-col items-center w-full">
+          
+          {/* Asamblea General */}
+          <article class="relative z-10 bg-amazon-900 text-white p-6 rounded-2xl shadow-xl text-center border-b-4 border-earth-500 w-full max-w-md hover:scale-105 transition-transform duration-300">
+            <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-earth-500 p-3 rounded-full shadow-lg border-4 border-stone-50">
+              <Users size={24} className="text-white" aria-hidden="true" />
             </div>
+            <h3 class="text-2xl font-bold mt-4">Asamblea General</h3>
+            <p class="text-amazon-200 text-xs uppercase tracking-widest mt-1 font-bold">
+              Nivel Normativo y Deliberante
+            </p>
+          </article>
 
+          <div class="h-12 w-1 bg-gray-300" aria-hidden="true"></div>
+
+          {/* Directorio */}
+          <article class="relative z-10 bg-white p-8 rounded-3xl shadow-lg border border-gray-200 text-center w-full max-w-4xl">
+            <header class="flex flex-col items-center mb-6">
+              <div class="bg-amazon-50 p-3 rounded-full text-amazon-700 mb-2">
+                <Gavel size={28} aria-hidden="true" />
+              </div>
+              <h3 class="text-2xl font-bold text-amazon-900">Directorio</h3>
+              <p class="text-xs text-gray-500 uppercase tracking-widest font-bold">
+                Nivel Directivo
+              </p>
+            </header>
             
-            <div class="absolute bottom-10 z-20 animate-bounce">
-                <ChevronDown size={40} className="text-white/70" />
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" role="list">
+              {directorio.map((cargo) => (
+                <div 
+                  class="bg-gray-50 py-3 px-2 rounded-xl text-sm font-bold text-gray-700 border border-gray-100 shadow-sm"
+                  role="listitem"
+                >
+                  {cargo}
+                </div>
+              ))}
             </div>
-        </section>
+          </article>
 
-        <section id="gobernanza" class="py-24 relative overflow-hidden">
-            <div class="container mx-auto px-4 max-w-[95rem] relative z-10">
+          <div class="h-16 w-1 bg-gray-300" aria-hidden="true"></div>
+          
+          {/* Grid de Equipos */}
+          <div class="flex w-full justify-center relative">
+            <div class="absolute top-0 left-[20%] right-[20%] h-1 bg-gray-300 hidden xl:block" aria-hidden="true"></div>
+            
+            <div class="grid xl:grid-cols-2 gap-20 w-full max-w-[95rem]">
+              
+              {/* ✅ OPTIMIZACIÓN 9: Nivel Ejecutivo */}
+              <section class="flex flex-col items-center relative">
+                <div class="h-8 w-1 bg-gray-300 xl:block hidden" aria-hidden="true"></div>
                 
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-extrabold text-amazon-900 mb-4">Estructura Orgánica</h2>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Organización sólida para la toma de decisiones.
-                    </p>
+                <div class="relative z-10 inline-flex items-center gap-3 bg-amazon-950 px-8 py-3 rounded-full border border-amazon-700/50 shadow-[0_10px_20px_rgba(6,78,59,0.2)] mb-10 hover:scale-105 transition-transform duration-300">
+                  <span class="relative flex h-2.5 w-2.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" aria-hidden="true"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500 border border-white/20" aria-hidden="true"></span>
+                  </span>
+                  <span class="text-white font-bold uppercase text-[11px] tracking-[0.25em]">
+                    Nivel Ejecutivo
+                  </span>
+                </div>
+                
+                <div class="grid sm:grid-cols-2 gap-6 w-full">
+                  {equipoEjecutivo.map((miembro, index) => (
+                    <article 
+                      class="group relative h-[480px] rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500"
+                    >
+                      <img 
+                        src={miembro.foto} 
+                        alt={`Fotografía de ${miembro.nombre}, ${miembro.cargo} de FORAMA`}
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale-[10%] group-hover:grayscale-0" 
+                        loading={index < 4 ? 'eager' : 'lazy'}
+                        width="400"
+                        height="480"
+                      />
+                      
+                      <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" aria-hidden="true"></div>
+                      
+                      <div class="absolute bottom-0 left-0 w-full p-8 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                        <div class="border-l-4 border-white pl-4">
+                          <p class="text-gray-300 font-bold uppercase tracking-[0.2em] text-[10px] mb-1">
+                            {miembro.cargo}
+                          </p>
+                          <h4 class="text-white text-2xl font-extrabold leading-tight">
+                            {miembro.nombre}
+                          </h4>
+                        </div>
+
+                        <footer class="flex items-center justify-between border-t border-white/20 pt-4 mt-4 pl-1">
+                          <span class="text-gray-400 text-[10px] uppercase font-bold tracking-wider truncate max-w-[150px]">
+                            {miembro.institucion || 'FORAMA'}
+                          </span>
+                          
+                          {miembro.cv && (
+                            <a 
+                              href={miembro.cv} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              class="bg-white/10 hover:bg-white text-white hover:text-black p-2 rounded-full transition-colors backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white"
+                              aria-label={`Ver CV de ${miembro.nombre}`}
+                            >
+                              <LinkIcon size={16} aria-hidden="true" />
+                            </a>
+                          )}
+                        </footer>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
+
+              {/* ✅ OPTIMIZACIÓN 10: Nivel Científico */}
+              <section class="flex flex-col items-center relative mt-16 xl:mt-0">
+                <div class="h-8 w-1 bg-gray-300 xl:block hidden" aria-hidden="true"></div>
+                
+                <div class="relative z-10 inline-flex items-center gap-3 bg-gray-950 px-8 py-3 rounded-full border border-gray-800 shadow-[0_10px_20px_rgba(0,0,0,0.4)] mb-10 hover:scale-105 transition-transform duration-300">
+                  <span class="relative flex h-2.5 w-2.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-40" aria-hidden="true"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)]" aria-hidden="true"></span>
+                  </span>
+                  <span class="text-white font-bold uppercase text-[11px] tracking-[0.25em]">
+                    Comité Científico
+                  </span>
                 </div>
 
-                <div class="flex flex-col items-center w-full">
-                    
-                    <div class="relative z-10 bg-amazon-900 text-white p-6 rounded-2xl shadow-xl text-center border-b-4 border-earth-500 w-full max-w-md hover:scale-105 transition-transform duration-300">
-                        <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-earth-500 p-3 rounded-full shadow-lg border-4 border-stone-50">
-                            <Users size={24} className="text-white" />
+                <div class="grid sm:grid-cols-2 gap-6 w-full">
+                  {comiteCientifico.map((doc, index) => (
+                      <article 
+                        class="group relative h-[480px] rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500"
+                      >
+                      <img 
+                        src={doc.foto} 
+                        alt={`Fotografía de ${doc.nombre}, ${doc.titulo}`}
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale-[10%] group-hover:grayscale-0" 
+                        loading={index < 4 ? 'eager' : 'lazy'}
+                        width="400"
+                        height="480"
+                      />
+                      
+                      <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" aria-hidden="true"></div>
+                      
+                      <div class="absolute bottom-0 left-0 w-full p-8 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                        <div class="border-l-4 border-white pl-4">
+                          <p class="text-gray-300 font-bold uppercase tracking-[0.2em] text-[10px] mb-1">
+                            {doc.titulo}
+                          </p>
+                          <h4 class="text-white text-2xl font-extrabold leading-tight mb-2">
+                            {doc.nombre}
+                          </h4>
                         </div>
-                        <h3 class="text-2xl font-bold mt-4">Asamblea General</h3>
-                        <p class="text-amazon-200 text-xs uppercase tracking-widest mt-1 font-bold">Nivel Normativo y Deliberante</p>
-                    </div>
 
-                    <div class="h-12 w-1 bg-gray-300"></div>
-
-                    <div class="relative z-10 bg-white p-8 rounded-3xl shadow-lg border border-gray-200 text-center w-full max-w-4xl">
-                        <div class="flex flex-col items-center mb-6">
-                            <div class="bg-amazon-50 p-3 rounded-full text-amazon-700 mb-2">
-                                <Gavel size={28} />
-                            </div>
-                            <h3 class="text-2xl font-bold text-amazon-900">Directorio</h3>
-                            <p class="text-xs text-gray-500 uppercase tracking-widest font-bold">Nivel Directivo</p>
-                        </div>
-                        
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            {['Presidencia', 'Secretaría General', 'Secretaría de Finanzas', 'Vocalía'].map((cargo) => (
-                                <div class="bg-gray-50 py-3 px-2 rounded-xl text-sm font-bold text-gray-700 border border-gray-100 shadow-sm">
-                                    {cargo}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div class="h-16 w-1 bg-gray-300"></div>
-                    
-                    <div class="flex w-full justify-center relative">
-                        <div class="absolute top-0 left-[20%] right-[20%] h-1 bg-gray-300 hidden xl:block"></div>
-                        
-                        <div class="grid xl:grid-cols-2 gap-20 w-full max-w-[95rem]">
-                            
-                            <div class="flex flex-col items-center relative">
-    
-                                <div class="h-8 w-1 bg-gray-300 xl:block hidden"></div>
-                                
-                                <div class="relative z-10 inline-flex items-center gap-3 bg-amazon-950 px-8 py-3 rounded-full border border-amazon-700/50 shadow-[0_10px_20px_rgba(6,78,59,0.2)] mb-10 hover:scale-105 transition-transform duration-300 cursor-default">
-    
-                                    <span class="relative flex h-2.5 w-2.5">
-                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500 border border-white/20"></span>
-                                    </span>
-
-                                    <span class="text-white font-bold uppercase text-[11px] tracking-[0.25em]">
-                                        Nivel Ejecutivo
-                                    </span>
-                                </div>
-                                
-                                <div class="grid sm:grid-cols-2 gap-6 w-full">
-                                    {equipoEjecutivo.map(miembro => (
-                                        <div class="group relative h-[480px] rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
-                                            
-                                            <img 
-                                                src={miembro.foto} 
-                                                alt={miembro.nombre} 
-                                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale-[10%] group-hover:grayscale-0" 
-                                            />
-                                            
-                                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
-                                            
-                                            <div class="absolute bottom-0 left-0 w-full p-8 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                                                
-                                                <div class="border-l-4 border-white pl-4">
-                                                    
-                                                    <p class="text-gray-300 font-bold uppercase tracking-[0.2em] text-[10px] mb-1">
-                                                        {miembro.cargo}
-                                                    </p>
-                                                    
-                                                    <h4 class="text-white text-2xl font-extrabold leading-tight">
-                                                        {miembro.nombre}
-                                                    </h4>
-                                                </div>
-
-                                                 <div class="flex items-center justify-between border-t border-white/20 pt-4 mt-4 pl-1">
-                                                    <span class="text-gray-400 text-[10px] uppercase font-bold tracking-wider truncate max-w-[150px]">
-                                                        {miembro.institucion}
-                                                    </span>
-                                                    
-                                                    {miembro.cv && (
-                                                        <a href={miembro.cv} target="_blank" class="bg-white/10 hover:bg-white text-white hover:text-black p-2 rounded-full transition-colors backdrop-blur-sm">
-                                                            <LinkIcon size={16} />
-                                                        </a>
-                                                    )}
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div class="flex flex-col items-center relative mt-16 xl:mt-0">
-                                <div class="h-8 w-1 bg-gray-300 xl:block hidden"></div>
-                                
-                               <div class="relative z-10 inline-flex items-center gap-3 bg-gray-950 px-8 py-3 rounded-full border border-gray-800 shadow-[0_10px_20px_rgba(0,0,0,0.4)] mb-10 hover:scale-105 transition-transform duration-300 cursor-default">
-    
-                                    <span class="relative flex h-2.5 w-2.5">
-                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-40"></span>
-                                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)]"></span>
-                                    </span>
-
-                                    <span class="text-white font-bold uppercase text-[11px] tracking-[0.25em]">
-                                        Nivel Científico
-                                    </span>
-                                </div>
-
-                                <div class="grid sm:grid-cols-2 gap-6 w-full">
-                                    {comiteCientifico.map(doc => (
-                                        <div class="group relative h-[480px] rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
-                                            
-                                            <img 
-                                                src={doc.foto} 
-                                                alt={doc.nombre} 
-                                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale-[10%] group-hover:grayscale-0" 
-                                            />
-                                            
-                                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
-                                            
-                                            <div class="absolute bottom-0 left-0 w-full p-8 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                                                
-                                                <div class="border-l-4 border-white pl-4">
-                                                    <p class="text-gray-300 font-bold uppercase tracking-[0.2em] text-[10px] mb-1">
-                                                        {doc.titulo}
-                                                    </p>
-                                                    <h4 class="text-white text-2xl font-extrabold leading-tight mb-2">
-                                                        {doc.nombre}
-                                                    </h4>
-                                                </div>
-
-                                                <div class="flex items-center justify-between border-t border-white/20 pt-4 mt-4 pl-1">
-                                                    <span class="text-gray-400 text-[10px] uppercase font-bold tracking-wider truncate max-w-[150px]">
-                                                        {doc.institucion}
-                                                    </span>
-                                                    
-                                                    {doc.cv && (
-                                                        <a href={doc.cv} target="_blank" class="bg-white/10 hover:bg-white text-white hover:text-black p-2 rounded-full transition-colors backdrop-blur-sm">
-                                                            <LinkIcon size={16} />
-                                                        </a>
-                                                    )}
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <footer class="flex items-center justify-between border-t border-white/20 pt-4 mt-4 pl-1">
+                          <span class="text-gray-400 text-[10px] uppercase font-bold tracking-wider truncate max-w-[150px]">
+                            {doc.institucion}
+                          </span>
+                          
+                          {doc.cv && (
+                            <a 
+                              href={doc.cv} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              class="bg-white/10 hover:bg-white text-white hover:text-black p-2 rounded-full transition-colors backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white"
+                              aria-label={`Ver CV de ${doc.nombre}`}
+                            >
+                              <LinkIcon size={16} aria-hidden="true" />
+                            </a>
+                          )}
+                        </footer>
+                      </div>
+                    </article>
+                  ))}
                 </div>
-
+              </section>
             </div>
-        </section>
+          </div>
+        </div>
 
-        <section id="economia" class="py-24 bg-white relative">
-            <div class="container mx-auto px-4 max-w-4xl">
-                <div class="bg-stone-100 rounded-[2.5rem] p-12 md:p-16 border border-stone-200 text-center relative overflow-hidden shadow-inner">
-                    <ShieldCheck className="absolute top-0 right-0 -mt-10 -mr-10 text-stone-200 w-64 h-64 opacity-50" />
-                    
-                    <div class="relative z-10">
-                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm text-amazon-600">
-                            <ShieldCheck size={32} />
-                        </div>
-                        <h2 class="text-3xl font-bold text-amazon-900 mb-6">Régimen Económico</h2>
-                        <p class="text-xl text-gray-700 leading-relaxed text-balance">
-                            FORAMA Amazónica <strong class="text-red-600">no realiza intermediación financiera</strong> ni actividades comerciales.
-                        </p>
-                        <br>
-                        <p class="text-lg text-gray-600 leading-relaxed text-balance">
-                            Todos los ingresos y el patrimonio se destinan exclusivamente a su objeto y fines, <strong class="text-amazon-700">sin distribución entre sus miembros</strong>.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
+      </div>
+    </section>
 
-    </main>
-</Layout>   
+    {/* ✅ OPTIMIZACIÓN 11: Sección de alianzas optimizada */}
+    <section 
+      id="alianzas" 
+      class="py-28 bg-white overflow-hidden relative scroll-mt-20"
+      aria-labelledby="alianzas-heading"
+    >
+      <div class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5" aria-hidden="true"></div>
+      
+      <div class="container mx-auto px-4 max-w-7xl relative z-10">
+        
+        <header class="text-center mb-20">
+          <span class="text-blue-600 font-bold tracking-widest uppercase text-xs mb-3 block">
+            Respaldo Institucional
+          </span>
+          <h2 id="alianzas-heading" class="text-4xl md:text-6xl font-extrabold text-amazon-900 mb-6">
+            Nuestra Red de Impacto
+          </h2>
+          <p class="text-xl text-gray-500 max-w-3xl mx-auto font-light">
+            No trabajamos solos. Estas son las instituciones académicas que hacen posible nuestra labor en territorio.
+          </p>
+        </header>
+
+        <div class="mb-16">
+          <h3 class="text-2xl font-bold text-gray-800 mb-8 border-l-4 border-blue-500 pl-4 flex items-center gap-3">
+            <Briefcase className="text-blue-500" aria-hidden="true" /> 
+            Academia e Investigación
+          </h3>
+          
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+            {alianzasAcademicas.map((alianza, index) => (
+              <a
+                href={alianza.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group bg-stone-50/80 rounded-2xl p-5 md:p-6 flex items-center justify-center border border-stone-200/70 hover:border-emerald-300/60 hover:bg-white hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-500 aspect-[4/3] focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60"
+                aria-label={`Visitar sitio web de ${alianza.nombre}`}
+              >
+                <img
+                  src={alianza.logo}
+                  alt={`Logo de ${alianza.nombre}`}
+                  class="h-24 md:h-28 lg:h-40 w-auto object-contain group-hover:scale-[1.06] transition-transform duration-500"
+                  loading={index < 6 ? 'eager' : 'lazy'}
+                  width="200"
+                  height="128"
+                />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</Layout>
+
+{/* ✅ OPTIMIZACIÓN 12: Estilos y animaciones */}
+<style>
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes heroTitle {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

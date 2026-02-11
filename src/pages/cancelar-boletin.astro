@@ -1,0 +1,187 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/shared/Navbar.jsx';
+import sql from '../lib/db';
+import { Mail, CheckCircle2, XCircle, AlertCircle, ArrowLeft, Home } from 'lucide-react';
+
+const url = new URL(Astro.request.url);
+const email = url.searchParams.get('email');
+const confirmado = url.searchParams.get('confirm') === 'true';
+
+let mensaje = '';
+let canceladoExitosa = false;
+let error = false;
+
+// Lógica del Servidor (INTACTA)
+if (email && confirmado) {
+  try {
+    // 1. Ejecutamos UPDATE incondicionalmente
+    await sql`
+      UPDATE suscriptores_boletin 
+      SET estado = 'cancelado',
+          cancelado_en = CURRENT_TIMESTAMP
+      WHERE email = ${email.toLowerCase()}
+    `;
+
+    // 2. Verificamos si el email existe y su estado final
+    const verificacion = await sql`
+      SELECT estado FROM suscriptores_boletin WHERE email = ${email.toLowerCase()}
+    `;
+
+    if (verificacion.length > 0 && verificacion[0].estado === 'cancelado') {
+      canceladoExitosa = true;
+      mensaje = 'Tu suscripción ha sido cancelada.';
+    } else {
+      error = true;
+      mensaje = 'Este correo electrónico no está en nuestra lista de suscriptores.';
+    }
+
+  } catch (err) {
+    console.error('Error al cancelar:', err);
+    error = true;
+    mensaje = 'Hubo un error al procesar tu solicitud. Intenta de nuevo.';
+  }
+}
+---
+
+<Layout 
+  title="Cancelar Suscripción - FORAMA"
+  description="Gestión de suscripción al boletín de noticias de FORAMA"
+>
+  <Navbar client:load transition:persist />
+
+  {/* Fondo Global Estilo Noticias */}
+  <main class="relative min-h-screen flex items-center justify-center bg-amazon-900 text-white overflow-hidden py-20 px-4">
+    
+    {/* Efectos de fondo (Manchas de luz) */}
+    <div class="absolute inset-0 bg-gradient-to-br from-amazon-900 via-amazon-900 to-earth-900 z-0"></div>
+    <div class="absolute inset-0 opacity-20 z-0 pointer-events-none">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-amazon-400 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-earth-600 rounded-full blur-[100px]"></div>
+    </div>
+
+    <div class="relative z-10 w-full max-w-lg">
+      
+      {/* TARJETA PRINCIPAL (Glassmorphism) */}
+      <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2.5rem] shadow-2xl p-8 md:p-12 text-center animate-[fadeUp_0.6s_ease-out]">
+
+        {/* ---------------------------------------------------- */}
+        {/* PANTALLA 1: RESULTADO FINAL (confirm=true) */}
+        {/* ---------------------------------------------------- */}
+        {confirmado && (
+          <>
+            {/* ✅ ÉXITO */}
+            {canceladoExitosa && (
+              <>
+                <div class="w-24 h-24 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(34,197,94,0.3)]">
+                  <CheckCircle2 size={48} className="text-green-400" aria-hidden="true" />
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Suscripción Cancelada</h1>
+                <p class="text-lg text-amazon-100 mb-8 leading-relaxed font-medium">
+                  Tu suscripción se encuentra inactiva. No recibirás más correos.
+                </p>
+              </>
+            )}
+
+            {/* ❌ ERROR */}
+            {error && (
+              <>
+                <div class="w-24 h-24 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(239,68,68,0.3)]">
+                  <XCircle size={48} className="text-red-400" aria-hidden="true" />
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Ocurrió un Error</h1>
+                <p class="text-lg text-amazon-100 mb-8">
+                  {mensaje}
+                </p>
+              </>
+            )}
+            
+            {/* BOTONES DE NAVEGACIÓN */}
+            <div class="flex flex-col gap-3 mt-6">
+              <a href="/noticias" class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-amazon-600 hover:bg-amazon-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-amazon-500/30">
+                Ver Noticias
+              </a>
+              <a href="/" class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl transition-all border border-white/10 backdrop-blur-sm">
+                <Home size={20} /> Volver al Inicio
+              </a>
+            </div>
+          </>
+        )}
+
+        {/* ---------------------------------------------------- */}
+        {/* PANTALLA 2: CONFIRMACIÓN (confirm=false) */}
+        {/* ---------------------------------------------------- */}
+        {!confirmado && email && (
+          <>
+            <div class="w-24 h-24 rounded-full bg-earth-500/20 border border-earth-500/30 flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(249,115,22,0.2)]">
+              <AlertCircle size={48} className="text-earth-400" aria-hidden="true" />
+            </div>
+            
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">¿Estás seguro?</h1>
+            <p class="text-lg text-amazon-100 mb-2">Vas a cancelar la suscripción de:</p>
+            <p class="text-xl font-semibold text-white mb-8 break-all px-4 py-2 bg-black/20 rounded-lg inline-block border border-white/10">
+              {email}
+            </p>
+            
+            <div class="bg-red-500/10 border border-red-500/20 rounded-2xl p-6 mb-8 text-left">
+              <ul class="text-red-100 text-sm space-y-3">
+                <li class="flex items-start gap-2">
+                  <span class="mt-1.5 block w-1.5 h-1.5 bg-red-400 rounded-full"></span>
+                  Dejarás de recibir actualizaciones de FORAMA.
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-1.5 block w-1.5 h-1.5 bg-red-400 rounded-full"></span>
+                  Tu suscripción será cancelada permanentemente.
+                </li>
+              </ul>
+            </div>
+            
+            <div class="flex flex-col gap-4">
+              <a 
+                href={`/cancelar-boletin?email=${encodeURIComponent(email)}&confirm=true`}
+                class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-red-600/90 hover:bg-red-600 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-red-900/50 border border-red-500/50"
+              >
+                Sí, cancelar suscripción
+              </a>
+              <a href="/noticias" class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-green-900/50">
+                No, mantener suscripción
+              </a>
+            </div>
+          </>
+        )}
+
+        {/* ---------------------------------------------------- */}
+        {/* PANTALLA 3: SIN EMAIL (Acceso Directo) */}
+        {/* ---------------------------------------------------- */}
+        {!email && (
+          <>
+            <div class="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-8">
+              <Mail size={48} className="text-white/70" aria-hidden="true" />
+            </div>
+            <h1 class="text-3xl font-bold text-white mb-4">Cancelar Suscripción</h1>
+            <p class="text-lg text-amazon-200 mb-8 leading-relaxed">
+              Para cancelar tu suscripción, por favor utiliza el <strong>enlace que se encuentra al final</strong> de cualquiera de los correos que te hemos enviado.
+            </p>
+            <a href="/noticias" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-amazon-600 hover:bg-amazon-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-amazon-900/50 hover:-translate-y-1">
+              <ArrowLeft size={20} /> Volver a Noticias
+            </a>
+          </>
+        )}
+
+      </div>
+      
+      {/* Footer pequeño */}
+      <p class="text-center text-amazon-300/50 text-xs mt-8 uppercase tracking-widest font-semibold">
+        Fundación Flora Amazónica
+      </p>
+
+    </div>
+  </main>
+</Layout>
+
+<style>
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

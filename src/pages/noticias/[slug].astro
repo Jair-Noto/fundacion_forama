@@ -1,0 +1,437 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/shared/Navbar.jsx';
+import sql from '../../lib/db.js';
+import { 
+  Calendar, 
+  User,
+  ArrowLeft,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Mail,
+  Clock,
+  Tag,
+  Eye
+} from 'lucide-react';
+
+// ✅ Tipos TypeScript
+interface Noticia {
+  id: number;
+  slug: string;
+  titulo: string;
+  resumen: string;
+  contenido_html: string;
+  imagen_portada: string;
+  fecha_publicacion: Date | string;
+  autor: string | null;
+  categoria_nombre: string | null;
+  categoria_slug: string | null;
+}
+
+interface NoticiasRelacionadas {
+  id: number;
+  slug: string;
+  titulo: string;
+  imagen_portada: string;
+  fecha_publicacion: Date | string;
+}
+
+// ✅ Obtener slug de la URL
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect('/404');
+}
+
+// ✅ Query de la noticia
+let noticia: Noticia | null = null;
+let noticiasRelacionadas: NoticiasRelacionadas[] = [];
+
+try {
+  const resultNoticia = await sql<Noticia[]>`
+    SELECT 
+      p.id,
+      p.slug,
+      p.titulo,
+      p.resumen,
+      p.contenido_html,
+      p.imagen_portada,
+      p.fecha_publicacion,
+      p.autor,
+      c.nombre as categoria_nombre,
+      c.slug as categoria_slug
+    FROM publicaciones p
+    LEFT JOIN categorias c ON p.categoria_id = c.id
+    WHERE p.slug = ${slug} AND p.tipo = 'noticia'
+    LIMIT 1
+  `;
+  
+  noticia = resultNoticia[0] || null;
+
+  if (!noticia) {
+    return Astro.redirect('/404');
+  }
+
+  // ✅ Noticias relacionadas (misma categoría)
+  if (noticia.categoria_slug) {
+    noticiasRelacionadas = await sql<NoticiasRelacionadas[]>`
+      SELECT 
+        p.id,
+        p.slug,
+        p.titulo,
+        p.imagen_portada,
+        p.fecha_publicacion
+      FROM publicaciones p
+      LEFT JOIN categorias c ON p.categoria_id = c.id
+      WHERE c.slug = ${noticia.categoria_slug}
+        AND p.tipo = 'noticia'
+        AND p.id != ${noticia.id}
+      ORDER BY p.fecha_publicacion DESC
+      LIMIT 3
+    `;
+  }
+
+} catch (error) {
+  console.error('Error loading noticia:', error);
+  return Astro.redirect('/500');
+}
+
+// ✅ Formatear fecha
+const formatearFecha = (fecha: Date | string): string => {
+  try {
+    return new Date(fecha).toLocaleDateString('es-BO', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+  } catch {
+    return 'Fecha no disponible';
+  }
+};
+
+// ✅ URL para compartir
+const currentUrl = `${Astro.url.origin}${Astro.url.pathname}`;
+---
+
+<Layout 
+  title={`${noticia.titulo} - FORAMA`}
+  description={noticia.resumen}
+>
+  
+  <Navbar client:load transition:persist />
+
+  <main class="bg-white">
+    
+
+
+    {/* ✅ Header Artículo */}
+    <article class="pt-32 pb-6 md:pt-40">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+        
+        {/* Categoría Badge */}
+        {noticia.categoria_nombre && (
+          <div class="mb-6">
+            <a 
+              href={`/noticias?categoria=${noticia.categoria_slug}`}
+              class="inline-flex items-center gap-2 px-4 py-2 bg-amazon-600 text-white text-sm font-bold rounded-full hover:bg-amazon-700 transition-all shadow-md"
+            >
+              <Tag size={14} aria-hidden="true" />
+              {noticia.categoria_nombre}
+            </a>
+          </div>
+        )}
+        
+        {/* Título */}
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 leading-[1.1] tracking-tight">
+          {noticia.titulo}
+        </h1>
+        
+        {/* Resumen/Lead */}
+        <p class="text-xl sm:text-2xl text-slate-600 font-light leading-relaxed mb-8 border-l-4 border-amazon-500 pl-6 italic">
+          {noticia.resumen}
+        </p>
+        
+        {/* Metadata Row */}
+        <div class="flex flex-wrap items-center gap-6 text-sm text-slate-600 mb-10 pb-8 border-b border-slate-200">
+          {/* Autor */}
+          {noticia.autor && (
+            <div class="flex items-center gap-2">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amazon-500 to-amazon-700 flex items-center justify-center text-white font-bold shadow-md">
+                {noticia.autor.charAt(0).toUpperCase()}
+              </div>
+              <div class="flex flex-col">
+                <span class="text-xs text-slate-500 uppercase tracking-wide">Publicado por</span>
+                <span class="font-semibold text-slate-900">{noticia.autor}</span>
+              </div>
+            </div>
+          )}
+          
+          {/* Fecha */}
+          <div class="flex items-center gap-2">
+            <Calendar size={16} className="text-slate-400" aria-hidden="true" />
+            <time datetime={new Date(noticia.fecha_publicacion).toISOString()} class="font-medium">
+              {formatearFecha(noticia.fecha_publicacion)}
+            </time>
+          </div>
+        </div>
+      </div>
+      
+      {/* ✅ Imagen Destacada - Ancho Completo */}
+      <div class="mb-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+          <figure class="rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
+            <img 
+              src={noticia.imagen_portada || '/imags/placeholder-news.jpg'} 
+              alt={noticia.titulo}
+              class="w-full h-auto object-cover aspect-[21/9]"
+              loading="eager"
+              width="1200"
+              height="514"
+            />
+          </figure>
+        </div>
+      </div>
+
+      
+      {/* ✅ Contenido Principal */}
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+
+      
+
+        {/* Compartir en Redes - Versión Sticky Sidebar */}
+        <div class="flex gap-12 relative">
+
+      
+         
+          {/* Social Share Sidebar - Desktop Only */}
+          <aside class="hidden lg:block sticky top-24 self-start">
+            <div class="flex flex-col gap-3">
+              <span class="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-2">Compartir</span>
+              
+              <a 
+                href={`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-11 h-11 rounded-xl bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center transition-all hover:scale-110 shadow-md hover:shadow-xl"
+                aria-label="Compartir en Facebook"
+              >
+                <Facebook size={18} aria-hidden="true" />
+              </a>
+              
+              {/* Botón X (Twitter) */}
+              <a 
+                href={`https://twitter.com/intent/tweet?url=${currentUrl}&text=${encodeURIComponent(noticia.titulo)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-11 h-11 rounded-xl bg-black hover:bg-slate-900 text-white flex items-center justify-center transition-all hover:scale-110 shadow-md hover:shadow-xl"
+                aria-label="Compartir en X"
+              >
+                {/* SVG de X personalizado */}
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+              
+              <a 
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${currentUrl}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-11 h-11 rounded-xl bg-blue-700 hover:bg-blue-800 text-white flex items-center justify-center transition-all hover:scale-110 shadow-md hover:shadow-xl"
+                aria-label="Compartir en LinkedIn"
+              >
+                <Linkedin size={18} aria-hidden="true" />
+              </a>
+              
+              {/* Botón Instagram */}
+              <a 
+                href="https://www.instagram.com/fundacionforama/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 text-white flex items-center justify-center transition-all hover:scale-110 shadow-md hover:shadow-xl"
+                aria-label="Síguenos en Instagram"
+              >
+                <Instagram size={18} aria-hidden="true" />
+              </a>
+
+            </div>
+          </aside>
+         
+          
+          {/* Contenido del Artículo */}
+          <div class="flex-1 min-w-0">
+            
+            
+            {/* Compartir en Redes - Mobile Version */}
+            <div class="lg:hidden flex items-center justify-between mb-8 pb-6 border-b border-slate-200">
+              <span class="text-sm text-slate-600 font-semibold">Compartir:</span>
+              <div class="flex gap-2">
+                <a 
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-10 h-10 rounded-lg bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center transition-all hover:scale-105"
+                  aria-label="Compartir en Facebook"
+                >
+                  <Facebook size={16} aria-hidden="true" />
+                </a>
+                
+                {/* Botón X (Twitter) Móvil */}
+                <a 
+                  href={`https://twitter.com/intent/tweet?url=${currentUrl}&text=${encodeURIComponent(noticia.titulo)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-10 h-10 rounded-lg bg-black hover:bg-slate-900 text-white flex items-center justify-center transition-all hover:scale-105"
+                  aria-label="Compartir en X"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                </a>
+
+                <a 
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${currentUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-10 h-10 rounded-lg bg-blue-700 hover:bg-blue-800 text-white flex items-center justify-center transition-all hover:scale-105"
+                  aria-label="Compartir en LinkedIn"
+                >
+                  <Linkedin size={16} aria-hidden="true" />
+                </a>
+
+                {/* Botón Instagram Móvil */}
+                <a 
+                  href="https://www.instagram.com/fundacionforama/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 text-white flex items-center justify-center transition-all hover:scale-105"
+                  aria-label="Síguenos en Instagram"
+                >
+                  <Instagram size={16} aria-hidden="true" />
+                </a>
+
+              </div>
+            </div>
+            
+            {/* ✅ Contenido HTML del Artículo */}
+            <div 
+              class="prose prose-lg prose-slate max-w-none
+                     prose-headings:font-bold prose-headings:text-slate-900 prose-headings:tracking-tight
+                     prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:border-b prose-h2:border-amazon-200 prose-h2:pb-4
+                     prose-h3:text-2xl prose-h3:mt-10 prose-h3:mb-4 prose-h3:text-amazon-800
+                     prose-p:text-slate-700 prose-p:leading-[1.8] prose-p:mb-6 prose-p:text-lg
+                     prose-a:text-amazon-600 prose-a:font-semibold prose-a:no-underline hover:prose-a:underline hover:prose-a:text-amazon-700
+                     prose-strong:text-slate-900 prose-strong:font-bold
+                     prose-ul:my-6 prose-li:my-2 prose-li:text-slate-700
+                     prose-img:rounded-2xl prose-img:shadow-2xl prose-img:border prose-img:border-slate-200
+                     prose-blockquote:border-l-4 prose-blockquote:border-amazon-500 prose-blockquote:bg-amazon-50 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-xl prose-blockquote:not-italic
+                     prose-code:bg-slate-100 prose-code:text-slate-800 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-base prose-code:before:content-none prose-code:after:content-none
+                     prose-pre:bg-slate-900 prose-pre:text-slate-100"
+              set:html={noticia.contenido_html}
+            />
+            
+             <div class="mt-16 pt-8 border-t border-slate-200">
+              <a 
+                href="/noticias" 
+                class="inline-flex items-center gap-2 text-amazon-700 hover:text-amazon-800 font-semibold transition-all hover:gap-3 group"
+              >
+                <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" aria-hidden="true" />
+                Volver a todas las noticias
+              </a>
+            </div>
+            
+           
+            
+          </div>
+        </div>
+      </div>
+    </article>
+
+    {/* ✅ Noticias Relacionadas */}
+    {noticiasRelacionadas.length > 0 && (
+      <section class="py-20 bg-slate-50 border-t border-slate-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+          <div class="mb-12">
+            <h2 class="text-4xl font-extrabold text-slate-900 mb-3">
+              Más sobre {noticia.categoria_nombre}
+            </h2>
+            <p class="text-lg text-slate-600">
+              Continúa explorando contenido relacionado
+            </p>
+          </div>
+          
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {noticiasRelacionadas.map((relacionada) => (
+              <article class="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-slate-100">
+                <a href={`/noticias/${relacionada.slug}`} class="block">
+                  <div class="relative h-56 overflow-hidden bg-slate-100">
+                    <img 
+                      src={relacionada.imagen_portada || '/imags/placeholder-news.jpg'} 
+                      alt={relacionada.titulo}
+                      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                      loading="lazy"
+                      width="400"
+                      height="224"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                  
+                  <div class="p-6">
+                    <div class="flex items-center gap-2 text-slate-500 text-sm mb-3">
+                      <Calendar size={14} aria-hidden="true" />
+                      <time datetime={new Date(relacionada.fecha_publicacion).toISOString()}>
+                        {formatearFecha(relacionada.fecha_publicacion)}
+                      </time>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-slate-900 leading-tight group-hover:text-amazon-700 transition-colors line-clamp-2 mb-4">
+                      {relacionada.titulo}
+                    </h3>
+                    
+                    <div class="flex items-center gap-2 text-amazon-600 font-semibold text-sm group-hover:gap-3 transition-all">
+                      <span>Leer artículo</span>
+                      <ArrowLeft size={16} className="rotate-180 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                    </div>
+                  </div>
+                </a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    
+    
+  </main>
+</Layout>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Smooth scroll para anclas */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Mejoras de legibilidad para el contenido */
+  .prose {
+    font-feature-settings: "kern" 1, "liga" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+</style>
+
+<style is:global>
+    nav.bg-transparent {
+        background-color: #063c2e !important; 
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+</style>
+

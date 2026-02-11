@@ -11,7 +11,11 @@ import {
     Handshake, 
     Target,
     ChevronDown,
-    ArrowUpRight
+    ArrowUpRight,
+    Eye,
+    Clock,
+    Sparkles,
+    Leaf
 } from 'lucide-react';
 ---
 
@@ -76,6 +80,153 @@ import {
                 <ChevronDown size={40} className="text-white/70" />
             </div>
         </section>
+
+          {/* 🎨 MISIÓN Y VISIÓN - Solo Texto Limpio */}
+    <section 
+    class="relative py-32 px-4 bg-gradient-to-br from-slate-50 via-white to-stone-50 overflow-hidden"
+    aria-labelledby="mission-vision-heading"
+    >
+    {/* Background decorativo */}
+    <div class="absolute inset-0 opacity-30" aria-hidden="true">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+        <div class="absolute top-40 right-10 w-72 h-72 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-20 left-1/2 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
+    </div>
+
+    <div class="container mx-auto max-w-7xl relative z-10">
+        
+        {/* Header de sección */}
+        <header class="text-center mb-20">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-md border border-amazon-100 shadow-sm mb-6">
+            <Sparkles size={16} className="text-amazon-600" aria-hidden="true" />
+            <span class="text-amazon-700 font-bold uppercase tracking-[0.2em] text-xs">
+            Nuestra Brújula
+            </span>
+        </div>
+        
+        <h2 
+            id="mission-vision-heading"
+            class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amazon-900 via-amazon-700 to-earth-600 mb-4"
+        >
+            Lo Que Nos Mueve
+        </h2>
+        
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto font-light">
+            Dos fuerzas que impulsan cada decisión en el territorio amazónico
+        </p>
+        </header>
+
+        {/* Cards de Misión y Visión */}
+        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
+        
+        {/* MISIÓN */}
+        <article class="group relative">
+            <div class="absolute inset-0 bg-gradient-to-br from-white to-earth-50 rounded-[3rem] shadow-2xl transform group-hover:scale-[1.02] transition-transform duration-500"></div>
+            
+            <div class="absolute inset-0 rounded-[3rem] bg-gradient-to-r from-earth-400 via-orange-400 to-earth-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style="padding: 2px;">
+            <div class="w-full h-full bg-white rounded-[3rem]"></div>
+            </div>
+
+            <div class="relative p-10 md:p-12">
+            <div class="absolute -top-6 -right-6 w-32 h-32 bg-gradient-to-br from-earth-100 to-orange-100 rounded-full opacity-50 group-hover:opacity-70 transition-opacity" aria-hidden="true"></div>
+            
+            <div class="flex items-start gap-6 mb-8">
+                <div class="relative">
+                <div class="absolute inset-0 bg-gradient-to-br from-earth-400 to-orange-500 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity" aria-hidden="true"></div>
+                <div class="relative w-20 h-20 bg-gradient-to-br from-earth-500 to-orange-600 rounded-2xl flex items-center justify-center text-white shadow-lg transform group-hover:rotate-6 transition-transform duration-500">
+                    <Target size={36} strokeWidth={2.5} />
+                </div>
+                </div>
+                
+                <div class="flex-1">
+                <span class="inline-block px-3 py-1 rounded-full bg-earth-100 text-earth-800 text-xs font-bold uppercase tracking-wider mb-2">
+                    Nuestro Propósito
+                </span>
+                <h3 class="text-4xl font-black text-gray-900 leading-tight">
+                    Misión
+                </h3>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 mb-8" aria-hidden="true">
+                <div class="h-1 flex-1 bg-gradient-to-r from-earth-300 to-transparent rounded-full"></div>
+                <TreePine size={20} className="text-earth-400" />
+                <div class="h-1 flex-1 bg-gradient-to-l from-earth-300 to-transparent rounded-full"></div>
+            </div>
+
+            <div class="space-y-6">
+                <p class="text-lg md:text-xl text-gray-700 leading-relaxed font-light">
+                    Promover la conservación del bosque amazónico y el desarrollo
+                    sostenible de la Amazonía boliviana mediante la ejecución y gestión de
+                    proyectos e iniciativas que articulen la planificación estratégica, la
+                    investigación científica aplicada, la gestión ambiental, la salud
+                    preventiva, la educación integral y el fortalecimiento comunitario,
+                    colocando siempre al ecosistema y a las personas en el centro de cada
+                    acción
+                </p>
+            </div>
+
+            <blockquote class="mt-8 pl-6 border-l-4 border-earth-400 text-earth-700 italic font-medium">
+                "Donde la acción se encuentra con el conocimiento"
+            </blockquote>
+            </div>
+        </article>
+
+        {/* VISIÓN */}
+        <article class="group relative flex flex-col h-full">
+                <div class="absolute inset-0 bg-gradient-to-br from-white to-amazon-50 rounded-[3rem] shadow-2xl transform group-hover:scale-[1.02] transition-transform duration-500"></div>
+                
+                <div class="absolute inset-0 rounded-[3rem] bg-gradient-to-r from-amazon-400 via-emerald-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style="padding: 2px;">
+                    <div class="w-full h-full bg-white rounded-[3rem]"></div>
+                </div>
+
+                <div class="relative p-10 md:p-12 flex flex-col h-full flex-1">
+                    
+                    <div class="flex items-start gap-6 mb-8">
+                        <div class="relative">
+                            <div class="absolute inset-0 bg-gradient-to-br from-amazon-400 to-emerald-500 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity" aria-hidden="true"></div>
+                            <div class="relative w-20 h-20 bg-gradient-to-br from-amazon-500 to-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-lg transform group-hover:-rotate-6 transition-transform duration-500">
+                                <Eye size={36} strokeWidth={2.5} />
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1">
+                            <span class="inline-block px-3 py-1 rounded-full bg-amazon-100 text-amazon-800 text-xs font-bold uppercase tracking-wider mb-2">
+                                Nuestro Horizonte
+                            </span>
+                            <h3 class="text-4xl font-black text-gray-900 leading-tight">
+                                Visión
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 mb-8" aria-hidden="true">
+                        <div class="h-1 flex-1 bg-gradient-to-r from-amazon-300 to-transparent rounded-full"></div>
+                        <Leaf size={20} className="text-amazon-400" />
+                        <div class="h-1 flex-1 bg-gradient-to-l from-amazon-300 to-transparent rounded-full"></div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <p class="text-lg md:text-xl text-gray-700 leading-relaxed font-light">
+                            Ser un actor clave en la promoción del desarrollo sostenible y la gestión
+                            de los recursos naturales de forma ambiental en la Amazonia,
+                            estableciendo alianzas estratégicas y redes de colaboración tanto a nivel
+                            nacional como internacional.
+                        </p>
+                    </div>
+
+                    <blockquote class="mt-auto pt-8 pl-6 border-l-4 border-amazon-400 text-amazon-700 italic font-medium">
+                        "Un futuro donde el bosque y las comunidades prosperan juntos"
+                    </blockquote>
+                </div>
+            </article>
+        
+
+        </div>
+        </blockquote>
+
+    </div>
+    </section>
 
         <section id="objeto" class="py-24 bg-stone-50 relative overflow-hidden scroll-trigger">
             <div class="container mx-auto px-4 max-w-6xl relative z-10">
@@ -151,6 +302,7 @@ import {
             </div>
         </section>
 
+
         <section id="lineas-accion" class="py-32 bg-gradient-to-b from-gray-900 via-slate-900 to-black text-white relative overflow-hidden scroll-trigger">
             <div class="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
             <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-96 bg-amazon-500/10 rounded-full blur-[120px] pointer-events-none"></div>
@@ -170,9 +322,6 @@ import {
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
                     <div class="group relative bg-white/5 border border-white/10 rounded-[2.5rem] p-10 hover:bg-white/[0.07] transition-all duration-500 md:col-span-2 lg:col-span-1 overflow-hidden hover:shadow-2xl hover:shadow-green-900/20 hover:-translate-y-2 scroll-element fade-up delay-100 opacity-0 translate-y-10 backdrop-blur-sm">
-                        <div class="absolute top-8 right-8 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-4 group-hover:translate-x-0">
-                            <ArrowUpRight className="text-green-400 w-6 h-6" />
-                        </div>
                         <div class="w-16 h-16 bg-gradient-to-br from-green-500/10 to-green-500/20 rounded-2xl flex items-center justify-center mb-8 text-green-400 group-hover:scale-110 group-hover:bg-green-500 group-hover:text-white transition-all duration-500 shadow-inner border border-white/5">
                             <TreePine size={32} strokeWidth={1.5} />
                         </div>
@@ -200,7 +349,7 @@ import {
                          <div class="w-16 h-16 bg-gradient-to-br from-yellow-500/10 to-yellow-500/20 rounded-2xl flex items-center justify-center mb-8 text-yellow-400 group-hover:scale-110 group-hover:bg-yellow-500 group-hover:text-white transition-all duration-500 shadow-inner border border-white/5">
                             <Megaphone size={32} strokeWidth={1.5} />
                         </div>
-                        <h3 class="text-2xl font-bold mb-3 text-white">Educación</h3>
+                        <h3 class="text-2xl font-bold mb-3 text-white">Educación e Innovación</h3>
                         <p class="text-gray-400 leading-relaxed font-light group-hover:text-gray-200 transition-colors">Difusión del conocimiento para el desarrollo sostenible.</p>
                     </div>
 
@@ -216,7 +365,7 @@ import {
                          <div class="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-purple-500/20 rounded-2xl flex items-center justify-center mb-8 text-purple-400 group-hover:scale-110 group-hover:bg-purple-500 group-hover:text-white transition-all duration-500 shadow-inner border border-white/5">
                             <Users size={32} strokeWidth={1.5} />
                         </div>
-                        <h3 class="text-2xl font-bold mb-3 text-white">Equidad y Liderazgo</h3>
+                        <h3 class="text-2xl font-bold mb-3 text-white">Mujer y Liderazgo</h3>
                         <p class="text-gray-400 leading-relaxed font-light group-hover:text-gray-200 transition-colors">Liderazgo de mujeres amazónicas en conservación.</p>
                     </div>
 
@@ -232,9 +381,6 @@ import {
                             <p class="text-gray-300 text-lg font-light max-w-2xl leading-relaxed">Gestión estratégica de recursos y cooperación para escalar nuestros programas con enfoque de cadena productiva.</p>
                         </div>
                         <div class="ml-auto opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-4 group-hover:translate-x-0 hidden md:block">
-                             <div class="w-14 h-14 rounded-full border border-earth-500/50 flex items-center justify-center text-earth-400">
-                                <ArrowUpRight size={28} />
-                             </div>
                         </div>
                     </div>
 
