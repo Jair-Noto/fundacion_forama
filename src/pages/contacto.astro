@@ -32,7 +32,7 @@ import {
     
     {/* ✅ OPTIMIZACIÓN 2: Hero optimizado */}
     <section 
-  class="relative h-screen flex items-start justify-center bg-amazon-900 text-white overflow-hidden pt-55"
+  class="relative min-h-screen flex items-center justify-center bg-amazon-900 text-white overflow-hidden py-24 sm:py-28"
   aria-labelledby="hero-heading"
 >
   <img 
@@ -46,13 +46,15 @@ import {
   
   <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 z-0" aria-hidden="true"></div>
 
-  <div class="relative z-10 container mx-auto px-4 text-center">
-    <span class="inline-flex items-center gap-2 py-1.5 px-5 rounded-full
+  <div class="relative z-10 container mx-auto px-4 sm:px-6 text-center w-full">
+
+    {/* Badge */}
+    <span class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full
                 bg-gradient-to-r from-amber-500/22 via-orange-400/14 to-rose-300/12
-                backdrop-blur-md
-                border border-white/12
-                text-white font-semibold uppercase text-[10px]
-                tracking-[0.34em] mb-8
+                backdrop-blur-md border border-white/12
+                text-white font-semibold uppercase text-[9px] sm:text-[10px]
+                tracking-[0.28em] sm:tracking-[0.34em]
+                mb-4 sm:mb-6 md:mb-8
                 shadow-[0_12px_35px_rgba(0,0,0,0.38)]
                 [text-shadow:0_2px_12px_rgba(0,0,0,0.45)]
                 animate-[fadeUp_700ms_ease-out_both]">
@@ -60,57 +62,59 @@ import {
       Contactos
     </span>
 
+    {/* Título — escala fluida xs→xl */}
     <h1 
       id="hero-heading"
-      class="relative font-serif text-6xl md:text-8xl lg:text-9xl font-semibold
-                mb-7 tracking-tight leading-[0.9] text-white
+      class="relative font-serif font-semibold tracking-tight leading-[0.9]
+                text-[2.6rem] sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl
+                mb-4 sm:mb-5 md:mb-7 text-white
                 animate-[heroTitle_900ms_cubic-bezier(.2,.8,.2,1)_both]
                 [text-shadow:0_2px_0_rgba(0,0,0,0.55),0_10px_30px_rgba(0,0,0,0.55)]
-                [-webkit-text-stroke:2px_rgba(0,0,0,0.45)]"
+                [-webkit-text-stroke:1px_rgba(0,0,0,0.45)] md:[-webkit-text-stroke:2px_rgba(0,0,0,0.45)]"
     >
       Contáctanos
     </h1>
+  
 
-    <p class="relative font-serif text-xl md:text-3xl lg:text-4xl font-medium
-                mb-10 tracking-tight leading-tight text-white
-                [text-shadow:0_2px_0_rgba(0,0,0,0.65),0_10px_26px_rgba(0,0,0,0.55)]
-                [-webkit-text-stroke:1px_rgba(0,0,0,0.35)]">
-      Estamos aquí para alianzas, proyectos, prensa y consultas institucionales.
-      <br class="hidden md:block" aria-hidden="true"/>
-      <span class="italic font-serif font-semibold">
-        Construyamos sostenibilidad desde el corazón del bosque.
-      </span>
-    </p>
+    {/* Botones y contacto */}
+    <div class="mx-auto w-full max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-4xl animate-[fadeUp_900ms_ease-out_both]">
 
-    <div class="mx-auto w-full max-w-4xl animate-[fadeUp_900ms_ease-out_both]">
-      <div class="flex flex-col sm:flex-row items-stretch justify-center gap-3">
-        {/* Botón 1: Escribir Email */}
+      {/* Botón email */}
+      <div class="flex justify-center mb-4 sm:mb-5">
         <a 
           href="mailto:contacto@forama.org"
           class="group inline-flex items-center justify-center gap-2
-                  h-12 md:h-14 px-6 md:px-8 rounded-2xl
+                  h-11 sm:h-12 md:h-14
+                  px-5 sm:px-6 md:px-8
+                  rounded-2xl
                   bg-white/10 backdrop-blur-md border border-white/15
-                  text-white font-extrabold text-sm md:text-base uppercase tracking-wider
+                  text-white font-extrabold
+                  text-xs sm:text-sm md:text-base
+                  uppercase tracking-wider
                   shadow-[0_18px_50px_rgba(0,0,0,0.45)]
                   hover:bg-white/14 hover:border-white/25 hover:scale-[1.01]
-                  active:scale-[0.98]
-                  transition-all duration-300
+                  active:scale-[0.98] transition-all duration-300
                   focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
           aria-label="Enviar email a contacto@forama.org"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0">
+            <rect width="20" height="16" x="2" y="4" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
           Escribir Email
         </a>
-
       </div>
 
-      <div class="mt-6 flex flex-wrap items-center justify-center gap-2">
+      {/* WhatsApp pills */}
+     <div class="flex flex-row flex-wrap items-center justify-center gap-2 mb-4 sm:mb-5">
         <a 
           href="https://wa.me/59171114083"
-          class="px-4 py-2 rounded-full bg-white/8 backdrop-blur-md border border-white/12
-                  text-white/90 text-xs md:text-sm font-semibold
+          class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full
+                  bg-white/8 backdrop-blur-md border border-white/12
+                  text-white/90 text-[11px] sm:text-xs md:text-sm font-semibold
                   hover:bg-white/12 hover:border-white/20 transition-all duration-300
-                  focus:outline-none focus:ring-2 focus:ring-white/30"
+                  focus:outline-none focus:ring-2 focus:ring-white/30
+                  whitespace-nowrap"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Contactar por WhatsApp al +591 71114083"
@@ -119,10 +123,12 @@ import {
         </a>
         <a 
           href="https://wa.me/5592993197428"
-          class="px-4 py-2 rounded-full bg-white/8 backdrop-blur-md border border-white/12
-                  text-white/90 text-xs md:text-sm font-semibold
+          class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full
+                  bg-white/8 backdrop-blur-md border border-white/12
+                  text-white/90 text-[11px] sm:text-xs md:text-sm font-semibold
                   hover:bg-white/12 hover:border-white/20 transition-all duration-300
-                  focus:outline-none focus:ring-2 focus:ring-white/30"
+                  focus:outline-none focus:ring-2 focus:ring-white/30
+                  whitespace-nowrap"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Contactar por WhatsApp al +55 92993197428"
@@ -131,17 +137,23 @@ import {
         </a>
       </div>
 
-      <p class="mt-5 text-white/70 text-xs md:text-sm font-sans
+      {/* Texto info */}
+      <p class="text-white/70 text-[10px] sm:text-xs md:text-sm font-sans leading-relaxed
+              max-w-xs sm:max-w-sm md:max-w-lg mx-auto
               [text-shadow:0_10px_26px_rgba(0,0,0,0.55)]">
         Respondemos normalmente en 24–48 horas hábiles. Para prensa o alianzas, incluye tu institución y objetivo.
       </p>
     </div>
   </div>
 
-  <div class="absolute bottom-10 z-20 animate-bounce">
-    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/70" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+  {/* Flecha scroll */}
+  <div class="absolute bottom-6 sm:bottom-10 z-20 animate-bounce">
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/70" aria-hidden="true">
+      <path d="m6 9 6 6 6-6"/>
+    </svg>
   </div>
 </section>
+   
 
 <section id="voluntariado" class="py-24 bg-amazon-900 text-white relative overflow-hidden scroll-mt-20">
 
@@ -250,27 +262,6 @@ import {
             </div>
           </div>
 
-          {/* Botón principal */}
-          <a 
-            href="mailto:contacto@forama.org?subject=Quiero%20unirme%20a%20FORAMA"
-            class="flex items-center justify-center gap-2 w-full py-3.5 bg-white text-amazon-900 font-bold rounded-xl hover:bg-green-400 hover:text-amazon-900 transition-all duration-200 shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-white/20"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect width="20" height="16" x="2" y="4" rx="2"/>
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-            </svg>
-            Contactar al equipo
-          </a>
-
-          {/* Link secundario WhatsApp */}
-          <a
-            href="https://wa.me/59171114083?text=Hola%2C%20quiero%20trabajar%20con%20FORAMA"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center justify-center gap-2 w-full mt-3 py-3 bg-white/6 border border-white/12 text-white/80 text-sm font-semibold rounded-xl hover:bg-white/10 hover:text-white transition-all duration-200"
-          >
-            💬 Escribir por WhatsApp
-          </a>
 
         </div>
       </div>
@@ -445,6 +436,7 @@ import {
                     <option value="alianzas">Alianzas Institucionales</option>
                     <option value="donacion">Donación</option>
                     <option value="voluntariado">Voluntariado</option>
+                    <option value="Trabaja con Forama">Trabaja con Forama</option>
                     <option value="prensa">Prensa/Media</option>
                     <option value="otros">Otro</option>
                     </select>

@@ -7,7 +7,7 @@ const SLIDES = [
   { id: 'quienes', titulo: "Conoce nuestra historia", subtitulo: "Quiénes Somos", url: "/quienes-somos" },
   { id: 'que', titulo: "Acción integral", subtitulo: "Qué Hacemos", url: "/que-hacemos" },
   { id: 'programas', titulo: "Impacto real", subtitulo: "Programas y Proyectos", url: "/programas" },
-  { id: 'transparencia', titulo: "Cuentas claras", subtitulo: "Transparencia", url: "/transparencia" },
+  { id: 'transparencia', titulo: "Nuestro equipo", subtitulo: "Organigrama institucional", url: "/equipo" },
   { id: 'apoyar', titulo: "Súmate a la causa", subtitulo: "Cómo Apoyar", url: "/como-apoyar" },
   { id: 'noticias', titulo: "Mantente informado", subtitulo: "Noticias y Publicaciones", url: "/noticias" },
   { id: 'contacto', titulo: "Hablemos", subtitulo: "Contacto", url: "/contacto" }

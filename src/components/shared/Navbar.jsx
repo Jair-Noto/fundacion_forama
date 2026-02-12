@@ -9,7 +9,7 @@ const MENU_ITEMS = [
     submenu: [
       { name: 'Qué hacemos', href: '/que-hacemos' },
       { name: 'Programas y proyectos', href: '/programas' },
-      { name: 'Equipo', href: '/transparencia' },
+      { name: 'Equipo', href: '/equipo' },
     ]
   },
   {
