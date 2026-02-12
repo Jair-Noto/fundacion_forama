@@ -6,17 +6,18 @@ import { ViewTransitions } from 'astro:transitions';
 interface Props {
   title: string;
   description?: string;
+  image?: string; // ✅ NUEVO: Prop para imagen personalizada por página
 }
 
 const { 
   title, 
-  description = 'Fundación Flora Amazónica - Impulsando el desarrollo sostenible en la Amazonía boliviana' 
+  description = 'Fundación Flora Amazónica - Impulsando el desarrollo sostenible en la Amazonía boliviana',
+  image = '/imags/material_quienes_somos/foramaSocial.jpg' // ✅ Imagen por defecto si no se pasa ninguna
 } = Astro.props;
 
-// ✅ OPTIMIZACIÓN 1: Meta tags más completos para SEO
-const canonicalURL = Astro.site 
-  ? new URL(Astro.url.pathname, Astro.site).href
-  : `${Astro.url.origin}${Astro.url.pathname}`;
+// Construir URLs absolutas
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url.origin).href;
+const socialImageURL = new URL(image, Astro.site || Astro.url.origin).href;
 ---
 
 <!doctype html>
@@ -24,36 +25,39 @@ const canonicalURL = Astro.site
   <head>
     <meta charset="UTF-8" />
     
-    {/* ✅ OPTIMIZACIÓN 2: Meta tags esenciales */}
+    {/* ✅ SEO ESENCIAL */}
+    <title>{title} | FORAMA</title>
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
     
-    {/* ✅ OPTIMIZACIÓN 3: Canonical URL para SEO */}
+    {/* ✅ CANONICAL */}
     <link rel="canonical" href={canonicalURL} />
     
-    {/* ✅ OPTIMIZACIÓN 4: Favicon optimizado */}
+    {/* ✅ FAVICON */}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     
-    {/* ✅ OPTIMIZACIÓN 5: Open Graph tags para redes sociales */}
-    <meta property="og:title" content={`${title} | FORAMA`} />
-    <meta property="og:description" content={description} />
+    {/* ✅ OPEN GRAPH (Facebook, WhatsApp, LinkedIn) - ¡MEJORADO! */}
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={`${title} | FORAMA`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImageURL} /> {/* La imagen que se ve al compartir */}
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="FORAMA" />
+    <meta property="og:locale" content="es_BO" />
     
-    {/* ✅ OPTIMIZACIÓN 6: Twitter Card */}
+    {/* ✅ TWITTER CARD (X) - ¡MEJORADO! */}
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
     <meta name="twitter:title" content={`${title} | FORAMA`} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageURL} />
     
-    {/* ✅ OPTIMIZACIÓN 7: Título optimizado */}
-    <title>{title} | FORAMA</title>
-    
-    {/* ✅ OPTIMIZACIÓN 8: Preconnect a Google Fonts para mejor performance */}
+    {/* ✅ FUENTES (Tus optimizaciones originales) */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    
-    {/* ✅ OPTIMIZACIÓN 9: Fuentes con display=swap para evitar FOIT */}
     <link 
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" 
       rel="stylesheet"
@@ -63,10 +67,12 @@ const canonicalURL = Astro.site
       rel="stylesheet"
     />
     
-    {/* ✅ OPTIMIZACIÓN 10: View Transitions de Astro (más moderno que ClientRouter) */}
+    {/* ✅ ASTRO VIEW TRANSITIONS */}
     <ViewTransitions />
 
-    {/* ✅ OPTIMIZACIÓN 11: Script inline optimizado para traducción */}
+    {/* ============================================== */}
+    {/* 🌍 SISTEMA DE TRADUCCIÓN (Tu código intacto) */}
+    {/* ============================================== */}
     <script is:inline>
       (function() {
         try {
@@ -83,45 +89,37 @@ const canonicalURL = Astro.site
   
   <body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
     
-    {/* ✅ OPTIMIZACIÓN 12: Transitions con nombre único */}
     <div transition:name="main-content" class="flex flex-col flex-grow w-full">
       
-      {/* ✅ OPTIMIZACIÓN 13: Background con will-change para mejor performance */}
+      {/* Background (Tus estilos originales) */}
       <div class="fixed inset-0 -z-10 h-full w-full bg-white">
-        
-        {/* Textura de fondo */}
         <div 
           class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"
           aria-hidden="true"
         ></div>
-        
-        {/* Gradiente superior */}
         <div 
           class="absolute top-0 left-0 right-0 h-[500px] w-full bg-[radial-gradient(circle_800px_at_50%_-100px,#4ade8020,transparent)]"
           aria-hidden="true"
         ></div>
-        
-        {/* Gradiente inferior */}
         <div 
           class="absolute bottom-0 right-0 h-[500px] w-[500px] bg-[radial-gradient(circle_400px_at_100%_100%,#f9731615,transparent)]"
           aria-hidden="true"
         ></div>
       </div>
       
-      {/* ✅ OPTIMIZACIÓN 14: Main tag semántico */}
       <main id="main-content" class="flex-grow">
         <slot />
       </main>
       
-      {/* ✅ OPTIMIZACIÓN 15: Footer como componente semántico */}
       <Footer />
     </div>
 
-    {/* ✅ OPTIMIZACIÓN 16: Google Translate con transition:persist */}
+    {/* ============================================== */}
+    {/* 🌍 SCRIPTS DE GOOGLE TRANSLATE (Tus scripts) */}
+    {/* ============================================== */}
     <div transition:persist="google-translate">
       <div id="google_translate_element" style="display:none;"></div>
 
-      {/* ✅ OPTIMIZACIÓN 17: Scripts de traducción optimizados */}
       <script is:inline>
         window.googleTranslateElementInit = function() {
           new google.translate.TranslateElement({
@@ -132,21 +130,18 @@ const canonicalURL = Astro.site
         };
       </script>
       
-      {/* ✅ OPTIMIZACIÓN 18: Script de Google Translate con async */}
       <script 
         is:inline 
         src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
         async
       ></script>
 
-      {/* ✅ OPTIMIZACIÓN 19: Funciones de traducción optimizadas */}
       <script is:inline>
         function setGoogleCookie(langValue) {
           var d = new Date();
           d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000));
           var expires = "expires=" + d.toUTCString();
           
-          // Limpiar cookies existentes
           document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
           document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + window.location.hostname;
           
@@ -180,18 +175,15 @@ const canonicalURL = Astro.site
       </script>
     </div>
 
-    {/* ✅ OPTIMIZACIÓN 20: Script de auto-traducción con mejor manejo de errores */}
     <script is:inline>
       document.addEventListener('astro:page-load', () => {
         const savedLang = localStorage.getItem('forama_lang');
         
-        // Si es español, mostramos y salimos
         if (!savedLang || savedLang === 'es') {
           document.documentElement.classList.remove('translating-cloak');
           return;
         }
 
-        // Si es otro idioma, aplicamos traducción
         if (savedLang && savedLang !== 'es') {
           let attempts = 0;
           const maxAttempts = 20;
@@ -201,11 +193,9 @@ const canonicalURL = Astro.site
             attempts++;
 
             if (teCombo) {
-              // Forzar traducción siempre
               teCombo.value = savedLang;
               teCombo.dispatchEvent(new Event('change'));
               
-              // Mostrar la web después de un breve delay
               setTimeout(() => {
                 document.documentElement.classList.remove('translating-cloak');
               }, 100);
@@ -213,7 +203,6 @@ const canonicalURL = Astro.site
               clearInterval(interval);
             } 
             else if (attempts > maxAttempts) {
-              // Timeout: mostrar la página de todos modos
               document.documentElement.classList.remove('translating-cloak');
               clearInterval(interval);
               console.warn('Translation timeout - showing page anyway');
@@ -223,23 +212,19 @@ const canonicalURL = Astro.site
       });
     </script>
 
-    {/* ✅ OPTIMIZACIÓN 21: Estilos globales optimizados */}
     <style is:global>
-      /* Ocultar durante traducción */
       html.translating-cloak body { 
         opacity: 0 !important; 
         visibility: hidden !important; 
         transition: none !important; 
       }
       
-      /* Mostrar normalmente */
       body { 
         opacity: 1; 
         visibility: visible; 
         transition: opacity 0.3s ease-in-out; 
       }
       
-      /* ✅ OPTIMIZACIÓN 22: Ocultar elementos de Google Translate */
       .goog-te-banner-frame,
       iframe.goog-te-banner-frame,
       .skiptranslate,
@@ -253,24 +238,20 @@ const canonicalURL = Astro.site
         width: 0 !important; 
       }
       
-      /* Prevenir desplazamiento del body por banner de Google */
       body { 
         top: 0px !important; 
         position: static !important; 
       }
       
-      /* Limpiar estilos de traducción */
       font { 
         background-color: transparent !important; 
         box-shadow: none !important; 
       }
       
-      /* ✅ OPTIMIZACIÓN 23: Smooth scroll nativo */
       html {
         scroll-behavior: smooth;
       }
       
-      /* ✅ OPTIMIZACIÓN 24: Focus visible para accesibilidad */
       *:focus-visible {
         outline: 2px solid #4ade80;
         outline-offset: 2px;
