@@ -71,84 +71,59 @@ const aliados = [
   <Navbar client:load transition:persist />
 
   <main>
-    
-    
-    <!-- ✅ SOLUCIÓN COMPLETA: Hero sin flash verde al cargar video -->
 
-        <section 
-        class="relative h-screen flex items-center justify-center bg-amazon-900 text-white overflow-hidden"
-        aria-label="Sección principal"
-        >
-        {/* ✅ CAPA 1: Imagen de fondo (se ve inmediatamente) */}
-        <div 
-            class="absolute inset-0 w-full h-full z-0 bg-cover bg-center"
-            style="background-image: url('/videos/poster.jpg');"
-            aria-hidden="true"
-        ></div>
+       {/* HERO CON VIDEO OPTIMIZADO */}
+    <section class="relative h-screen flex items-center justify-center bg-amazon-900 text-white overflow-hidden" aria-label="Sección principal">
+      <div class="absolute inset-0 w-full h-full z-0 bg-cover bg-center" style="background-image: url('/videos/poster.jpg');"></div>
+      
+      <video id="heroVideo" autoplay loop muted playsinline poster="/videos/poster.jpg" class="absolute inset-0 w-full h-full object-cover z-0 opacity-0 transition-opacity duration-1000" preload="none" aria-hidden="true">
+        <source data-src="/videos/video_forama_home1.mp4" type="video/mp4" />
+      </video>
 
-        {/* ✅ CAPA 2: Video (se hace visible cuando está listo) */}
-        <video 
-            id="heroVideo"
-            autoplay 
-            loop 
-            muted 
-            playsinline 
-            poster="/videos/poster.jpg" 
-            class="absolute inset-0 w-full h-full object-cover z-0 opacity-0 transition-opacity duration-1000"
-            preload="auto"
-            aria-hidden="true"
-        >
-            <source src="/videos/video_forama_home1.mp4" type="video/mp4" />
-            Tu navegador no soporta video.
-        </video>
+      <div class="absolute inset-0 bg-black/50 z-10"></div>
+      
+      <div class="relative z-20 container mx-auto px-4 text-center mt-8 animate-fade-in-up">
+        <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-semibold px-4 py-1.5 rounded-full mb-8 tracking-wide uppercase shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+          Pando, Bolivia
+        </span>
+        <HeroCarousel client:load />
+        <p class="mt-8 text-xl md:text-2xl text-gray-100 font-light drop-shadow-md max-w-3xl mx-auto leading-relaxed text-balance">
+          Uniendo ciencia, comunidad y conservación en el corazón del bosque.
+        </p>
+      </div>
 
-        {/* ✅ CAPA 3: Overlay oscuro */}
-        <div class="absolute inset-0 bg-black/50 z-10" aria-hidden="true"></div>
-        
-        {/* ✅ Contenido del hero */}
-        <div class="relative z-20 container mx-auto px-4 text-center mt-8 animate-fade-in-up">
-            
-            <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-semibold px-4 py-1.5 rounded-full mb-8 tracking-wide uppercase shadow-sm">
-            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse" aria-hidden="true"></span>
-            Pando, Bolivia
-            </span>
+      <div class="absolute bottom-10 z-20 animate-bounce">
+        <ChevronDown size={40} className="text-white/70" />
+      </div>
+    </section>
 
-            <HeroCarousel client:load />
-            
-            <p class="mt-8 text-xl md:text-2xl text-gray-100 font-light drop-shadow-md max-w-3xl mx-auto leading-relaxed text-balance">
-            Uniendo ciencia, comunidad y conservación en el corazón del bosque.
-            </p>
-        </div>
+    <script>
+      document.addEventListener('astro:page-load', () => {
+        const video = document.getElementById('heroVideo') as HTMLVideoElement;
+        if (!video) return;
 
-        <div class="absolute bottom-10 z-20 animate-bounce">
-            <ChevronDown size={40} className="text-white/70" aria-hidden="true" />
-        </div>
-        </section>
-
-        {/* ✅ Script para fade in suave del video */}
-        <script>
-        document.addEventListener('astro:page-load', () => {
-            const video = document.getElementById('heroVideo') as HTMLVideoElement;
-            
-            if (video) {
-            // Cuando el video está listo para reproducir
-            video.addEventListener('canplay', () => {
-                // Fade in suave del video
-                video.classList.remove('opacity-0');
-                video.classList.add('opacity-100');
-            }, { once: true });
-
-            // Backup: si el video no carga en 2 segundos, mostrar de todos modos
-            setTimeout(() => {
-                if (video.classList.contains('opacity-0')) {
-                video.classList.remove('opacity-0');
-                video.classList.add('opacity-100');
-                }
-            }, 1000);
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const source = video.querySelector('source[data-src]') as HTMLSourceElement;
+              if (source && source.dataset.src) {
+                source.src = source.dataset.src;
+                video.load();
+                video.addEventListener('canplay', () => {
+                  video.classList.remove('opacity-0');
+                  video.classList.add('opacity-100');
+                }, { once: true });
+                observer.disconnect();
+              }
             }
-        });
-        </script>
+          });
+        }, { rootMargin: '200px' });
 
+        observer.observe(video);
+      });
+    </script>
+    
         <style>
         /* Asegurar transición suave */
         #heroVideo {
@@ -156,86 +131,6 @@ const aliados = [
         }
         </style>
     
-
-    {/* ✅ OPTIMIZACIÓN 6: Sección de aliados con semántica mejorada */}
-    <section 
-      class="py-16 border-b border-gray-200 overflow-hidden relative z-20 bg-white/30"
-      aria-labelledby="aliados-heading"
-    >
-      {/* Background blobs */}
-      <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div class="absolute -top-40 -left-40 w-96 h-96 bg-amazon-300 rounded-full mix-blend-multiply opacity-40 animate-blob"></div>
-        <div class="absolute -bottom-40 -right-40 w-[30rem] h-[30rem] bg-earth-300 rounded-full mix-blend-multiply opacity-40 animate-blob delay-2000"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-cyan-200 rounded-full mix-blend-multiply opacity-40 animate-blob delay-5000"></div>
-        <div class="absolute inset-0 bg-white/60 backdrop-blur-[1px]"></div>
-      </div>
-
-      <div class="container mx-auto px-4 mb-16 text-center animate-fade-in-up relative z-10">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-gray-200 shadow-sm mb-6">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amazon-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-amazon-500"></span>
-          </span>
-          <span class="text-gray-600 font-bold tracking-[0.2em] uppercase text-[10px] md:text-xs">Red de Colaboración</span>
-        </div>
-
-        <h2 id="aliados-heading" class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
-          Caminamos <br class="md:hidden" />
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-amazon-600 via-amazon-500 to-earth-500">
-            Acompañados
-          </span>
-        </h2>
-
-        <p class="mt-4 text-lg text-gray-500 max-w-2xl mx-auto font-light drop-shadow-sm">
-          La conservación es un esfuerzo colectivo.
-        </p>
-      </div>
-
-      {/* ✅ OPTIMIZACIÓN 7: Marquee mejorado con accesibilidad */}
-      <div class="relative w-full overflow-hidden z-10 py-10 bg-white">
-        <div class="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-20" aria-hidden="true" />
-        <div class="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-20" aria-hidden="true" />
-
-        <div class="marquee group" role="region" aria-label="Instituciones aliadas">
-          <div class="marquee__track">
-            <div class="marquee__content">
-              {aliados.map((aliado) => (
-                <a 
-                  href={aliado.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  class="shrink-0"
-                  aria-label={`Visitar sitio web de ${aliado.nombre}`}
-                >
-                  <img 
-                    src={aliado.logo} 
-                    alt={aliado.nombre}
-                    class="h-40 md:h-56 w-auto grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer object-contain"
-                    loading="lazy"
-                    width="200"
-                    height="200"
-                  />
-                </a>
-              ))}
-            </div>
-
-            {/* ✅ OPTIMIZACIÓN 8: Duplicado para marquee infinito */}
-            <div class="marquee__content" aria-hidden="true">
-              {aliados.map((aliado) => (
-                <a href={aliado.url} target="_blank" rel="noopener noreferrer" class="shrink-0" tabindex="-1">
-                  <img 
-                    src={aliado.logo} 
-                    alt=""
-                    class="h-40 md:h-56 w-auto grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer object-contain"
-                    loading="lazy"
-                  />
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     {/* ✅ OPTIMIZACIÓN 9: Sección "Quiénes Somos" optimizada */}
     <section 
@@ -290,54 +185,153 @@ const aliados = [
       </div>
     </section>
 
-    {/* ✅ OPTIMIZACIÓN 11: Sección de video institucional */}
-    <section 
-      class="py-20 bg-amazon-950 relative overflow-hidden"
-      aria-labelledby="video-heading"
-    >
-      {/* Background effects */}
-      <div class="absolute -top-20 -right-20 w-[30rem] h-[30rem] bg-green-600/20 rounded-full blur-[120px] mix-blend-screen animate-blob opacity-70 pointer-events-none" aria-hidden="true"></div>
-      <div class="absolute -bottom-20 -left-20 w-[35rem] h-[35rem] bg-earth-600/10 rounded-full blur-[120px] mix-blend-screen animate-blob animation-delay-2000 opacity-70 pointer-events-none" aria-hidden="true"></div>
-      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[length:24px_24px] opacity-50 mix-blend-overlay pointer-events-none" aria-hidden="true"></div>
-      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-amazon-950/80 to-amazon-950 pointer-events-none" aria-hidden="true"></div>
 
-      <div class="container mx-auto px-4 max-w-6xl relative z-10">
-        <div class="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
-          <div class="text-left scroll-trigger opacity-0 translate-y-10 transition-all duration-1000">
-            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-900/30 border border-green-500/30 text-green-300 text-[10px] font-bold uppercase tracking-widest mb-6 backdrop-blur-md shadow-lg">
-              <span class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-              </span>
-              Video Institucional
-            </span>
-            
-            <h2 id="video-heading" class="text-3xl md:text-5xl font-extrabold text-white mb-6 tracking-tight leading-tight drop-shadow-2xl">
-              Sumérgete en el impacto de <span class="text-transparent bg-clip-text bg-gradient-to-br from-green-400 via-emerald-300 to-earth-400">FORAMA</span>
-            </h2>
-            
-            <p class="text-lg text-green-100/80 max-w-xl font-light leading-relaxed drop-shadow-sm">
-              Descubre en pocos minutos cómo tejemos alianzas entre la ciencia, las comunidades y el bosque para proteger nuestro futuro. Un vistazo a nuestra labor diaria en el corazón de Pando.
-            </p>
-          </div>
+{/* 
+  VideoInstitucional.astro
+  ✅ OPTIMIZADO: Usa YouTube nocookie con patrón click-to-load
+  - 0 KB de JavaScript de YouTube hasta que el usuario haga clic
+  - Sin cookies de terceros (usa youtube-nocookie.com)
+  - Sin sugerencias de videos, sin logo, sin controles innecesarios
+  - Poster local como placeholder (convierte a .webp para máximo ahorro)
+*/}
 
-          <div class="relative aspect-video w-full rounded-[2rem] overflow-hidden shadow-[0_25px_50px_-12px_rgba(16,185,129,0.25)] border border-white/10 bg-amazon-900/50 backdrop-blur-sm group scroll-trigger opacity-0 translate-y-10 transition-all duration-1000 delay-300 ring-1 ring-white/5 transform hover:scale-[1.02] transition-transform">
-            <video 
-              controls 
-              preload="metadata"
-              class="w-full h-full object-cover z-10 relative rounded-[2rem]"
-              poster="/imags/material_navbar/rio.jpg"
-              aria-label="Video institucional de FORAMA"
+<section 
+  class="py-20 bg-amazon-950 relative overflow-hidden"
+  aria-labelledby="video-heading"
+>
+  {/* Background effects */}
+  <div class="absolute -top-20 -right-20 w-[30rem] h-[30rem] bg-green-600/20 rounded-full blur-[120px] mix-blend-screen animate-blob opacity-70 pointer-events-none" aria-hidden="true"></div>
+  <div class="absolute -bottom-20 -left-20 w-[35rem] h-[35rem] bg-earth-600/10 rounded-full blur-[120px] mix-blend-screen animate-blob animation-delay-2000 opacity-70 pointer-events-none" aria-hidden="true"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[length:24px_24px] opacity-50 mix-blend-overlay pointer-events-none" aria-hidden="true"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-amazon-950/80 to-amazon-950 pointer-events-none" aria-hidden="true"></div>
+
+  <div class="container mx-auto px-4 max-w-6xl relative z-10">
+    <div class="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+      
+      {/* Texto */}
+      <div class="text-left scroll-trigger opacity-0 translate-y-10 transition-all duration-1000">
+        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-900/30 border border-green-500/30 text-green-300 text-[10px] font-bold uppercase tracking-widest mb-6 backdrop-blur-md shadow-lg">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+          </span>
+          Video Institucional
+        </span>
+        
+        <h2 id="video-heading" class="text-3xl md:text-5xl font-extrabold text-white mb-6 tracking-tight leading-tight drop-shadow-2xl">
+          Sumérgete en el impacto de <span class="text-transparent bg-clip-text bg-gradient-to-br from-green-400 via-emerald-300 to-earth-400">FORAMA</span>
+        </h2>
+        
+        <p class="text-lg text-green-100/80 max-w-xl font-light leading-relaxed drop-shadow-sm">
+          Descubre en pocos minutos cómo tejemos alianzas entre la ciencia, las comunidades y el bosque para proteger nuestro futuro. Un vistazo a nuestra labor diaria en el corazón de Pando.
+        </p>
+      </div>
+
+      {/* Video YouTube - Click to Load */}
+      <div 
+        class="video-facade relative aspect-video w-full rounded-[2rem] overflow-hidden shadow-[0_25px_50px_-12px_rgba(16,185,129,0.25)] border border-white/10 bg-amazon-900/50 backdrop-blur-sm group scroll-trigger opacity-0 translate-y-10 transition-all duration-1000 delay-300 ring-1 ring-white/5 cursor-pointer"
+        data-video-id="2DyWYwbp8tc"
+        role="button"
+        tabindex="0"
+        aria-label="Reproducir video institucional de FORAMA en YouTube"
+      >
+        {/* Poster / Thumbnail */}
+        <img 
+          src="/imags/material_navbar/rio.jpg"
+          alt="Vista previa del video institucional de FORAMA"
+          width="1280"
+          height="720"
+          loading="lazy"
+          decoding="async"
+          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+
+        {/* Overlay oscuro */}
+        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-500" aria-hidden="true"></div>
+
+        {/* Botón de Play */}
+        <div class="absolute inset-0 flex items-center justify-center z-10">
+          <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center group-hover:bg-white/25 group-hover:scale-110 transition-all duration-500 shadow-2xl">
+            <svg 
+              class="w-8 h-8 md:w-10 md:h-10 text-white ml-1" 
+              viewBox="0 0 24 24" 
+              fill="currentColor"
+              aria-hidden="true"
             >
-              <source src="/videos/forama_explicacion.mp4" type="video/mp4" />
-              Tu navegador no soporta la reproducción de video.
-            </video>
-
-            <div class="absolute inset-0 border-2 border-green-500/0 group-hover:border-green-400/40 rounded-[2rem] transition-all duration-500 pointer-events-none z-20" aria-hidden="true"></div>
+              <path d="M8 5v14l11-7z"/>
+            </svg>
           </div>
         </div>
+
+        {/* Texto "Click para reproducir" */}
+        <div class="absolute bottom-4 left-0 right-0 text-center z-10" aria-hidden="true">
+          <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/40 backdrop-blur-sm text-white/70 text-xs font-medium tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              <polyline points="15 3 21 3 21 9" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+            </svg>
+            Haz clic para reproducir
+          </span>
+        </div>
+
+        {/* Borde hover */}
+        <div class="absolute inset-0 border-2 border-green-500/0 group-hover:border-green-400/40 rounded-[2rem] transition-all duration-500 pointer-events-none z-20" aria-hidden="true"></div>
       </div>
-    </section>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  function initVideoFacades() {
+    document.querySelectorAll<HTMLElement>('.video-facade').forEach((facade) => {
+      const handler = () => {
+        const videoId = facade.getAttribute('data-video-id');
+        if (!videoId) return;
+
+        // Parámetros de YouTube para experiencia limpia:
+        // rel=0         → No muestra videos sugeridos de otros canales
+        // modestbranding=1 → Minimiza el logo de YouTube
+        // autoplay=1    → Reproduce automáticamente al cargar el iframe
+        // playsinline=1 → Reproduce inline en móviles (no fullscreen forzado)
+        const params = 'autoplay=1&rel=0&modestbranding=1&playsinline=1';
+
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?${params}`;
+        iframe.title = 'Video institucional de FORAMA';
+        iframe.className = 'absolute inset-0 w-full h-full rounded-[2rem]';
+        iframe.frameBorder = '0';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+
+        // Reemplaza todo el contenido del facade con el iframe
+        facade.innerHTML = '';
+        facade.appendChild(iframe);
+        facade.classList.remove('cursor-pointer');
+        facade.removeAttribute('role');
+        facade.removeAttribute('tabindex');
+      };
+
+      facade.addEventListener('click', handler);
+      facade.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handler();
+        }
+      });
+    });
+  }
+
+  // Funciona con View Transitions de Astro
+  document.addEventListener('astro:page-load', initVideoFacades);
+  // Fallback si no usas View Transitions
+  if (!document.querySelector('[data-astro-transition]')) {
+    initVideoFacades();
+  }
+</script>
+
+
 
     {/* ✅ OPTIMIZACIÓN 12: Sección de pilares con datos estructurados */}
     <section 
@@ -486,6 +480,86 @@ const aliados = [
     </div>
   </div>
 </section>
+
+{/* ✅ OPTIMIZACIÓN 6: Sección de aliados con semántica mejorada */}
+    <section 
+      class="py-16 border-b border-gray-200 overflow-hidden relative z-20 bg-white/30"
+      aria-labelledby="aliados-heading"
+    >
+      {/* Background blobs */}
+      <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <div class="absolute -top-40 -left-40 w-96 h-96 bg-amazon-300 rounded-full mix-blend-multiply opacity-40 animate-blob"></div>
+        <div class="absolute -bottom-40 -right-40 w-[30rem] h-[30rem] bg-earth-300 rounded-full mix-blend-multiply opacity-40 animate-blob delay-2000"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-cyan-200 rounded-full mix-blend-multiply opacity-40 animate-blob delay-5000"></div>
+        <div class="absolute inset-0 bg-white/60 backdrop-blur-[1px]"></div>
+      </div>
+
+      <div class="container mx-auto px-4 mb-16 text-center animate-fade-in-up relative z-10">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-gray-200 shadow-sm mb-6">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amazon-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-amazon-500"></span>
+          </span>
+          <span class="text-gray-600 font-bold tracking-[0.2em] uppercase text-[10px] md:text-xs">Red de Colaboración</span>
+        </div>
+
+        <h2 id="aliados-heading" class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
+          Caminamos <br class="md:hidden" />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-amazon-600 via-amazon-500 to-earth-500">
+            Acompañados
+          </span>
+        </h2>
+
+        <p class="mt-4 text-lg text-gray-500 max-w-2xl mx-auto font-light drop-shadow-sm">
+          La conservación es un esfuerzo colectivo.
+        </p>
+      </div>
+
+      {/* ✅ OPTIMIZACIÓN 7: Marquee mejorado con accesibilidad */}
+      <div class="relative w-full overflow-hidden z-10 py-10 bg-white">
+        <div class="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-20" aria-hidden="true" />
+        <div class="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-20" aria-hidden="true" />
+
+        <div class="marquee group" role="region" aria-label="Instituciones aliadas">
+          <div class="marquee__track">
+            <div class="marquee__content">
+              {aliados.map((aliado) => (
+                <a 
+                  href={aliado.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="shrink-0"
+                  aria-label={`Visitar sitio web de ${aliado.nombre}`}
+                >
+                  <img 
+                    src={aliado.logo} 
+                    alt={aliado.nombre}
+                    class="h-40 md:h-56 w-auto grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer object-contain"
+                    loading="lazy"
+                    width="200"
+                    height="200"
+                  />
+                </a>
+              ))}
+            </div>
+
+            {/* ✅ OPTIMIZACIÓN 8: Duplicado para marquee infinito */}
+            <div class="marquee__content" aria-hidden="true">
+              {aliados.map((aliado) => (
+                <a href={aliado.url} target="_blank" rel="noopener noreferrer" class="shrink-0" tabindex="-1">
+                  <img 
+                    src={aliado.logo} 
+                    alt=""
+                    class="h-40 md:h-56 w-auto grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer object-contain"
+                    loading="lazy"
+                  />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     {/* ✅ OPTIMIZACIÓN 15: CTA final optimizado */}
      <section 

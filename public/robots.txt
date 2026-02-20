@@ -1,0 +1,34 @@
+User-agent: *
+Allow: /
+
+# ── SITEMAP ──
+Sitemap: https://forama.org/sitemap.xml
+
+# ── BLOQUEAR CARPETAS SENSIBLES ──
+Disallow: /api/
+Disallow: /admin/
+
+# ── CRAWL RATE (opcional, para servidores pequeños) ──
+# Crawl-delay: 1
+
+# ── BOTS ESPECÍFICOS ──
+# Permitir Google
+User-agent: Googlebot
+Allow: /
+
+# Permitir Bing
+User-agent: Bingbot
+Allow: /
+
+# Bloquear bots de scraping agresivo
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
