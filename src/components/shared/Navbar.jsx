@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import PropTypes from 'prop-types'; // ✅ SOLUCIÓN: Importamos validación de props
 import { Menu, X, Heart, ChevronDown, Globe } from 'lucide-react';
 
 const MENU_ITEMS = [
@@ -83,6 +84,14 @@ const LanguageMenu = React.memo(({ isOpen, onToggle, onChangeLang, burgerColor }
 
 LanguageMenu.displayName = 'LanguageMenu';
 
+// ✅ SOLUCIÓN SONARQUBE: Validación estricta de Props para <LanguageMenu />
+LanguageMenu.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onToggle: PropTypes.func.isRequired,
+  onChangeLang: PropTypes.func.isRequired,
+  burgerColor: PropTypes.string.isRequired,
+};
+
 const MenuItem = React.memo(({ 
   item, 
   index, 
@@ -165,6 +174,26 @@ const MenuItem = React.memo(({
 
 MenuItem.displayName = 'MenuItem';
 
+// ✅ SOLUCIÓN SONARQUBE: Validación estricta de Props para <MenuItem />
+MenuItem.propTypes = {
+  item: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    href: PropTypes.string.isRequired,
+    submenu: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        href: PropTypes.string.isRequired,
+      })
+    ),
+  }).isRequired,
+  index: PropTypes.number.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  finalTextColor: PropTypes.string.isRequired,
+  mobileSubmenu: PropTypes.number, // Puede ser null
+  onToggleMobileSubmenu: PropTypes.func.isRequired,
+  onCloseMenu: PropTypes.func.isRequired,
+};
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -176,7 +205,8 @@ export default function Navbar() {
     const urlParams = new URLSearchParams(window.location.search);
     const suspiciousParams = ['<script', 'javascript:', 'onerror=', 'onclick='];
     
-    for (const [key, value] of urlParams.entries()) {
+    // ✅ SOLUCIÓN SONARQUBE: Se eliminó la asignación inútil "const [key, value]"
+    for (const value of urlParams.values()) {
       const lowerValue = value.toLowerCase();
       if (suspiciousParams.some(param => lowerValue.includes(param))) {
         console.warn('🚨 Posible ataque XSS detectado en URL');
