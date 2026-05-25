@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import PropTypes from 'prop-types'; // ✅ SOLUCIÓN: Importamos validación de props
 
 // ✅ OPTIMIZACIÓN 1: Datos estáticos fuera del componente
-// Evita recrear el array en cada render
 const SLIDES = [
   { id: 'home', titulo: "Fundación Flora Amazónica", subtitulo: "(FORAMA)", url: null },
   { id: 'quienes', titulo: "Conoce nuestra historia", subtitulo: "Quiénes Somos", url: "/quienes-somos" },
@@ -18,7 +18,6 @@ const CAROUSEL_INTERVAL = 4500;
 const TRANSLATION_DELAY = 300;
 
 // ✅ OPTIMIZACIÓN 3: Componente separado para cada slide
-// Permite mejor memoización y reduce re-renders
 const Slide = React.memo(({ slide, isActive }) => {
   // ✅ OPTIMIZACIÓN 4: Clases calculadas con useMemo
   const slideClasses = useMemo(() => {
@@ -72,6 +71,17 @@ const Slide = React.memo(({ slide, isActive }) => {
 
 Slide.displayName = 'Slide';
 
+// ✅ SOLUCIÓN SONARQUBE: Validación estricta de Props para <Slide />
+Slide.propTypes = {
+  slide: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    titulo: PropTypes.string.isRequired,
+    subtitulo: PropTypes.string.isRequired,
+    url: PropTypes.string, // No es isRequired porque 'home' tiene null
+  }).isRequired,
+  isActive: PropTypes.bool.isRequired,
+};
+
 // ✅ OPTIMIZACIÓN 5: Componente separado para indicadores
 const CarouselIndicators = React.memo(({ count, activeIndex, onSelectSlide }) => {
   return (
@@ -93,6 +103,13 @@ const CarouselIndicators = React.memo(({ count, activeIndex, onSelectSlide }) =>
 });
 
 CarouselIndicators.displayName = 'CarouselIndicators';
+
+// ✅ SOLUCIÓN SONARQUBE: Validación estricta de Props para <CarouselIndicators />
+CarouselIndicators.propTypes = {
+  count: PropTypes.number.isRequired,
+  activeIndex: PropTypes.number.isRequired,
+  onSelectSlide: PropTypes.func.isRequired,
+};
 
 // ✅ OPTIMIZACIÓN 6: Custom hook para manejar la lógica de traducción
 function useTranslationFix() {
