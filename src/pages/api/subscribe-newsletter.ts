@@ -20,7 +20,8 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // ✅ SOLUCIÓN SEGURIDAD (ReDoS): Expresión regular estándar W3C a prueba de backtracking
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (!emailRegex.test(email)) {
       return new Response(JSON.stringify({ 
         success: false, 
@@ -48,7 +49,7 @@ export const POST: APIRoute = async ({ request }) => {
           error: 'Este correo electrónico canceló su suscripción anteriormente. La función de re-suscripción estará disponible próximamente.',
           tipo: 'email_cancelado'
         }), { 
-          status: 403, // Forbidden
+          status: 403,
           headers: { 'Content-Type': 'application/json' }
         });
       }
@@ -65,7 +66,7 @@ export const POST: APIRoute = async ({ request }) => {
         });
       }
       
-      // 🔄 Email INACTIVO → Reactivar (único caso especial permitido)
+      // 🔄 Email INACTIVO → Reactivar
       if (suscriptor.estado === 'inactivo') {
         await sql`
           UPDATE suscriptores_boletin 
@@ -75,7 +76,6 @@ export const POST: APIRoute = async ({ request }) => {
           WHERE email = ${email.toLowerCase()}
         `;
         
-        // Enviar email de reactivación
         await enviarEmailBienvenida(email, nombre, true, new URL(request.url).origin);
         
         return new Response(JSON.stringify({ 
@@ -224,7 +224,7 @@ Para cancelar tu suscripción: ${baseUrl}/cancelar-boletin?email=${encodeURIComp
                     : '¡Estamos emocionados de tenerte en nuestra comunidad!'}
                 </p>
 
-                ${!esReactivacion ? `
+                ${esReactivacion ? '' : `
                   <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
                     A partir de ahora recibirás:
                   </p>
@@ -234,7 +234,7 @@ Para cancelar tu suscripción: ${baseUrl}/cancelar-boletin?email=${encodeURIComp
                     <li style="margin-bottom: 12px;">📚 <strong>Publicaciones</strong> de investigación y recursos educativos</li>
                     <li style="margin-bottom: 12px;">🌱 <strong>Historias de impacto</strong> de nuestro trabajo en el campo</li>
                   </ul>
-                ` : ''}
+                `}
 
                 <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-left: 4px solid #15803d; border-radius: 12px; padding: 20px; margin-bottom: 32px;">
                   <p style="color: #166534; font-size: 14px; line-height: 1.6; margin: 0;">
