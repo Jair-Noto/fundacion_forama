@@ -202,7 +202,7 @@ export default function Navbar() {
   
   // ✅ SEGURIDAD: Detectar y prevenir XSS en parámetros URL
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(globalThis.location.search);
     const suspiciousParams = ['<script', 'javascript:', 'onerror=', 'onclick='];
     
     // ✅ SOLUCIÓN SONARQUBE: Se eliminó la asignación inútil "const [key, value]"
@@ -210,7 +210,7 @@ export default function Navbar() {
       const lowerValue = value.toLowerCase();
       if (suspiciousParams.some(param => lowerValue.includes(param))) {
         console.warn('🚨 Posible ataque XSS detectado en URL');
-        window.location.href = '/';
+        globalThis.location.href = '/';
         return;
       }
     }
@@ -225,8 +225,8 @@ export default function Navbar() {
     
     const onScroll = () => {
       if (!ticking) {
-        window.requestAnimationFrame(() => {
-          handleScroll();
+        globalThis.requestAnimationFrame(() => {
+        handleScroll();
           ticking = false;
         });
         ticking = true;
@@ -256,8 +256,8 @@ export default function Navbar() {
       return;
     }
 
-    if (typeof window.doGTranslate === 'function') {
-      window.doGTranslate(`es|${langCode}`);
+    if (typeof globalThis.doGTranslate === 'function') {
+      globalThis.doGTranslate(`es|${langCode}`);
       setIsOpen(false);
       setIsLangMenuOpen(false);
     } else {
