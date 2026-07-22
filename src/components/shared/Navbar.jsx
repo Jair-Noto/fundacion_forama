@@ -23,7 +23,7 @@ const MENU_ITEMS = [
     ]
   },
   {
-    name: 'Revista Cientifica Forama', 
+    name: 'Revista Cientifica Ojs.Forama', 
     href: '/revista',
   },
   { name: 'Contacto', href: '/contacto' },
