@@ -1,0 +1,113 @@
+---
+/**
+ * PortalCard.astro
+ * Tarjeta de portal editorial (OJS / OMP).
+ * Antes había ~80 líneas duplicadas por tarjeta; ahora todo vive aquí
+ * y cada tarjeta se declara en 6 líneas desde la página.
+ */
+import { ArrowRight } from 'lucide-react';
+
+interface Props {
+    title: string;
+    kicker: string;      // Ej: "Infraestructura OJS"
+    href: string;
+    ctaLabel: string;
+    theme: 'emerald' | 'amber';
+    /** Componente de ícono de lucide-react (se pasa desde la página) */
+    icon: (props: Record<string, unknown>) => unknown;
+}
+
+const { title, kicker, href, ctaLabel, theme, icon: Icon } = Astro.props;
+
+/**
+ * Mapa de temas con clases COMPLETAS (nunca concatenar clases dinámicamente:
+ * el escáner JIT de Tailwind solo detecta strings literales).
+ */
+const themes = {
+    emerald: {
+        card: 'bg-gradient-to-br from-[#063c2e] to-[#0a5c46] border-emerald-400/20 shadow-[0_20px_50px_-15px_rgba(6,60,46,0.4)]',
+        glowTop: 'bg-emerald-400/20 group-hover:bg-emerald-400/30',
+        glowBottom: 'bg-black/40',
+        watermark: 'text-emerald-100/5 group-hover:text-emerald-100/10',
+        iconBox: 'bg-white/10 text-emerald-300 shadow-[0_8px_30px_rgb(0,0,0,0.2)]',
+        bar: 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]',
+        kicker: 'text-emerald-200',
+        body: 'text-emerald-50/80',
+        cta: 'bg-emerald-500 text-[#063c2e] hover:bg-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)]',
+    },
+    amber: {
+        card: 'bg-gradient-to-br from-stone-900 to-stone-800 border-amber-500/20 shadow-[0_20px_50px_-15px_rgba(217,119,6,0.3)]',
+        glowTop: 'bg-amber-500/15 group-hover:bg-amber-500/25',
+        glowBottom: 'bg-black/60',
+        watermark: 'text-amber-100/5 group-hover:text-amber-100/10',
+        iconBox: 'bg-white/5 text-amber-400 shadow-[0_8px_30px_rgb(0,0,0,0.3)]',
+        bar: 'bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.8)]',
+        kicker: 'text-amber-300',
+        body: 'text-stone-300',
+        cta: 'bg-amber-500 text-stone-900 hover:bg-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)]',
+    },
+} as const;
+
+const t = themes[theme];
+---
+
+<article
+    class:list={[
+        'js-tilt-card group relative flex h-full flex-col overflow-hidden rounded-[2.5rem] border p-8 text-white md:p-12',
+        'style-preserve-3d transition-transform duration-200 ease-out',
+        t.card,
+    ]}
+>
+    <!-- Glows decorativos -->
+    <div class:list={['absolute top-0 right-0 -mt-10 -mr-10 h-64 w-64 rounded-full blur-3xl transition-colors duration-700 z-0', t.glowTop]}></div>
+    <div class:list={['absolute bottom-0 left-0 -mb-10 -ml-10 h-64 w-64 rounded-full blur-3xl z-0', t.glowBottom]}></div>
+
+    <!-- Ícono gigante en marca de agua -->
+    <Icon
+        size={320}
+        strokeWidth={0.5}
+        className={`pointer-events-none absolute -bottom-16 -right-16 z-0 transition-transform duration-700 group-hover:scale-110 ${t.watermark}`}
+    />
+
+    <!-- Contenido -->
+    <div class="relative z-10 flex flex-grow flex-col translate-z-10">
+        <div
+            class:list={[
+                'mb-8 flex h-20 w-20 items-center justify-center rounded-2xl border border-white/10 backdrop-blur-md',
+                'transition-transform duration-500 group-hover:scale-110',
+                t.iconBox,
+            ]}
+        >
+            <Icon size={40} strokeWidth={1.5} />
+        </div>
+
+        <h2 class="mb-4 font-serif text-4xl font-bold text-white drop-shadow-md md:text-5xl">{title}</h2>
+
+        <div class="mb-6 flex items-center gap-3">
+            <span class:list={['h-1 w-10 rounded-full', t.bar]}></span>
+            <h3 class:list={['text-sm font-bold uppercase tracking-[0.2em]', t.kicker]}>{kicker}</h3>
+        </div>
+
+        <p class:list={['mb-10 flex-grow text-lg font-light leading-relaxed md:text-xl', t.body]}>
+            <slot />
+        </p>
+    </div>
+
+    <!-- CTA -->
+    <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class:list={[
+            'group/btn relative z-10 mt-auto flex w-full items-center justify-center gap-3 overflow-hidden rounded-2xl px-8 py-5',
+            'text-sm font-extrabold uppercase tracking-widest transition-all translate-z-20',
+            t.cta,
+        ]}
+    >
+        <span class="absolute inset-0 translate-y-full bg-white/20 transition-transform duration-300 ease-in-out group-hover/btn:translate-y-0"></span>
+        <span class="relative flex items-center gap-2">
+            {ctaLabel}
+            <ArrowRight size={20} className="transition-transform group-hover/btn:translate-x-2" />
+        </span>
+    </a>
+</article>

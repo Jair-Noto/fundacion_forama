@@ -9,6 +9,7 @@ const SLIDES = [
   { id: 'programas', titulo: "Impacto real", subtitulo: "Programas y Proyectos", url: "/programas" },
   { id: 'transparencia', titulo: "Nuestro equipo", subtitulo: "Organigrama institucional", url: "/equipo" },
   { id: 'apoyar', titulo: "Súmate a la causa", subtitulo: "Cómo Apoyar", url: "/como-apoyar" },
+  { id: 'editorial', titulo: "Nuestra editorial", subtitulo: "Producción intelectual", url: "/editorial" },
   { id: 'noticias', titulo: "Mantente informado", subtitulo: "Noticias y Publicaciones", url: "/noticias" },
   { id: 'contacto', titulo: "Hablemos", subtitulo: "Contacto", url: "/contacto" }
 ];

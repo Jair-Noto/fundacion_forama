@@ -1,0 +1,271 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/shared/Navbar.jsx';
+import PortalCard from './PortalCard.astro';
+import { Library, Globe2, Microscope, Network, Fingerprint } from 'lucide-react';
+// ↑ Se eliminaron BookOpen y Award: se importaban pero nunca se usaban.
+
+const HERO_IMG = '/imags/material_programas/proyect_2.jpg';
+
+---
+
+<Layout title="Editorial FORAMA | Fundación Flora Amazónica">
+    <Navbar client:load transition:persist />
+
+    <main class="min-h-screen bg-[#f8faf9]">
+        <!-- ══ HERO (100vh) ══ -->
+        <!-- bg-[#04281e] = fallback oscuro que elimina el flash blanco -->
+        <section class="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#04281e] pt-20 text-white">
+
+            <!-- 1. Imagen de fondo como <img> real (prioridad alta, parallax por GPU) -->
+            <div class="absolute inset-0 z-0 overflow-hidden">
+                <img
+                    src={HERO_IMG}
+                    alt=""
+                    fetchpriority="high"
+                    loading="eager"
+                    decoding="async"
+                    class="js-hero-img h-full w-full scale-110 object-cover object-center will-change-transform"
+                />
+            </div>
+
+            <!-- 2. Patrón de red científica animado -->
+            <div class="bg-grid-pattern animate-pulse-slow absolute inset-0 z-0 bg-[length:20px_20px] opacity-40"></div>
+
+            <!-- 3. Glow central para destacar el texto -->
+            <div class="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/20 blur-[120px]"></div>
+
+            <!-- CONTENIDO CENTRAL -->
+            <div class="container relative z-10 mx-auto flex max-w-7xl flex-col items-center px-4 text-center">
+
+                <span class="animate-fade-in-up mb-8 inline-flex items-center gap-2 rounded-full border border-white/10
+                            bg-gradient-to-r from-emerald-500/20 via-teal-400/15 to-lime-400/15
+                            px-5 py-1.5 font-semibold uppercase
+                            text-white backdrop-blur-md
+                            text-[10px] tracking-[0.32em]
+                            shadow-[0_10px_30px_rgba(0,0,0,0.35)]
+                            [text-shadow:0_2px_12px_rgba(0,0,0,0.4)]">
+                    <Microscope size={14} className="text-lime-200" />
+                    Sello Editorial Académico
+                </span>
+
+                <h1 class="animate-fade-in-up animation-delay-100 relative mb-7 font-serif
+                        text-6xl font-semibold leading-[0.9] tracking-tight text-white
+                        md:text-8xl lg:text-9xl
+                        [text-shadow:0_2px_0_rgba(0,0,0,0.55),0_10px_30px_rgba(0,0,0,0.55)]
+                        [-webkit-text-stroke:2px_rgba(0,0,0,0.45)]">
+                    Editorial Forama
+                </h1>
+
+                <p class="animate-fade-in-up animation-delay-200 relative mx-auto mb-10 max-w-4xl
+                        font-serif text-xl font-medium leading-tight tracking-tight text-white
+                        md:text-3xl lg:text-4xl
+                        [text-shadow:0_2px_0_rgba(0,0,0,0.65),0_10px_26px_rgba(0,0,0,0.55)]
+                        [-webkit-text-stroke:1px_rgba(0,0,0,0.35)]">
+                    La infraestructura digital definitiva para la publicación científica
+                </p>
+
+                <!-- Chips informativos -->
+                <div class="animate-fade-in-up animation-delay-300 mt-8 flex flex-wrap justify-center gap-6">
+                    <div class="flex cursor-default items-center gap-2 rounded-xl border border-white/20 bg-black px-6 py-3.5 text-sm font-bold text-white shadow-[0_8px_30px_rgb(0,0,0,0.3)] backdrop-blur-md transition-all hover:scale-105 hover:bg-black/60">
+                        <Fingerprint size={20} className="text-emerald-300" /> Identificadores DOI (Crossref)
+                    </div>
+                    <div class="flex cursor-default items-center gap-2 rounded-xl border border-white/20 bg-black px-6 py-3.5 text-sm font-bold text-white shadow-[0_8px_30px_rgb(0,0,0,0.3)] backdrop-blur-md transition-all hover:scale-105 hover:bg-black/60">
+                        <Network size={20} className="text-emerald-300" /> Revisión por Pares (Double-Blind)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══ PORTALES: núcleo de la infraestructura ══ -->
+        <section class="relative z-20 -mt-20 py-24">
+            <div class="container mx-auto max-w-7xl px-4">
+                <div class="grid gap-8 md:gap-12 lg:grid-cols-2">
+
+                    <PortalCard
+                        title="Revistas Científicas"
+                        kicker="Infraestructura OJS"
+                        href="https://ojs.forama.org/"
+                        ctaLabel="Acceder al Portal OJS"
+                        theme="emerald"
+                        icon={Globe2}
+                    >
+                        Nuestro portal principal para publicaciones periódicas. Gestionado a través de
+                        <strong class="font-semibold text-white">Open Journal Systems</strong>, garantiza
+                        un flujo editorial riguroso, revisión por pares doble ciego y distribución global
+                        en acceso abierto.
+                    </PortalCard>
+
+                    <PortalCard
+                        title="Catálogo de Libros"
+                        kicker="Infraestructura OMP"
+                        href="https://editorial.forama.org/"
+                        ctaLabel="Explorar Biblioteca OMP"
+                        theme="amber"
+                        icon={Library}
+                    >
+                        El hogar de nuestras monografías y manuales técnicos. Potenciado por
+                        <strong class="font-semibold text-white">Open Monograph Press</strong>, permite
+                        la asignación de ISBN, DOIs individuales por capítulo y una gestión editorial
+                        para obras extensas.
+                    </PortalCard>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ══ ESTÁNDARES DE PUBLICACIÓN ══ -->
+        <section class="relative overflow-hidden border-t border-gray-100 bg-white py-20">
+            <div class="absolute left-1/2 top-0 h-px w-full max-w-3xl -translate-x-1/2 bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
+            <div class="pointer-events-none absolute left-1/2 top-0 -z-10 h-[400px] w-[800px] -translate-x-1/2 rounded-[100%] bg-gray-50/80 blur-3xl"></div>
+
+            <div class="container relative z-10 mx-auto max-w-7xl px-4 text-center">
+                <div class="mb-14 inline-flex items-center gap-4">
+                    <span class="h-[2px] w-12 bg-gradient-to-r from-transparent to-gray-300"></span>
+                    <h3 class="text-xs font-black uppercase tracking-[0.25em] text-gray-400">
+                        Estándares de Publicación Internacional
+                    </h3>
+                    <span class="h-[2px] w-12 bg-gradient-to-l from-transparent to-gray-300"></span>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-center gap-8 md:gap-16">
+
+                    <!-- 1. Crossref (antes el <a> no tenía href) -->
+                    <a href="https://www.crossref.org/"
+                       target="_blank" rel="noopener noreferrer"
+                       class="group relative flex items-center justify-center rounded-2xl border border-gray-100 bg-white px-8 py-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:border-gray-200 hover:shadow-[0_15px_40px_rgba(0,0,0,0.08)]">
+                        <img src="https://assets.crossref.org/logo/crossref-logo-landscape-200.svg"
+                             alt="Miembro de Crossref"
+                             width="200" height="52"
+                             class="h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-105 md:h-12"
+                             loading="lazy" decoding="async" />
+                        <span class="absolute -bottom-8 translate-y-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                            Member Site
+                        </span>
+                    </a>
+
+                    <!-- 2. Open Access (ruta corregida: antes era relativa y se
+                         rompía en cualquier URL con subruta, ej. /editorial/...) -->
+                    <div class="group relative flex cursor-default items-center justify-center rounded-2xl border border-gray-100 bg-white px-8 py-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:border-orange-100 hover:shadow-[0_15px_40px_rgba(242,109,33,0.12)]">
+                        <img src="/imags/material_revista/logo_open_access.png"
+                             alt="Publicación en Acceso Abierto"
+                             class="h-12 w-auto object-contain transition-transform duration-500 group-hover:scale-105 md:h-14"
+                             loading="lazy" decoding="async" />
+                        <span class="absolute -bottom-8 translate-y-2 text-[10px] font-bold uppercase tracking-[0.2em] text-orange-400/70 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                            Free to Read
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+</Layout>
+
+<!-- ═══ SCRIPTS: parallax GPU + tilt 3D (antes .js-tilt-card no tenía JS) ═══ -->
+<script>
+    function initEditorialPage(): void {
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reducedMotion) return;
+
+        /* ── Parallax del hero con transform (GPU) en vez de bg-fixed ── */
+        const heroImg = document.querySelector<HTMLElement>('.js-hero-img');
+        if (heroImg && !heroImg.dataset.parallaxReady) {
+            heroImg.dataset.parallaxReady = 'true';
+            let ticking = false;
+
+            const onScroll = (): void => {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(() => {
+                    // scale-110 da un 10% de margen; 0.25 = velocidad del parallax
+                    const offset = Math.min(window.scrollY * 0.25, window.innerHeight * 0.3);
+                    heroImg.style.transform = `translate3d(0, ${offset}px, 0) scale(1.1)`;
+                    ticking = false;
+                });
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+        }
+
+        /* ── Tilt 3D en tarjetas (solo dispositivos con mouse) ── */
+        if (!window.matchMedia('(pointer: fine)').matches) return;
+
+        document.querySelectorAll<HTMLElement>('.js-tilt-card').forEach((card) => {
+            if (card.dataset.tiltReady) return;
+            card.dataset.tiltReady = 'true';
+            let raf = 0;
+
+            card.addEventListener('pointermove', (e: PointerEvent) => {
+                cancelAnimationFrame(raf);
+                raf = requestAnimationFrame(() => {
+                    const r = card.getBoundingClientRect();
+                    const x = (e.clientX - r.left) / r.width - 0.5;
+                    const y = (e.clientY - r.top) / r.height - 0.5;
+                    card.style.transform =
+                        `perspective(1200px) rotateX(${(-y * 4).toFixed(2)}deg) rotateY(${(x * 6).toFixed(2)}deg) translateZ(0)`;
+                });
+            });
+
+            card.addEventListener('pointerleave', () => {
+                cancelAnimationFrame(raf);
+                card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+            });
+        });
+    }
+
+    // Compatible con y sin <ClientRouter /> (View Transitions):
+    document.addEventListener('astro:page-load', initEditorialPage);
+    if (document.readyState !== 'loading') {
+        initEditorialPage();
+    } else {
+        document.addEventListener('DOMContentLoaded', initEditorialPage, { once: true });
+    }
+</script>
+
+<style is:global>
+    /* Patrón de grid científico del hero */
+    .bg-grid-pattern {
+        background-image:
+            linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    }
+
+    /* Utilidades 3D para las tarjetas con tilt
+       (las clases translate-z-* del código original no existían en Tailwind) */
+    .style-preserve-3d { transform-style: preserve-3d; }
+    .translate-z-10 { transform: translateZ(10px); }
+    .translate-z-20 { transform: translateZ(20px); }
+
+    /* Animaciones de entrada */
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+        opacity: 0;
+    }
+    .animation-delay-100 { animation-delay: 100ms; }
+    .animation-delay-200 { animation-delay: 200ms; }
+    .animation-delay-300 { animation-delay: 300ms; }
+
+    @keyframes pulseSlow {
+        0%, 100% { opacity: 0.15; }
+        50%      { opacity: 0.25; }
+    }
+    .animate-pulse-slow {
+        animation: pulseSlow 4s ease-in-out infinite;
+    }
+
+    /* Accesibilidad: sin animaciones para quien lo pida en su SO */
+    @media (prefers-reduced-motion: reduce) {
+        .animate-fade-in-up {
+            animation: none;
+            opacity: 1;
+        }
+        .animate-pulse-slow {
+            animation: none;
+        }
+    }
+    /* Nota: se eliminó @keyframes textShine / .animate-text-shine (código muerto). */
+</style>

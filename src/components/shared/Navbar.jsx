@@ -22,10 +22,17 @@ const MENU_ITEMS = [
       { name: 'Boletines Informativos', href: '/noticias#boletines' },
     ]
   },
+ 
   {
-    name: 'Revista Cientifica Ojs.Forama', 
-    href: '/revista',
+    name: 'Editorial Forama', 
+    href: '/editorial',
+    submenu: [
+      { name: 'Nuestra Editorial', href: '/editorial' },
+      { name: 'Revistas Científicas', href: '/revista' },
+      { name: 'Catálogo de Libros', href: 'https://editorial.forama.org/' },
+    ]
   },
+
   { name: 'Contacto', href: '/contacto' },
 ];
 
