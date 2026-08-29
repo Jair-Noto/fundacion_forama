@@ -177,21 +177,18 @@ const currentUrl = `${Astro.url.origin}${Astro.url.pathname}`;
         </div>
       </div>
       
-      {/* ✅ Imagen Destacada - Ancho Completo */}
-      <div class="mb-16">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <figure class="rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
-            <img 
-              src={noticia.imagen_portada || '/imags/placeholder-news.jpg'} 
-              alt={noticia.titulo}
-              class="w-full h-auto object-cover aspect-[21/9]"
-              loading="eager"
-              width="1200"
-              height="514"
-            />
-          </figure>
+      {/* ✅ Imagen Destacada - Ajuste perfecto sin bordes vacíos */}
+      <div class="mb-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center">
+          <img 
+            src={noticia.imagen_portada || '/imags/placeholder-news.jpg'} 
+            alt={noticia.titulo}
+            class="inline-block w-auto max-w-full h-auto max-h-[75vh] object-contain rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.25)] ring-1 ring-slate-900/5"
+            loading="eager"
+          />
         </div>
       </div>
+      
 
       
       {/* ✅ Contenido Principal */}
